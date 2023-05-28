@@ -5,6 +5,7 @@ import (
 	"os"
 	"os/exec"
 	"strconv"
+	"strings"
 )
 
 var operative_system int = 0 //0 for unix, 1 for windows
@@ -23,9 +24,7 @@ func main() {
 			err := os.Chdir("..")
 			if err != nil {fmt.Println("Failed to go backwards in the directory!")}
 		} else {
-			for i := range paths {
-				if answer == strconv.Itoa(i+1) {open_path(paths[i]); break}
-			}
+			user_operation(answer, paths)
 		}
 	}
 }
@@ -39,6 +38,34 @@ func check_system() {
 		if string(alphabet[i]) == string(wd[0]) {operative_system = 1; return}
 	}
 }
+
+func user_operation(answer string, paths []string) {
+	options := [2]string{"exec", "size"}
+	for i := range options {
+		if strings.Contains(answer, options[i]) == true {
+			for path := range paths {
+				if answer == strconv.Itoa(i+1) {user_operate(options[i], paths[path]); break}
+			}
+			break
+		}
+	}
+	for i := range paths {
+		if answer == strconv.Itoa(i+1) {open_path(paths[i]); break}
+	}
+}
+
+func user_operate(option string, path string) {
+	switch option {
+		case "exec":
+			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test
+			cmd := exec.Command("./" + path)
+			err := cmd.Run()
+			if err != nil {fmt.Println("Failed to execute the file with path " + path)}
+		case "size":
+			//something something
+	}
+}
+
 
 func open_path (path string) {
 	pathinfo, err := os.Stat(path)
