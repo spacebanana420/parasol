@@ -9,7 +9,7 @@ There are currently no releases yet, this is a newborn project.
 
 I intend on supporting most known operative systems (Linux systems, Windows, MacOS, FreeBSD, OpenBSD, NetBSD) as well as x86_64 and ARM64 architectures.
 
-For launching files, parasol uses xdg-utils open for Linux, BSD and MacOS, and for Windows uses its equivalent thingy. This means that operative system support requires manual implementation of equivalent commands to xdg-open, commands which assume your default applications per file extension.
+For launching files, parasol uses xdg-utils open for Linux, BSD and MacOS, and for Windows it uses its equivalent thingy. This means that operative system support requires manual implementation of equivalent commands to xdg-open, commands which assume your default applications per file extension.
 
 # Compile from source
 
