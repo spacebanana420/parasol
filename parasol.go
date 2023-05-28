@@ -93,7 +93,7 @@ func readdir(dir string) []string {
 	var files[]string; var dirs[]string; var filenum[]int; var dirnum[]int;
 	var filestring string; var dirstring string
 	var files_per_line int = 0
-	var dirs_per_line int = 1; dirstring += "0: ..    "
+	var dirs_per_line int = 1; dirstring += "0: ..        "
 	var totalcount int = 1
 
 	for _, path := range paths {
@@ -101,14 +101,14 @@ func readdir(dir string) []string {
 		if path.IsDir() == true {
 			dirs = append(dirs, path.Name())
 			dirnum = append(dirnum, totalcount)
-			if dirs_per_line == 5 {dirstring += "\n"; dirs_per_line = 0}
-			dirstring += strconv.Itoa(totalcount) + ": " + path.Name(); dirstring += "     "; dirs_per_line +=1
+			if dirs_per_line == 2 {dirstring += "\n"; dirs_per_line = 0}
+			dirstring += strconv.Itoa(totalcount) + ": " + path.Name(); dirstring += "         "; dirs_per_line +=1
 			totalcount += 1
 		} else {
 			files = append(files, path.Name())
 			filenum = append(filenum, totalcount)
-			if files_per_line == 5 {filestring += "\n"; files_per_line = 0}
-			filestring += strconv.Itoa(totalcount) + ": " + path.Name(); filestring += "     "; files_per_line +=1
+			if files_per_line == 2 {filestring += "\n"; files_per_line = 0}
+			filestring += strconv.Itoa(totalcount) + ": " + path.Name(); filestring += "         "; files_per_line +=1
 			totalcount += 1
 		}
 	}

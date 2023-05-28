@@ -9,7 +9,7 @@ GOARCH=arm64 go build -o bin/parasol-linux-arm parasol.go
 
 #Windows
 echo "Compiling for Windows x86_64"
-GOOS=windows GOARCH=amd64 go build -o bin/parasol.exe parasol.go
+GOOS=windows GOARCH=amd64 go build -o bin/parasol-windows.exe parasol.go
 
 #MacOS
 echo "Compiling for MacOS x86_64"
