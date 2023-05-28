@@ -1,4 +1,5 @@
 #!/bin/bash
+mkdir bin
 
 #Linux
 echo "Compiling for Linux x86_64"
