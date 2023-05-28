@@ -15,9 +15,9 @@ func main() {
 	for {
 		paths := readdir(".")
 		var answer string;
-		_, err := fmt.Scanln(&answer)
-		fmt.Println(answer)
-		if err != nil {fmt.Println("Failed to read user input!")}
+		_, err := fmt.Scanln(&answer) //replace with scan?
+		//fmt.Println(answer)
+		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 		if answer == "exit" {
 			return
 		} else if answer == "0" {
