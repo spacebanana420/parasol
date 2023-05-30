@@ -15,7 +15,7 @@ func main() {
 	for {
 		paths := readdir(".")
 		var answer string;
-		_, err := fmt.Scanln(&answer) //replace with scan?
+		_, err := fmt.Scan(&answer) //replace with scan?
 		//fmt.Println(answer)
 		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 		if answer == "exit" {
@@ -43,24 +43,30 @@ func user_operation(answer string, paths []string) {
 	options := [2]string{"exec", "size"}
 	for i := range options {
 		if strings.Contains(answer, options[i]) == true {
-			for path := range paths {
-				if answer == strconv.Itoa(i+1) {user_operate(options[i], paths[path]); break}
-			}
-			break
+			user_operate(options[i], paths)
+			return
 		}
 	}
 	for i := range paths {
-		if answer == strconv.Itoa(i+1) {open_path(paths[i]); break}
+		if answer == strconv.Itoa(i+1) {open_path(paths[i]); return}
 	}
 }
 
-func user_operate(option string, path string) {
+
+func user_operate(option string, paths []string) {
+	pathnum := ""
+	path := 0
+	_, err := fmt.Scan(&pathnum)
+	if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
+	for i := range paths {
+		if pathnum == strconv.Itoa(i+1) {path = i; break}
+	}
 	switch option {
 		case "exec":
 			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test
-			cmd := exec.Command("./" + path)
+			cmd := exec.Command("./" + paths[path])
 			err := cmd.Run()
-			if err != nil {fmt.Println("Failed to execute the file with path " + path)}
+			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path])}
 		case "size":
 			//something something
 	}
