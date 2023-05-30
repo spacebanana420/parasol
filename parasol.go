@@ -15,8 +15,7 @@ func main() {
 	for {
 		paths := readdir(".")
 		var answer string;
-		_, err := fmt.Scan(&answer) //replace with scan?
-		//fmt.Println(answer)
+		_, err := fmt.Scan(&answer) //test or switch to scanln
 		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 		if answer == "exit" {
 			return
@@ -53,7 +52,7 @@ func user_operation(answer string, paths []string) {
 }
 
 
-func user_operate(option string, paths []string) {
+func user_operate(option string, paths []string) { //could already execute files on windows?!
 	pathnum := ""
 	path := 0
 	_, err := fmt.Scan(&pathnum)
@@ -80,18 +79,15 @@ func open_path (path string) {
 		err := os.Chdir(path)
 		if err != nil {fmt.Println("Failed to change directory! to " + path)}
 	} else {
-		//var runcommand string; var extra_winarg string = ""
 		if operative_system == 0 {
-			//runcommand = "open"
 			cmd := exec.Command("open", path)
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the open command with path " + path)}
 		} else
 		{
-			cmd := exec.Command("rundll32.exe", "url.dll,FileProtocolHandler", path)
+			cmd := exec.Command("rundll32.exe", "url.dll,FileProtocolHandler", path) //this executes files too!!!!!
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the open command with path " + path)}
-			//runcommand = "rundll32.exe"; extra_winarg = "url.dll,FileProtocolHandler"
 		}
 	}
 }
