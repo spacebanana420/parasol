@@ -1,5 +1,5 @@
 # Parasol
-Parasol is a cross-platform CLI File explorer inspired by Vim commands, designed to be minimal and fully keyboard-centric. Unlike most file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can operate with the files and paths through their numbers.
+Parasol is a cross-platform TUI File explorer inspired by Vim commands (but more verbose), designed to be minimal. Unlike most file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
 This repository is in very early access, this is not a complete or stable program yet
 
@@ -13,6 +13,6 @@ For launching files, parasol uses xdg-utils open for Linux, BSD and MacOS, and f
 
 # Compile from source
 
-Clone this repo and install Go, open a terminal in the root folder of the project and run ```go build parasol.go```
+Clone this repo and install [Go](https://go.dev/), open a terminal in the root folder of the project and run ```go build parasol.go```. Don't use compile.sh for compiling, that will build for every target platform I chose.
 
-Note: by compiling from source you are on your own: while Parasol may be mostly work on your system, it could lack certain functionality
+Note: by compiling from source you are on your own: while Parasol may mostly work on your system, it could lack certain functionality, for example xdg-open for unix-like systems.
