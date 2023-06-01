@@ -64,7 +64,7 @@ func user_operate(option string, paths []string) {
 	}
 	switch option {
 		case "exec":
-			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test
+			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test this!!!
 			cmd := exec.Command("./" + paths[path])
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path] + "\n Error: ", err)}
@@ -76,13 +76,31 @@ func user_operate(option string, paths []string) {
 				size = measuredpath.Size()
 
 			} else {
-				fmt.Println("Measuring the size of directories is not supported yet")
-				//recursive directory search
+				size = get_dir_size(paths[path])//test!!!
 			}
 			fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
 	}
 }
 
+func get_dir_size(dir string)) int64 {
+	fmt.Println("Measuring the size of " + dir + "...")
+	var size int64;
+	os.Chdir(dir)
+	paths, err := os.ReadDir(".")
+	if err != nil {
+		fmt.Println("Failed to read current directory!")
+	}
+	for i := range paths {
+		pathinfo := os.Stat(paths[i])
+		if pathinfo.IsDir() == false {
+			size += pathinfo.Size()
+		} else {
+			size += get_dir_size(paths[i])
+		}
+	}
+	os.Chdir("..")
+	return size
+}
 
 func open_path (path string) {
 	pathinfo, err := os.Stat(path)
