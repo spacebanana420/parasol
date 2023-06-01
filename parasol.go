@@ -8,7 +8,7 @@ import (
 	"strings"
 )
 
-var operative_system int = 0 //0 for unix, 1 for windows
+var operative_system int8 = 0 //0 for unix, 1 for windows
 
 func main() {
 	check_system()
@@ -69,12 +69,11 @@ func user_operate(option string, paths []string) {
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path] + "\n Error: ", err)}
 		case "size":
-			measuredpath, err := os.Stat(paths[path])
 			var size int64;
+			measuredpath, err := os.Stat(paths[path])
 			if err != nil {fmt.Println("Failed to read path info, path: " + paths[path])}
 			if measuredpath.IsDir() == false {
 				size = measuredpath.Size()
-
 			} else {
 				fmt.Println("Measuring the size of " + paths[path] + "...")
 				size = get_dir_size(paths[path])//test!!!
@@ -83,17 +82,20 @@ func user_operate(option string, paths []string) {
 	}
 }
 
-func get_dir_size(dir string)) int64 {
+func get_dir_size(dir string) int64 {
 	var size int64;
 	os.Chdir(dir)
 	paths, err := os.ReadDir(".")
 	if err != nil {fmt.Println("Failed to read current directory!"); return 0}
 	for i := range paths {
-		pathinfo := os.Stat(paths[i])
+		pathname := paths[i].Name()
+		pathinfo, err := os.Stat(pathname)
+		if err != nil {fmt.Println("Failed to read path info, path: " + pathname)}
+
 		if pathinfo.IsDir() == false {
 			size += pathinfo.Size()
 		} else {
-			size += get_dir_size(paths[i])
+			size += get_dir_size(pathname)
 		}
 	}
 	os.Chdir("..")
