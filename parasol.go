@@ -76,6 +76,7 @@ func user_operate(option string, paths []string) {
 				size = measuredpath.Size()
 
 			} else {
+				fmt.Println("Measuring the size of " + paths[path] + "...")
 				size = get_dir_size(paths[path])//test!!!
 			}
 			fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
@@ -83,7 +84,6 @@ func user_operate(option string, paths []string) {
 }
 
 func get_dir_size(dir string)) int64 {
-	fmt.Println("Measuring the size of " + dir + "...")
 	var size int64;
 	os.Chdir(dir)
 	paths, err := os.ReadDir(".")
