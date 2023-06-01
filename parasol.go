@@ -25,6 +25,7 @@ func main() {
 		} else {
 			user_operation(answer, paths)
 		}
+		fmt.Println("")
 	}
 }
 
@@ -52,9 +53,10 @@ func user_operation(answer string, paths []string) {
 }
 
 
-func user_operate(option string, paths []string) { //could already execute files on windows?!
+func user_operate(option string, paths []string) {
 	pathnum := ""
 	path := 0
+	fmt.Println("Choose a path")
 	_, err := fmt.Scan(&pathnum)
 	if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 	for i := range paths {
@@ -65,9 +67,19 @@ func user_operate(option string, paths []string) { //could already execute files
 			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test
 			cmd := exec.Command("./" + paths[path])
 			err := cmd.Run()
-			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path])}
+			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path] + "\n Error: ", err)}
 		case "size":
-			//something something
+			measuredpath, err := os.Stat(paths[path])
+			var size int64;
+			if err != nil {fmt.Println("Failed to read path info, path: " + paths[path])}
+			if measuredpath.IsDir() == false {
+				size = measuredpath.Size()
+
+			} else {
+				fmt.Println("Measuring the size of directories is not supported yet")
+				//recursive directory search
+			}
+			fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
 	}
 }
 
@@ -86,6 +98,7 @@ func open_path (path string) {
 		} else
 		{
 			cmd := exec.Command("rundll32.exe", "url.dll,FileProtocolHandler", path) //this executes files too!!!!!
+			//test start "" and explorer.exe instead
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the open command with path " + path)}
 		}
