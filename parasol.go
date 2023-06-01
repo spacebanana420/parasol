@@ -87,9 +87,7 @@ func get_dir_size(dir string)) int64 {
 	var size int64;
 	os.Chdir(dir)
 	paths, err := os.ReadDir(".")
-	if err != nil {
-		fmt.Println("Failed to read current directory!")
-	}
+	if err != nil {fmt.Println("Failed to read current directory!"); return 0}
 	for i := range paths {
 		pathinfo := os.Stat(paths[i])
 		if pathinfo.IsDir() == false {
