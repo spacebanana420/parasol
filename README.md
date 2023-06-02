@@ -12,11 +12,19 @@ To open a file or directory, type its respective number, or type "0" to go backw
 
 To perform an operation on a file, type the name of the operation and then the number of a file
 
+To execute a file, use the exec option (Windows users just need to open instead)
+
 To know the list of available operations, type "list"
 
 To quit, type "exit", "quit" or "q" (or ctrl + c lol)
 
 More features will come in future versions
+
+### List of operations:
+* exec
+* size
+* list
+* exit/quit/q
 
 # Download
 
