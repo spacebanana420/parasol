@@ -3,6 +3,21 @@ Parasol is a cross-platform TUI File explorer inspired by Vim commands (but more
 
 This repository is in very early access, this is not a complete or stable program yet
 
+# How to use
+Launch Parasol from a commandline, the first thing that shows up is your current directory
+
+Parasol lists files and directories separated from each other, each assigned to a number.
+
+To open a file or directory, type its respective number, or type "0" to go backwards in the directories
+
+To perform an operation on a file, type the name of the operation and then the number of a file
+
+To know the list of available operations, type "list"
+
+To quit, type "exit", "quit" or "q"
+
+More features will come in future versions
+
 # Download
 
 There are currently no releases yet, this is a newborn project.
