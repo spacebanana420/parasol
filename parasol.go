@@ -76,10 +76,31 @@ func user_operate(option string, paths []string) {
 				size = measuredpath.Size()
 			} else {
 				fmt.Println("Measuring the size of " + paths[path] + "...")
-				size = get_dir_size(paths[path])//test!!!
+				size = get_dir_size(paths[path])
 			}
-			fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
+			var size_digits int = len(strconv.FormatInt(size, 10));
+
+			if size_digits >= 4 {
+				size_reduced, size_unit := reduce_digits(size, size_digits)
+				size_reduced_string := strconv.FormatFloat(size_reduced, 'f', -1, 32)
+				fmt.Println(paths[path] + ": " + size_reduced_string + " " + size_unit) //fix
+			} else {
+				fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
+			}
 	}
+}
+
+func reduce_digits(size int64, size_digits int) (float64, string) {
+	var size_reduced float64; var size_unit string = "bytes"
+
+	if size_digits >= 10 {
+		size_reduced = float64(size) / 1000000000; size_unit = "GB"
+	} else if size_digits >= 7 {
+		size_reduced = float64(size) / 1000000; size_unit = "MB"
+	} else { //>=4
+		size_reduced = float64(size) / 1000; size_unit = "KB"
+	}
+	return size_reduced, size_unit
 }
 
 func get_dir_size(dir string) int64 {
