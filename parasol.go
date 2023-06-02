@@ -17,7 +17,7 @@ func main() {
 		var answer string;
 		_, err := fmt.Scan(&answer) //test or switch to scanln
 		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
-		if answer == "exit" {
+		if answer == "exit" || answer == "quit" || answer == "q" {
 			return
 		} else if answer == "0" {
 			err := os.Chdir("..")
@@ -54,7 +54,7 @@ func user_operation(answer string, paths []string) {
 
 func list_options() {
 	fmt.Println("---Options---")
-	fmt.Println("   exec\n   size\n   list")
+	fmt.Println("     exec\n     size\n     list\n     exit/quit/q")
 }
 
 
