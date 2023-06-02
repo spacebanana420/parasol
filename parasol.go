@@ -40,7 +40,7 @@ func check_system() {
 }
 
 func user_operation(answer string, paths []string) {
-	options := [2]string{"exec", "size"}
+	options := [3]string{"size", "list", "exec"} //remove exec for windows
 	for i := range options {
 		if strings.Contains(answer, options[i]) == true {
 			user_operate(options[i], paths)
@@ -52,19 +52,28 @@ func user_operation(answer string, paths []string) {
 	}
 }
 
+func list_options() {
+	fmt.Println("---Options---")
+	fmt.Println("   exec\n   size\n   list")
+}
+
 
 func user_operate(option string, paths []string) {
 	pathnum := ""
 	path := 0
-	fmt.Println("Choose a path")
-	_, err := fmt.Scan(&pathnum)
-	if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
-	for i := range paths {
-		if pathnum == strconv.Itoa(i+1) {path = i; break}
+	if option != "list" {
+		fmt.Println("Choose a path")
+		_, err := fmt.Scan(&pathnum)
+		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
+		for i := range paths {
+			if pathnum == strconv.Itoa(i+1) {path = i; break}
+		}
 	}
+
 	switch option {
+		case "list":
+			list_options()
 		case "exec":
-			//executefile := "./"; if operative_system == 1 {executefile = ".\"} test this!!!
 			cmd := exec.Command("./" + paths[path])
 			err := cmd.Run()
 			if err != nil {fmt.Println("Failed to execute the file with path " + paths[path] + "\n Error: ", err)}
@@ -83,7 +92,7 @@ func user_operate(option string, paths []string) {
 			if size_digits >= 4 {
 				size_reduced, size_unit := reduce_digits(size, size_digits)
 				size_reduced_string := strconv.FormatFloat(size_reduced, 'f', -1, 32)
-				fmt.Println(paths[path] + ": " + size_reduced_string + " " + size_unit) //fix
+				fmt.Println(paths[path] + ": " + size_reduced_string + " " + size_unit)
 			} else {
 				fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
 			}
@@ -97,7 +106,7 @@ func reduce_digits(size int64, size_digits int) (float64, string) {
 		size_reduced = float64(size) / 1000000000; size_unit = "GB"
 	} else if size_digits >= 7 {
 		size_reduced = float64(size) / 1000000; size_unit = "MB"
-	} else { //>=4
+	} else {
 		size_reduced = float64(size) / 1000; size_unit = "KB"
 	}
 	return size_reduced, size_unit
