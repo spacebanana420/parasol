@@ -14,7 +14,7 @@ To perform an operation on a file, type the name of the operation and then the n
 
 To know the list of available operations, type "list"
 
-To quit, type "exit", "quit" or "q"
+To quit, type "exit", "quit" or "q" (or ctrl + c lol)
 
 More features will come in future versions
 
