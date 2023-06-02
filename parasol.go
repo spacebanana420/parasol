@@ -32,7 +32,6 @@ func main() {
 func check_system() {
 	wd, err := os.Getwd()
 	if err != nil {fmt.Println("Failed to get current working directory!")}
-	fmt.Println(wd)
 	alphabet := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	for i := range alphabet {
 		if string(alphabet[i]) == string(wd[0]) {operative_system = 1; return}
@@ -207,7 +206,9 @@ func readdir(dir string) []string {
 	// 	dirnum = append(dirnum, totalcount)
 	// }
 	// longestfile = longest_string(files); longestdir = longest_string(dirs)
-
+	currentdir, err := os.Getwd()
+	if err != nil {fmt.Println("Failed to get current working directory!")}
+	fmt.Println(currentdir + "\n")
 	fmt.Println("---Directories---")
 	fmt.Println(dirstring)
 	fmt.Println("\n---Files---")
