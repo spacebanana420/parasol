@@ -13,6 +13,8 @@ zip -v -m -3 parasol-linux-arm.zip parasol
 echo "Compiling for Windows x86_64"
 GOOS=windows GOARCH=amd64 go build -o parasol.exe parasol.go; #strip parasol.exe
 zip -v -m -3 parasol-windows.zip parasol.exe
+GOOS=windows GOARCH=arm64 go build -o parasol.exe parasol.go; #strip parasol.exe
+zip -v -m -3 parasol-windows-arm.zip parasol.exe
 
 #MacOS
 echo "Compiling for MacOS x86_64"
