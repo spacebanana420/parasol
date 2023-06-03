@@ -96,6 +96,8 @@ func user_operate(option string, paths []string) {
 				fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
 			}
 	}
+	fmt.Println("\nPress enter to continue")
+	fmt.Scanln()
 }
 
 func reduce_digits(size int64, size_digits int) (float64, string) {
