@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"bufio"
 	"os"
 	"os/exec"
 	"strconv"
@@ -14,9 +15,10 @@ func main() {
 	check_system()
 	for {
 		paths := readdir(".")
-		var answer string;
-		_, err := fmt.Scan(&answer) //test or switch to scanln
-		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
+		answer := read_input("")
+		// var answer string;
+		// _, err := fmt.Scanln(&answer) //test or switch to scanln
+		// if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 		if answer == "exit" || answer == "quit" || answer == "q" {
 			return
 		} else if answer == "0" {
@@ -25,8 +27,23 @@ func main() {
 		} else {
 			user_operation(answer, paths)
 		}
-		fmt.Println("")
+		fmt.Println("-------------------")
 	}
+}
+
+func read_input(message string) string {
+	if message != "" {fmt.Println(message)}
+	reader := bufio.NewReader(os.Stdin)
+	line, err := reader.ReadString('\n')
+	if err != nil {fmt.Println("Error reading user input!\nError: ", err)}
+
+	var finalline string;
+
+	for i := range line {
+		if string(line[i]) == "\n" {break}
+		finalline += string(line[i])
+	}
+	return finalline
 }
 
 func check_system() {
@@ -58,12 +75,13 @@ func list_options() {
 
 
 func user_operate(option string, paths []string) {
-	pathnum := ""
+	//pathnum := ""
 	path := 0
 	if option != "list" {
-		fmt.Println("Choose a path")
-		_, err := fmt.Scan(&pathnum)
-		if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
+		pathnum := read_input("Choose a path")
+		// fmt.Println("Choose a path")
+		// _, err := fmt.Scan(&pathnum)
+		// if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 		for i := range paths {
 			if pathnum == strconv.Itoa(i+1) {path = i; break}
 		}
@@ -96,8 +114,11 @@ func user_operate(option string, paths []string) {
 				fmt.Println(paths[path] + ": " + strconv.FormatInt(size, 10) + " bytes")
 			}
 	}
-	fmt.Println("\nPress enter to continue")
-	fmt.Scanln()
+	//tempstringlol := "a" //fixes windows bug thingy
+	read_input("Press enter to continue")
+	// fmt.Println("\nPress enter to continue")
+	// _, err := fmt.Scanln(&tempstringlol)
+	// if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
 }
 
 func reduce_digits(size int64, size_digits int) (float64, string) {
