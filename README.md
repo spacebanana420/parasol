@@ -28,11 +28,18 @@ More features will come in future versions
 
 # Download
 
-There are currently no releases yet, this is a newborn project.
+You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
-I intend on supporting most known operative systems (Linux systems, Windows, MacOS, FreeBSD, OpenBSD, NetBSD) as well as x86 and ARM architectures, 32 and 64bit.
+### Supported systems:
+* Linux (virtually all distros)
+* Windows
+* MacOS
+* FreeBSD
+* OpenBSD
 
-For launching files, parasol uses xdg-utils open for Linux, BSD and MacOS, and for Windows it uses its equivalent thingy. This means that operative system support requires manual implementation of equivalent commands to xdg-open, commands which assume your default applications per file extension.
+### Supported architectures:
+* x86_64
+* ARM64
 
 # Compile from source
 
