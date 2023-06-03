@@ -40,8 +40,7 @@ func read_input(message string) string {
 	var finalline string;
 
 	for i := range line {
-		if string(line[i]) == "\n" {break}
-		finalline += string(line[i])
+		if rune(line[i]) != '\n' && line[i] != 13 {finalline += string(line[i])}
 	}
 	return finalline
 }
@@ -66,11 +65,6 @@ func user_operation(answer string, paths []string) {
 	for i := range paths {
 		if answer == strconv.Itoa(i+1) {open_path(paths[i]); return}
 	}
-}
-
-func list_options() {
-	fmt.Println("---Options---")
-	fmt.Println("     exec\n     size\n     list\n     exit/quit/q")
 }
 
 
@@ -119,6 +113,11 @@ func user_operate(option string, paths []string) {
 	// fmt.Println("\nPress enter to continue")
 	// _, err := fmt.Scanln(&tempstringlol)
 	// if err != nil {fmt.Println("Failed to read user input!\n Error: ", err)}
+}
+
+func list_options() {
+	fmt.Println("---Options---")
+	fmt.Println("     exec\n     size\n     list\n     exit/quit/q")
 }
 
 func reduce_digits(size int64, size_digits int) (float64, string) {
