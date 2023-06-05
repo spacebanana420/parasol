@@ -31,11 +31,13 @@ More features will come in future versions
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
 ### Supported systems:
-* Linux (virtually all distros)
+* Linux
 * Windows
 * MacOS
 * FreeBSD
 * OpenBSD
+
+The binaries are static-linked, so Parasol should work on all Linux distros out of the box, including musl distros and NixOS
 
 ### Supported architectures:
 * x86_64
