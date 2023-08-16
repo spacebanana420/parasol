@@ -12,5 +12,5 @@ function cleanup () {
 }
 
 javac main.java
-jar cfve program.jar main *.class */*.class
+jar cfve parasol.jar main *.class */*.class
 cleanup
