@@ -60,7 +60,8 @@ public class browser {
             if (paths[0][i] == null) {break;}
             if (answer == count) {
                 if (paths[0][i] == null) {break;}
-                currentdirectory = new File(currentdirectory + "/" + paths[0][i]).getAbsolutePath();
+                //currentdirectory = new File(currentdirectory + "/" + paths[0][i]).getAbsolutePath();
+                currentdirectory = currentdirectory + "/" + paths[0][i];
                 return;
             }
             count += 1;
