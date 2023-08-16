@@ -5,7 +5,7 @@ This project was also a headstart to learn Java and Go, so while it's now develo
 
 More features will come in future versions
 
-# Download
+## Download
 
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
@@ -14,3 +14,8 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 * Windows
 
 Other systems should work as well
+
+
+## List of current commands
+
+* help - displays the help menu
