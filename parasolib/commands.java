@@ -20,7 +20,7 @@ public class commands {
 
     private static void displayhelp() {
         tui.clearterminal();
-        String help = "------Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n    help - opens this menu\n     size [number] - gets the size of the file\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
+        String help = "------Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n    help - opens this menu\n     size [number] - gets the size of the file of order 4\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
         tui.spawn(help);
     }
 
@@ -32,9 +32,9 @@ public class commands {
         }
 
         int pathval = Integer.parseInt(pathnum);
-        String relativepath = browser.findpath_relative(pathval, paths);
+        String relativepath = browser.findfile_relative(pathval, paths);
         if (relativepath == null) {
-            tui.spawn("The path of value " + pathval + " has not been found!");
+            tui.spawn("The file of value " + pathval + " has not been found!");
             return;
         }
         String absolutepath = browser.currentdirectory + "/" + relativepath;

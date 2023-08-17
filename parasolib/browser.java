@@ -107,6 +107,22 @@ public class browser {
         return null;
     }
 
+    public static String findfile_relative(int val, String[][] paths) {
+        int count = 2;
+        for (int i = 0; i < paths[0].length; i++) {
+            if (paths[0][i] == null) {break;}
+            count += 1;
+        }
+        for (int i = 0; i < paths[1].length; i++) {
+            if (paths[1][i] == null) {break;}
+            if (val == count) {
+                return paths[1][i];
+            }
+            count += 1;
+        }
+        return null;
+    }
+
     public static String findpath_absolute(int val, String[][] paths) {
         int count = 2;
         for (int i = 0; i < paths[0].length; i++) {
