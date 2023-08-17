@@ -29,7 +29,7 @@ Other systems should work as well
 javac main.java
 jar cfve parasol.jar main *.class */*.class
 ```
-* Alternatively, you can run the bash script with ```bash build.sh```
+* Alternatively, you can run the build script with ```bash build.sh```
 
 Parasol is now compiled and packaged into parasol.jar
 
