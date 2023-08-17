@@ -9,6 +9,9 @@ More features will come in future versions
 
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
+### Requirements
+* JRE, JDK or OpenJDK (recommended version 17 or above)
+
 ### Officially tested systems:
 * Linux
 * Windows
