@@ -54,6 +54,58 @@ public class browser {
         return finalpaths;
     }
 
+public static void findentry(String subname) {
+        tui.clearterminal();
+        String output = "Current Directory: " + currentdirectory +  "\n\nFound the following entries that contain \"" + subname + "\":\n\n-----Directories-----\n";
+
+        String[] paths = new File(currentdirectory).list();
+        String[][] finalpaths = new String[2][paths.length];
+        int dirs_i = 0; int files_i = 0;
+        int count = 2;
+        int entriesadded = 0;
+
+        for (int i = 0; i < paths.length; i++) {
+            File pathobject = new File(currentdirectory + "/" + paths[i]);
+            //if (pathobject.exists() == false) {System.out.println(currentdirectory + paths[i] + " does not exist"); tui.getanswer();}
+            if (pathobject.isFile() == true) {
+                finalpaths[1][files_i] = paths[i]; files_i += 1;
+            }
+            else if (pathobject.exists() == true) {
+                finalpaths[0][dirs_i] = paths[i]; dirs_i += 1;
+            }
+        }
+
+
+        for (int i = 0; i < finalpaths[0].length; i++) {
+            if (finalpaths[0][i] == null) {break;}
+            if (entriesadded == 3) {
+                output += "\n"; entriesadded = 0;
+            }
+            if (finalpaths[0][i].contains(subname) == true) {
+                output += count + ": " + finalpaths[0][i] + "     ";
+                entriesadded += 1;
+            }
+            count += 1;
+        }
+
+        output += "\n\n-----Files-----\n";
+        entriesadded = 0;
+        for (int i = 0; i < finalpaths[1].length; i++) {
+        if (finalpaths[1][i] == null) {break;}
+            if (entriesadded == 3) {
+                output += "\n"; entriesadded = 0;
+            }
+            if (finalpaths[1][i].contains(subname) == true) {
+                output += count + ": " + finalpaths[1][i] + "     ";
+                entriesadded += 1;
+            }
+            count += 1;
+        }
+        output += "\n\nPress enter to continue";
+        tui.spawn(output);
+    }
+
+
     public static void openentry(int answer, String[][] paths) { //fix files
         int count = 2;
         for (int i = 0; i < paths[0].length; i++) {
