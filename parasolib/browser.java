@@ -66,7 +66,6 @@ public static void findentry(String subname) {
 
         for (int i = 0; i < paths.length; i++) {
             File pathobject = new File(currentdirectory + "/" + paths[i]);
-            //if (pathobject.exists() == false) {System.out.println(currentdirectory + paths[i] + " does not exist"); tui.getanswer();}
             if (pathobject.isFile() == true) {
                 finalpaths[1][files_i] = paths[i]; files_i += 1;
             }
@@ -106,12 +105,11 @@ public static void findentry(String subname) {
     }
 
 
-    public static void openentry(int answer, String[][] paths) { //fix files
+    public static void openentry(int answer, String[][] paths) {
         int count = 2;
         for (int i = 0; i < paths[0].length; i++) {
             if (paths[0][i] == null) {break;}
             if (answer == count) {
-                //currentdirectory = new File(currentdirectory + "/" + paths[0][i]).getAbsolutePath();
                 currentdirectory = currentdirectory + "/" + paths[0][i];
                 return;
             }
