@@ -2,7 +2,7 @@ package parasolib;
 
 public class platform {
     public static String os;
-    public static boolean iswindows;
+    //public static boolean iswindows;
 
     public static void getplatform() {
         os = System.getProperty("os.name");

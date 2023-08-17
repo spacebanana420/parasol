@@ -13,25 +13,7 @@ public class commands {
 
         default: //get absolute path from NUMBER
             if (answer.contains("size ") == true) {
-                String pathnum = getvaluefromanswer(answer, "size ");
-                if (numberops.isanumber(pathnum) == false) {
-                    tui.spawn("Your choice " + pathnum + " is not a number!");
-                    return;
-                }
-                int pathval = Integer.parseInt(pathnum);
-                String absolutepath = browser.findpath_absolute(pathval, paths);
-                String relativepath = browser.findpath_relative(pathval, paths);
-                if (absolutepath == null) {
-                    tui.spawn("The path of value " + pathval + " has not been found!");
-                    return;
-                }
-                File pathfile = new File(absolutepath);
-                if (pathfile.exists() == false) {
-                    tui.spawn("The file " + relativepath + " does not exist!");
-                    return;
-                }
-                float filesize = numberops.getfilesize(pathfile);
-                tui.spawn("Size of " + relativepath + ": " + filesize);
+                getsize(answer, paths);
             }
         }
     }
@@ -42,18 +24,42 @@ public class commands {
         tui.spawn(help);
     }
 
-    private static String getvaluefromanswer(String answer, String cmd) {
-        String value = "";
-        String temp = "";
-        boolean startcopying = false;
-
-        for (int i = 0; i < answer.length(); i++) {
-            if (temp == cmd) {
-                startcopying = true;
-            }
-            if (startcopying == true) {value += answer.charAt(i);}
-            else {temp += answer.charAt(i);}
+    private static void getsize(String answer, String[][] paths) {
+        String pathnum = answer.replaceAll("size ", "");
+        if (numberops.isanumber(pathnum) == false) {
+            tui.spawn("Your choice " + pathnum + " is not a number!");
+            return;
         }
-        return value;
+
+        int pathval = Integer.parseInt(pathnum);
+        String relativepath = browser.findpath_relative(pathval, paths);
+        if (relativepath == null) {
+            tui.spawn("The path of value " + pathval + " has not been found!");
+            return;
+        }
+        String absolutepath = browser.currentdirectory + "/" + relativepath;
+
+        File pathfile = new File(absolutepath);
+        if (pathfile.exists() == false) {
+            tui.spawn("The file " + relativepath + " does not exist!");
+            return;
+        }
+
+        long size_bytes = pathfile.length();
+        float roundedsize = size_bytes;
+        String unit = "bytes";
+        if (size_bytes > 1000000000) {
+            roundedsize = size_bytes / 1000000000;
+            unit = "GB";
+        }
+        else if (size_bytes > 1000000) {
+            roundedsize = size_bytes / 1000000;
+            unit = "MB";
+        }
+        else if (size_bytes > 1000) {
+            roundedsize = size_bytes / 1000;
+            unit = "KB";
+        }
+        tui.spawn("Size of " + relativepath + ": " + roundedsize + " " + unit);
     }
 }
