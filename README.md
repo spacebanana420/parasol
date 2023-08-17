@@ -22,6 +22,7 @@ Other systems should work as well
 ## List of current commands
 
 * help - displays the help menu
+* size (number) - gets the size of the file of entry (number)
 
 
 ## How to build
