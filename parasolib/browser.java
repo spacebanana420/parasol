@@ -59,7 +59,6 @@ public class browser {
         for (int i = 0; i < paths[0].length; i++) {
             if (paths[0][i] == null) {break;}
             if (answer == count) {
-                if (paths[0][i] == null) {break;}
                 //currentdirectory = new File(currentdirectory + "/" + paths[0][i]).getAbsolutePath();
                 currentdirectory = currentdirectory + "/" + paths[0][i];
                 return;
@@ -87,5 +86,43 @@ public class browser {
             platform.executesilent(unixsilent);
             //platform.execute(unixcmd);
         }
+    }
+
+    public static String findpath_relative(int val, String[][] paths) {
+        int count = 2;
+        for (int i = 0; i < paths[0].length; i++) {
+            if (paths[0][i] == null) {break;}
+            if (val == count) {
+                return paths[0][i];
+            }
+            count += 1;
+        }
+        for (int i = 0; i < paths[1].length; i++) {
+            if (paths[1][i] == null) {break;}
+            if (val == count) {
+                return paths[1][i];
+            }
+            count += 1;
+        }
+        return null;
+    }
+
+    public static String findpath_absolute(int val, String[][] paths) {
+        int count = 2;
+        for (int i = 0; i < paths[0].length; i++) {
+            if (paths[0][i] == null) {break;}
+            if (val == count) {
+                return currentdirectory + "/" + paths[0][i];
+            }
+            count += 1;
+        }
+        for (int i = 0; i < paths[1].length; i++) {
+            if (paths[1][i] == null) {break;}
+            if (val == count) {
+                return currentdirectory + "/" + paths[1][i];
+            }
+            count += 1;
+        }
+        return null;
     }
 }
