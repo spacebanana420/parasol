@@ -19,3 +19,18 @@ Other systems should work as well
 ## List of current commands
 
 * help - displays the help menu
+
+
+## How to build
+* Install JDK or OpenJDK (recommended version 17 or above, older versions should work but are untested)
+* Open a terminal in the root of the project
+* Type the commands (not tested on cmd or powershell):
+```
+javac main.java
+jar cfve parasol.jar main *.class */*.class
+```
+* Alternatively, you can run the bash script with ```bash build.sh```
+
+Parasol is now compiled and packaged into parasol.jar
+
+Remember to delete the .class files
