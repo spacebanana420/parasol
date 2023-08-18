@@ -5,7 +5,6 @@ public class platform {
     public static boolean iswindows = false;
     public static boolean isunix = false;
     public static boolean ismac = false;
-    //public static boolean iswindows;
 
     public static void getplatform() {
         os = System.getProperty("os.name");

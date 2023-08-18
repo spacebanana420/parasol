@@ -82,12 +82,16 @@ public class commands {
             tui.spawn("The file of value " + pathval + " has not been found!");
             return;
         }
-        String[] absolutepath = {browser.currentdirectory + "/" + relativepath};
+        if (new File(browser.currentdirectory + "/" + relativepath).canExecute() == false) {
+            tui.spawn("The file " + relativepath + " does not have execute permissions!");
+            return;
+        }
+        String[] command = {browser.currentdirectory + "/" + relativepath};
         System.out.println("Launching " + relativepath);
         if (platform.iswindows == true) {
-            absolutepath[0] = platform.convertpath(absolutepath[0]);
+            command[0] = platform.convertpath(command[0]);
         }
-        platform.execute(absolutepath);
+        platform.execute(command);
         tui.presstocontinue();
     }
 }
