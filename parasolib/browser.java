@@ -126,11 +126,16 @@ public static void findentry(String subname) {
     }
 
     private static void openfile(String filename) {
-        String[] wincmd = {"explorer.exe", filename};
+        String[] wincmd = {"explorer.exe", platform.convertpath(filename)};
         //String[] unixcmd = {"xdg-open", filename};
         String unixsilent = "xdg-open " + filename;
-        if (platform.os.contains("Windows") == true) {
+        String macossilent = "open " + filename;
+
+        if (platform.iswindows == true) {
             platform.execute(wincmd);
+        }
+        else if (platform.ismac == true) {
+            platform.executesilent(macossilent);
         }
         else {
             platform.executesilent(unixsilent);

@@ -70,7 +70,7 @@ public class commands {
     }
 
     private static void runprogram(String answer, String[][] paths) {
-    String pathnum = answer.replaceAll("exec ", "");
+        String pathnum = answer.replaceAll("exec ", "");
         if (numberops.isanumber(pathnum) == false) {
             tui.spawn("Your choice " + pathnum + " is not a number!");
             return;
@@ -84,6 +84,9 @@ public class commands {
         }
         String[] absolutepath = {browser.currentdirectory + "/" + relativepath};
         System.out.println("Launching " + relativepath);
+        if (platform.iswindows == true) {
+            absolutepath[0] = platform.convertpath(absolutepath[0]);
+        }
         platform.execute(absolutepath);
         tui.presstocontinue();
     }
