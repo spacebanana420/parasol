@@ -27,6 +27,8 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 
 * help - displays the help menu
 * size (number) - gets the size of the file of entry (number)
+* find (name) - displays the files and directories that contain (name)
+* exec (number) - executes the file of entry (number)
 
 
 ## How to build
