@@ -38,3 +38,6 @@ jar cfve parasol.jar main *.class */*.class
 Parasol is now compiled and packaged into parasol.jar
 
 Remember to delete the .class files
+
+
+If you are curious about the code written in Go, that's the old version of Parasol before I rewrote it in Java. The code is located in the directory "old", as well as its respective build script.
