@@ -10,6 +10,9 @@ public class commands {
         case "help":
             displayhelp();
             break;
+        case "archive":
+            archive.createarchive(browser.currentdirectory);
+            break;
 
         default:
             if (answer.contains("size ") == true) {
