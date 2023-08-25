@@ -32,7 +32,7 @@ public class tui {
     }
 
     public static void clearterminal_ascii() {
-        System.out.print("\033[H\033[2J");
+        System.out.print("\033[H\033[2J"); //motherfucking magic
         System.out.flush();
     }
 }

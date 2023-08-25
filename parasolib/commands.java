@@ -24,12 +24,15 @@ public class commands {
             else if (answer.contains("exec ") == true) {
                 runprogram(answer, paths);
             }
+            else if (answer.contains("mkdir ") == true) {
+                createdir(answer.replaceAll("mkdir ", ""));
+            }
         }
     }
 
     private static void displayhelp() {
         tui.clearterminal();
-        String help = "-----Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n     help - opens this menu\n     size [number] - gets the size of the file which is assigned to [number]\n     find [name] - finds entries that contain [name] in their name\n     exec [number] - executes the file which is assigned to [number]\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
+        String help = "-----Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n     * help - opens this menu\n     * size [number] - gets the size of the file which is assigned to [number]\n     * find [name] - finds entries that contain [name] in their name\n     * exec [number] - executes the file which is assigned to [number]\n     * archive - archives all files in current directory\n          Note: there is currently no implementation to extract the archive, this is an experimental command\n     * mkdir [name] - creates a directory with name [name]\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
         tui.spawn(help);
     }
 
@@ -96,5 +99,18 @@ public class commands {
         }
         platform.execute(command);
         tui.presstocontinue();
+    }
+
+    private static void createdir(String dirname) {
+        if (dirname == "") {
+            tui.spawn("You did not specify a directory name!");
+            return;
+        }
+        File dirfile = new File(browser.currentdirectory + "/" + dirname);
+        if (dirfile.exists() == true) {
+            tui.spawn("The directory " + dirname + " already exists here!");
+            return;
+        }
+        dirfile.mkdir();
     }
 }

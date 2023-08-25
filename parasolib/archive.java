@@ -10,7 +10,6 @@ import java.io.FileOutputStream;
 public class archive { //4bytes filesize 2bytes namesize Nbytes name Nbytes file
     public static void createarchive(String basedir) {
         String[] paths = new File(basedir).list();
-        // short filecount = howmanyfiles(basedir, paths);
 
         try {Files.createFile(Paths.get(basedir + "/" + "archive.bana"));}
         catch(Exception e) {
@@ -55,12 +54,10 @@ public class archive { //4bytes filesize 2bytes namesize Nbytes name Nbytes file
             byte[] namelength_final = shortToBytes(namelength_limited);
             byte[] filesize_final = intToBytes(filesize_limited);
             archivefile.write(filesize_final); archivefile.write(namelength_final);
-            //Files.write(archivepath, filesize_final); Files.write(archivepath, namelength_final);
 
             byte[] namebytes = path.getBytes();
             byte[] filebytes = Files.readAllBytes(fullpath_path);
             archivefile.write(namebytes); archivefile.write(filebytes);
-            //Files.write(archivepath, namebytes); Files.write(archivepath, filebytes);
 
             archivefile.close();
         }
