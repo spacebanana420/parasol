@@ -125,21 +125,21 @@ public static void findentry(String subname) {
         }
     }
 
-    private static void openfile(String filename) {
+    private static void openfile(String filename) { //fix file names with spaces
         String[] wincmd = {"explorer.exe", platform.convertpath(filename)};
-        //String[] unixcmd = {"xdg-open", filename};
-        String unixsilent = "xdg-open " + filename;
-        String macossilent = "open " + filename;
+        String[] unixcmd = {"xdg-open", filename};
+        //String unixsilent = "xdg-open " + filename;
+        //String macossilent = "open " + filename;
+        String[] maccmd = {"open", filename};
 
         if (platform.iswindows == true) {
-            platform.execute(wincmd);
+            platform.executesilent(wincmd);
         }
         else if (platform.ismac == true) {
-            platform.executesilent(macossilent);
+            platform.executesilent(maccmd);
         }
         else {
-            platform.executesilent(unixsilent);
-            //platform.execute(unixcmd);
+            platform.executesilent(unixcmd);
         }
     }
 

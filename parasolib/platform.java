@@ -1,5 +1,8 @@
 package parasolib;
 
+import java.io.File;
+import parasolib.*;
+
 public class platform {
     public static String os;
     public static boolean iswindows = false;
@@ -32,15 +35,36 @@ public class platform {
             e.printStackTrace();
         }
     }
-    public static void executesilent(String command) {
-        //System.out.println("Executing command: " + command);
+
+    public static void executesilent(String[] command) {
+        String redirectto = "";
+        if (iswindows == true) {
+            redirectto = "NULL";
+        }
+        else {
+            redirectto = "/dev/null";
+        }
+        File redirectfile = new File(redirectto);
         try {
-            Runtime.getRuntime().exec(command);
-            }
+            ProcessBuilder cmdexec = new ProcessBuilder(command).inheritIO();
+            cmdexec.redirectOutput(redirectfile);
+            cmdexec.redirectError(redirectfile);
+            cmdexec.start().waitFor();
+        }
         catch(Exception e) {
             e.printStackTrace();
         }
     }
+
+    // public static void executesilent_old(String command) {
+    //     //System.out.println("Executing command: " + command);
+    //     try {
+    //         Runtime.getRuntime().exec(command);
+    //         }
+    //     catch(Exception e) {
+    //         e.printStackTrace();
+    //     }
+    // }
 
     public static String convertpath(String path) {
         boolean ignorechar = false;
