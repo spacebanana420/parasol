@@ -15,24 +15,28 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 
 ### Officially tested systems:
 * Linux (distro-agnostic)
-* Windows
 
 ### Systems that probably work:
+* Windows
 * BSD systems (FreeBSD, OpenBSD, etc)
 * MacOS
 * Systems that use the xdg desktop standard
 
 
 ## List of current commands
-
-* help - displays the help menu
-* size (number) - gets the size of the file of entry (number)
-* find (name) - displays the files and directories that contain (name)
-* exec (number) - executes the file of entry (number)
+* help - opens this menu
+* size [number] - gets the size of the file which is assigned to [number]
+* find [name] - finds entries that contain [name] in their name
+* exec [number] - executes the file which is assigned to [number]
+* archive - archives all files in current directory
+     * Note: there is currently no implementation to extract the archive, this is an experimental command
+* mkdir [name] - creates a directory with name [name]
+* rename [number] [name] - renames the path of value [number] to [name]
+* goto [name] - changes location to the absolute path [name]
 
 
 ## How to build
-* Install JDK or OpenJDK (recommended version 17 or above, older versions should work but are untested)
+* Install JDK or OpenJDK (recommended version 8 or above, older versions should work but are untested)
 * Open a terminal in the root of the project
 * Type the commands (not tested on cmd or powershell):
 ```
