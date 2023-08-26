@@ -33,12 +33,15 @@ public class commands {
             else if (answer.contains("goto ") == true) {
                 gotopath(answer.replaceAll("goto ", ""));
             }
+            else if (answer.contains("remove ") == true) {
+                removepath(answer.replaceAll("remove ", ""), paths);
+            }
         }
     }
 
     private static void displayhelp() {
         tui.clearterminal();
-        String help = "-----Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n     * help - opens this menu\n     * size [number] - gets the size of the file which is assigned to [number]\n     * find [name] - finds entries that contain [name] in their name\n     * exec [number] - executes the file which is assigned to [number]\n     * archive - archives all files in current directory\n          Note: there is currently no implementation to extract the archive, this is an experimental command\n     * mkdir [name] - creates a directory with name [name]\n     * rename [number] [name] - renames the path of value [number] to [name]\n     * goto [name] - changes location to the absolute path [name]\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
+        String help = "-----Parasol help menu-----\n\nWhile browsing:\n     Press 0 to close the program\n     Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\nList of commands:\n     * help - opens this menu\n     * size [number] - gets the size of the file which is assigned to [number]\n     * find [name] - finds entries that contain [name] in their name\n     * exec [number] - executes the file which is assigned to [number]\n     * archive - archives all files in current directory\n          Note: there is currently no implementation to extract the archive, this is an experimental command\n     * mkdir [name] - creates a directory with name [name]\n     * rename [number] [name] - renames the path of value [number] to [name]\n     * goto [name] - changes location to the absolute path [name]\n     * delete [number] - deletes the path of number [number]\n\nParasol assumes your default programs for the file format in question by integrating explorer.exe (on Windows) and xdg-open on all other operating systems.\nNot all unix-like systems have the xdg-open implementation, and TTY systems are out of question, so OS support beyond Linux and Windows is a mystery.\nIf you encounter an issue, please report it on the Github project so I can bring support to your OS.\n\nPress enter to continue";
         tui.spawn(help);
     }
 
@@ -176,5 +179,24 @@ public class commands {
             return;
         }
         browser.currentdirectory = path;
+    }
+
+    private static void removepath(String answer, String[][] paths) { //use number for first path ffs
+        if (numberops.isanumber(answer) == false) {
+            tui.spawn("The value " + answer + " is not a number!");
+            return;
+        }
+        int pathval = Integer.parseInt(answer);
+        File pathfile = new File(browser.findpath_absolute(pathval, paths));
+        if (pathfile.exists() == false) {
+            tui.spawn("The path of number " + answer + "does not exist!");
+            return;
+        }
+        String choice = tui.spawn("The path " + pathfile.getAbsolutePath() + " is about to be deleted\nThis action cannot be undone\nAre you sure? (y/n)");
+        if (choice != "y" && choice != "yes") {
+            return;
+        }
+        pathfile.delete();
+        tui.spawn("Path has been deleted!");
     }
 }

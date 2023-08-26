@@ -125,7 +125,7 @@ public static void findentry(String subname) {
         }
     }
 
-    private static void openfile(String filename) { //fix file names with spaces
+    private static void openfile(String filename) {
         String[] wincmd = {"explorer.exe", platform.convertpath(filename)};
         String[] unixcmd = {"xdg-open", filename};
         //String unixsilent = "xdg-open " + filename;

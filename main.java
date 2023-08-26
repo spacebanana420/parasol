@@ -21,7 +21,9 @@ public class main {
                     if (numberops.isanumber(answer) == true) {
                         browser.openentry(Integer.parseInt(answer), paths);
                     }
-                    else {commands.commandbase(answer, paths);}
+                    else if (answer != "") {
+                        commands.commandbase(answer, paths);
+                    }
             }
         }
     }
