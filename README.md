@@ -13,6 +13,8 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 * Java (recommended version 8 or above)
   * You can get Java by downloading JRE, JDK or OpenJDK. I recommend OpenJDK since it's free and open source.
 
+ Alternatively, you can also run Parasol with Scala, Kotlin and other JVM languages
+
 ### Officially tested systems:
 * Linux (distro-agnostic)
 
