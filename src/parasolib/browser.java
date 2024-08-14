@@ -27,17 +27,29 @@ public class browser {
     for (int i = 0; i < paths.length; i++) {
       File f = new File(parent + "/" + paths[i]);
       String num = addNumberStr(i+baseI);
-      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory())) {s = s + num + paths[i] + "\n";}
+      if
+      (
+        ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory()))
+        && (globalvariables.SHOW_HIDDEN_FILES || !f.isHidden())
+      ) {
+        s = s + num + paths[i] + "\n";
+      }
     }
     return s + "\n";
   }
 
-  public static void runBrowser(String parent) {
+  private static String[][] getPaths(String parent) {
     String[] paths = new File(parent).list();
-    if (paths == null) {paths = new String[]{};}
-    String[][] filteredPaths = filterPaths(parent, paths);
-    String dir_txt = formString(parent, filteredPaths[0], false, 2);
-    String file_txt = formString(parent, filteredPaths[1], true, 2+filteredPaths[0].length);
+    if (paths == null || paths.length == 0) {
+      return new String[][]{};
+    }
+    return filterPaths(parent, paths);
+  }
+
+  public static void runBrowser(String parent) {
+    String[][] subpaths = getPaths(parent);
+    String dir_txt = formString(parent, subpaths[0], false, 2);
+    String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
 
     base.clear();
     String screen = parent + "\n\n" + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt;
@@ -52,31 +64,22 @@ public class browser {
     }
 
     if (!numops.isUint(answer)) {
-      runner.runCommand(answer); runBrowser(parent); return;
+      commands.runCommand(answer); runBrowser(parent); return;
     }
     int answer_i = userinput.answerToNumber(answer)-2;
 
-    if (answer_i >= filteredPaths[0].length && answer_i - filteredPaths[0].length < filteredPaths[1].length) {
-      runner.openFile(parent, filteredPaths[1][answer_i-filteredPaths[0].length]);
+    if (answer_i >= subpaths[0].length && answer_i - subpaths[0].length < subpaths[1].length) {
+      runner.openFile(parent, subpaths[1][answer_i-subpaths[0].length]);
       runBrowser(parent);
     }
-    else if (answer_i < filteredPaths[0].length) {
-      runBrowser(parent + System.getProperty("file.separator") + filteredPaths[0][answer_i]);
+    else if (answer_i < subpaths[0].length) {
+      runBrowser(parent + System.getProperty("file.separator") + subpaths[0][answer_i]);
     }
     else {runBrowser(parent);}
   }
 }
 
 class runner { //finish
-  public static void runCommand(String cmd_str) { //parasol commands, not system processes
-    switch (cmd_str.trim()) {
-      case "help":
-        break;
-      case "archive":
-        break;
-    }
-  }
-
   public static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
     String[] cmd = getRunnerCMD(full_path);
