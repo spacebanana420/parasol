@@ -16,8 +16,10 @@ public class browser {
 
     for (int i = 0; i < paths.length; i++) {
       File f = new File(parent + "/" + paths[i]);
-      if (f.isFile()) {files.add(paths[i]);}
-      else if (f.isDirectory()) {dirs.add(paths[i]);}
+      if (globalvariables.SHOW_HIDDEN_FILES || !f.isHidden()) {
+        if (f.isFile()) {files.add(paths[i]);}
+        else if (f.isDirectory()) {dirs.add(paths[i]);}
+      }
     }
     return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
@@ -27,11 +29,7 @@ public class browser {
     for (int i = 0; i < paths.length; i++) {
       File f = new File(parent + "/" + paths[i]);
       String num = addNumberStr(i+baseI);
-      if
-      (
-        ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory()))
-        && (globalvariables.SHOW_HIDDEN_FILES || !f.isHidden())
-      ) {
+      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory())) {
         s = s + num + paths[i] + "\n";
       }
     }
@@ -43,7 +41,10 @@ public class browser {
     if (paths == null || paths.length == 0) {
       return new String[][]{};
     }
-    return filterPaths(parent, paths);
+    String[][] result = filterPaths(parent, paths);
+    misc.selectionSort(result[0]);
+    misc.selectionSort(result[1]);
+    return result;
   }
 
   public static void runBrowser(String parent) {
