@@ -7,3 +7,7 @@ build
 parasolib_old
 # Ignore Gradle project-specific cache directory
 .gradle
+.scala-cli
+.scala-build
+.bsp
+.metals

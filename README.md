@@ -1,7 +1,7 @@
 # Parasol
 Parasol is a cross-platform terminal-based (TUI) file explorer. Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
-This project was also a headstart to learn Java and Go, so while it's now developed in Java, the legacy Go code is kept in the "old" folder.
+This project was also a headstart to learn Java and Go, so while it's now developed in Java, the legacy Go code is kept in the "old" directory.
 
 More features will come in future versions.
 
@@ -11,20 +11,21 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 
 ### Requirements
 * Java 11 or newer
+* xdg-utils (for Unix-like systems only)
 
 ### Officially tested systems:
 * Linux-based
 * FreeBSD
 
-### Systems that probably work:
+### Systems that should work:
 * Windows
 * Other BSD systems (OpenBSD, etc)
 * MacOS
 * Systems that use the xdg desktop standard
 
 
-## List of current commands
-* help - opens this menu
+## List of Parasol commands
+* help - opens the help screen
 * size [number] - gets the size of the file which is assigned to [number]
 * find [name] - finds entries that contain [name] in their name
 * exec [number] - executes the file which is assigned to [number]
@@ -48,6 +49,3 @@ jar cfve parasol.jar main *.class */*.class
 Parasol is now compiled and packaged into parasol.jar
 
 Remember to delete the .class files
-
-
-If you are curious about the code written in Go, that's the old version of Parasol before I rewrote it in Java. The code is located in the directory "old", as well as its respective build script.
