@@ -2,6 +2,7 @@ package parasolib;
 
 import bananatui.*;
 import java.io.File;
+import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class browser {
@@ -90,7 +91,12 @@ class runner { //finish
   }
 
   private static void execute(String[] command) {
-    try {new ProcessBuilder(command).inheritIO().start();}
+    try {
+      ProcessBuilder pbuilder = new ProcessBuilder(command);
+      pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later
+      pbuilder.redirectError(Redirect.DISCARD);
+      pbuilder.start();
+    }
     catch(Exception e) {e.printStackTrace();}
   }
 }

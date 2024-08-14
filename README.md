@@ -1,26 +1,24 @@
 # Parasol
-Parasol is a cross-platform TUI File designed to be minimal. Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
+Parasol is a cross-platform terminal-based (TUI) file explorer. Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
 This project was also a headstart to learn Java and Go, so while it's now developed in Java, the legacy Go code is kept in the "old" folder.
 
-More features will come in future versions
+More features will come in future versions.
 
 ## Download
 
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
 ### Requirements
-* Java (recommended version 8 or above)
-  * You can get Java by downloading JRE, JDK or OpenJDK. I recommend OpenJDK since it's free and open source.
-
- Alternatively, you can also run Parasol with Scala, Kotlin and other JVM languages
+* Java 9 or newer
 
 ### Officially tested systems:
-* Linux (distro-agnostic)
+* Linux-based
+* FreeBSD
 
 ### Systems that probably work:
 * Windows
-* BSD systems (FreeBSD, OpenBSD, etc)
+* Other BSD systems (OpenBSD, etc)
 * MacOS
 * Systems that use the xdg desktop standard
 
@@ -38,7 +36,7 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 
 
 ## How to build
-* Install JDK or OpenJDK (recommended version 8 or above, older versions should work but are untested)
+* Install JDK or OpenJDK (recommended version 9 or above)
 * Open a terminal in the root of the project
 * Type the commands (not tested on cmd or powershell):
 ```
