@@ -1,4 +1,5 @@
 function cleanup () {
+    
     rm *.class
     for i in *
     do
@@ -10,7 +11,9 @@ function cleanup () {
         fi
     done
 }
-
-javac main.java
-jar cfve parasol.jar main *.class */*.class
+echo Building JAR
+javac src/*.java src/*/*.java
+cd src
+jar cfe ../build/parasol.jar main *.class */*.class
 cleanup
+cd ..

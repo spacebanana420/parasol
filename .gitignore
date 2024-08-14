@@ -1,0 +1,9 @@
+build
+.vscode
+.idea
+*.jar
+*.zip
+*.7z
+parasolib_old
+# Ignore Gradle project-specific cache directory
+.gradle
