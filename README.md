@@ -10,7 +10,7 @@ More features will come in future versions.
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
 ### Requirements
-* Java 9 or newer
+* Java 11 or newer
 
 ### Officially tested systems:
 * Linux-based
@@ -36,7 +36,7 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 
 
 ## How to build
-* Install JDK or OpenJDK (recommended version 9 or above)
+* Install JDK or OpenJDK (recommended version 11 or above)
 * Open a terminal in the root of the project
 * Type the commands (not tested on cmd or powershell):
 ```

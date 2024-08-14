@@ -12,7 +12,7 @@ function cleanup () {
     done
 }
 echo Building JAR
-javac src/*.java src/*/*.java
+javac src/*.java src/*/*.java --release 11
 cd src
 jar cfe ../build/parasol.jar main *.class */*.class
 cleanup
