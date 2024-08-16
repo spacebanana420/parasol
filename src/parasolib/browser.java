@@ -47,6 +47,18 @@ public class browser {
     return result;
   }
 
+  //ill also use this in command functions
+  public static boolean indexLeadsToFile(int i, String[][] paths) {
+    return i >= paths[0].length && i - paths[0].length < paths[1].length;
+  }
+  public static boolean indexLeadsToDir(int i, String[][] paths) {
+    return i < paths[0].length;
+  }
+  public static int answerToIndex(String a) {return userinput.answerToNumber(a)-2;}
+
+  public static String returnDir(int i, String[][] paths) {return paths[0][i];}
+  public static String returnFile(int i, String[][] paths) {return paths[1][i-paths[0].length];}
+
   public static void runBrowser(String parent) {
     String[][] subpaths = getPaths(parent);
     String dir_txt = formString(parent, subpaths[0], false, 2);
@@ -65,16 +77,18 @@ public class browser {
     }
 
     if (!numops.isUint(answer)) {
-      commands.runCommand(answer); runBrowser(parent); return;
+      boolean result = commands.runCommand(answer, parent, subpaths);
+      if (result) {runBrowser(parent);}
+      return;
     }
-    int answer_i = userinput.answerToNumber(answer)-2;
+    int answer_i = answerToIndex(answer);
 
-    if (answer_i >= subpaths[0].length && answer_i - subpaths[0].length < subpaths[1].length) {
-      runner.openFile(parent, subpaths[1][answer_i-subpaths[0].length]);
+    if (indexLeadsToFile(answer_i, subpaths)) {
+      runner.openFile(parent, returnFile(answer_i, subpaths));
       runBrowser(parent);
     }
-    else if (answer_i < subpaths[0].length) {
-      runBrowser(parent + System.getProperty("file.separator") + subpaths[0][answer_i]);
+    else if (indexLeadsToDir(answer_i, subpaths)) {
+      runBrowser(parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths));
     }
     else {runBrowser(parent);}
   }
@@ -94,7 +108,7 @@ class runner { //finish
     else {return new String[]{"xdg-open", path};}
   }
 
-  private static void execute(String[] command) {
+  public static void execute(String[] command) {
     try {
       ProcessBuilder pbuilder = new ProcessBuilder(command);
       pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later

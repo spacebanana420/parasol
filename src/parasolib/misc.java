@@ -1,5 +1,7 @@
 package parasolib;
 
+import java.util.ArrayList;
+
 public class misc {
   public static void selectionSort(String[] s) {
     String temp = "";
@@ -18,5 +20,36 @@ public class misc {
       if (s[c].compareTo(s[biggest_i]) < 0) {biggest_i = c;}
     }
     return biggest_i;
+  }
+
+  public static String[] groupStrings(String s) {
+    ArrayList<String> group = new ArrayList<String>();
+    String buffer = "";
+    boolean ignore = false;
+    for (int i = 0; i < s.length(); i++) {
+      if (s.charAt(i) == ' ' && !ignore) {
+       if (buffer.length() != 0) {group.add(buffer); buffer = "";}
+      }
+      else if (s.charAt(i) == '"') {ignore = !ignore;}
+      else {buffer += s.charAt(i);}
+    }
+    if (buffer.length() != 0) {group.add(buffer);}
+    return group.toArray(new String[0]);
+  }
+
+  // public static boolean startsWith(String s, String keyword) {
+  //   if (s.length() < keyword.length()) {return false;}
+  //   String buf = "";
+  //   for (int i = 0; i < keyword.length(); i++) {
+  //     buf += s.charAt(i);
+  //   }
+  //   return buf.equals(keyword);
+  // }
+  public static boolean startsWith(String s, String keyword) {
+    if (s.length() < keyword.length()) {return false;}
+    for (int i = 0; i < keyword.length(); i++) {
+      if (s.charAt(i) != keyword.charAt(i)) {return false;}
+    }
+    return true;
   }
 }
