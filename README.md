@@ -9,6 +9,10 @@ More features will come in future versions.
 
 You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
 
+You can run Parasol with `java -jar parasol.jar` or, if you are on a x86_64 Linux system, you can run the binary directly with `./parasol`.
+
+For a help screen and list of commands, run Parasol with `-h` or `--help` command-line argument or type `help` while running Parasol.
+
 ### Requirements
 * Java 11 or newer
 * xdg-utils (for Unix-like systems only)
@@ -24,28 +28,13 @@ You can download the latest release of Parasol [here](https://github.com/spaceba
 * Systems that use the xdg desktop standard
 
 
-## List of Parasol commands
-* help - opens the help screen
-* size [number] - gets the size of the file which is assigned to [number]
-* find [name] - finds entries that contain [name] in their name
-* exec [number] - executes the file which is assigned to [number]
-* archive - archives all files in current directory
-     * Note: there is currently no implementation to extract the archive, this is an experimental command
-* mkdir [name] - creates a directory with name [name]
-* rename [number] [name] - renames the path of value [number] to [name]
-* goto [name] - changes location to the absolute path [name]
+## Building Parasol
+You can run the commands:
 
-
-## How to build
-* Install JDK or OpenJDK (recommended version 11 or above)
-* Open a terminal in the root of the project
-* Type the commands (not tested on cmd or powershell):
 ```
-javac main.java
-jar cfve parasol.jar main *.class */*.class
+javac src/*.java src/*/*.java --release 11
+cd src
+jar cfe ../build/parasol.jar main *.class */*.class
 ```
-* Alternatively, you can run the build script with ```bash build.sh```
 
-Parasol is now compiled and packaged into parasol.jar
-
-Remember to delete the .class files
+Alternatively, you can run the build script with ```bash build.sh```.
