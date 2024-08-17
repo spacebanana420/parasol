@@ -13,7 +13,10 @@ public class commands {
       case "help":
         displayhelp();
         break;
-      case "archive":
+      // case "archive":
+      //   break;
+      case "vertical":
+        globalvariables.DISPLAY_VERTICALLY_ONLY = !globalvariables.DISPLAY_VERTICALLY_ONLY;
         break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {

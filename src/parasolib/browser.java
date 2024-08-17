@@ -26,14 +26,36 @@ public class browser {
 
   private static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
     String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
+    int column_size = 0;
     for (int i = 0; i < paths.length; i++) {
       File f = new File(parent + "/" + paths[i]);
       String num = addNumberStr(i+baseI);
       if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory())) {
-        s = s + num + paths[i] + "\n";
+        String path_element = num + paths[i]; path_element = shortenName(path_element);
+        String separator = (column_size >= 1 || globalvariables.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
+
+        s = s + path_element + separator;
+        if (column_size < 1) {column_size += 1;} else {column_size = 0;}
       }
     }
     return s + "\n";
+  }
+
+  private static String mkEmptySpace(int len) {
+    String empty_space = "";
+    for (int i = 0; i < 65-len; i++) {
+      empty_space += " ";
+    }
+    return empty_space;
+  }
+
+  private static String shortenName(String name) {
+    if (name.length() < 55) {return name;}
+    String buf = "";
+    for (int i = 0; i < 54; i++) {
+      buf += name.charAt(i);
+    }
+    return buf + "[...]";
   }
 
   private static String[][] getPaths(String parent) {
@@ -58,6 +80,7 @@ public class browser {
 
   public static String returnDir(int i, String[][] paths) {return paths[0][i];}
   public static String returnFile(int i, String[][] paths) {return paths[1][i-paths[0].length];}
+
 
   public static void runBrowser(String parent) {
     String[][] subpaths = getPaths(parent);
