@@ -50,9 +50,10 @@ public class browser {
   }
 
   private static String shortenName(String name) {
-    if (name.length() < 55) {return name;}
+    int max_length = (globalvariables.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
+    if (name.length() < max_length) {return name;}
     String buf = "";
-    for (int i = 0; i < 54; i++) {
+    for (int i = 0; i < max_length-1; i++) {
       buf += name.charAt(i);
     }
     return buf + "[...]";
