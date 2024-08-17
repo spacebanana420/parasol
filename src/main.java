@@ -7,7 +7,7 @@ import bananatui.extra;
 public class main {
   public static void main(String[] args) {
     if (System.getProperty("os.name").contains("Windows")) {extra.windows_enableASCII();}
-    if (checkForHelp(args)) {return;}
+    if (checkForHelp(args) || checkForVersion(args)) {return;}
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
 
@@ -16,9 +16,19 @@ public class main {
 
   private static boolean displayVertically(String[] args) {
     for (String a : args) {
-      if (a.equals("-v") || a.equals("--vertical")) {return true;} 
+      if (a.equals("-V") || a.equals("--vertical")) {return true;} 
     }
     return false; 
+  }
+
+  private static boolean checkForVersion(String[] args) {
+    for (String a : args) {
+      if (a.equals("-v") || a.equals("--version")) {
+        base.println("Parasol version " + globalvariables.PARASOL_VERSION);
+        return true;
+      } 
+    }
+    return false;
   }
 
   private static boolean checkForHelp(String[] args) {

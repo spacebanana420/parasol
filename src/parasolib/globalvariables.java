@@ -5,6 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
+  public static String PARASOL_VERSION = "0.2"; 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -22,7 +23,8 @@ public class globalvariables {
     + green+"CLI arguments:\n"+default_color
     + "   -h (--help) - opens this menu\n"
     + "   -H (--hidden) - shows hidden paths\n"
-    + "   -v (--vertical) - displays all paths vertically\n\n"
+    + "   -v (--version) - shows Parasol's version\n"
+    + "   -V (--vertical) - displays all paths vertically\n\n"
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"
     + "   * size [number] - gets the size of the file which is assigned to [number]\n"
