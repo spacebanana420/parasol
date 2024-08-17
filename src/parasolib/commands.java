@@ -106,18 +106,21 @@ public class commands {
     float roundedsize = size_bytes;
     String unit = "bytes";
     if (size_bytes > 1000000000) {
-      roundedsize = size_bytes / 1000000000;
+      roundedsize = size_bytes / 1000000000f;
       unit = "GB";
     }
     else if (size_bytes > 1000000) {
-      roundedsize = size_bytes / 1000000;
+      roundedsize = size_bytes / 1000000f;
       unit = "MB";
     }
     else if (size_bytes > 1000) {
-      roundedsize = size_bytes / 1000;
+      roundedsize = size_bytes / 1000f;
       unit = "KB";
     }
-    userinput.pressToContinue("Size of " + path + ":\n" + roundedsize + " " + unit);
+    userinput.pressToContinue(
+      "Size of " + base.foreground("green") + path + base.foreground("default")
+      + ":\n" + roundedsize + " " + unit
+      );
   }
 
   private static void displayhelp() {

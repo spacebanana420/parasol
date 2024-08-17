@@ -1,9 +1,8 @@
 # Parasol
-Parasol is a cross-platform terminal-based (TUI) file explorer. Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
+Parasol is a simple and cross-platform terminal-based (TUI) file explorer.
 
-This project was also a headstart to learn Java and Go, so while it's now developed in Java, the legacy Go code is kept in the "old" directory.
+Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
-More features will come in future versions.
 
 ## Download
 
