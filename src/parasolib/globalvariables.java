@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = "0.2"; 
+  public static String PARASOL_VERSION = "0.3"; 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -28,6 +28,7 @@ public class globalvariables {
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"
     + "   * size [number] - gets the size of the file which is assigned to [number]\n"
+    + "   * size-tree - Sorts the files of the current directory by size, from biggest to smallest\n"
     + "   * exec [number] - executes the file which is assigned to [number]\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * rename [number] [name] - renames the path of value [number] to [name]\n"

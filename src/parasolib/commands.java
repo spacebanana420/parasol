@@ -18,13 +18,16 @@ public class commands {
       case "vertical":
         globalvariables.DISPLAY_VERTICALLY_ONLY = !globalvariables.DISPLAY_VERTICALLY_ONLY;
         break;
+      case "size-tree":
+        sortFilesBySize(parent, paths[1]);
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
           if (args.length >= 2 && numops.isUint(args[1])) {
             int i = browser.answerToIndex(args[1]);
             if (browser.indexLeadsToFile(i, paths)) {
-              getsize(parent + "/" + browser.returnFile(i, paths));
+              printSize(parent + "/" + browser.returnFile(i, paths));
             }
           }
         }
@@ -95,37 +98,95 @@ public class commands {
     return true;
   }
 
-  private static void getsize(String path) {
+  private static void printSize(String path) {
     File pathfile = new File(path);
     if (!pathfile.isFile() || !pathfile.canRead()) {
       userinput.pressToContinue("The file " + path + " does not exist, isn't a file or cannot be read!");
       return;
     }
-
-    long size_bytes = pathfile.length();
-    float roundedsize = size_bytes;
-    String unit = "bytes";
-    if (size_bytes > 1000000000) {
-      roundedsize = size_bytes / 1000000000f;
-      unit = "GB";
-    }
-    else if (size_bytes > 1000000) {
-      roundedsize = size_bytes / 1000000f;
-      unit = "MB";
-    }
-    else if (size_bytes > 1000) {
-      roundedsize = size_bytes / 1000f;
-      unit = "KB";
-    }
+    String roundedsize = roundSize(getFileSize(path));
     userinput.pressToContinue(
       "Size of " + base.foreground("green") + path + base.foreground("default")
-      + ":\n" + roundedsize + " " + unit
-      );
+      + ":\n" + roundedsize);
   }
+
+  private static String roundSize(long size) {
+    float roundedsize = size;
+    String unit = "bytes";
+    if (size > 1000000000) {
+      roundedsize = size / 1000000000f;
+      unit = "GB";
+    }
+    else if (size > 1000000) {
+      roundedsize = size / 1000000f;
+      unit = "MB";
+    }
+    else if (size > 1000) {
+      roundedsize = size / 1000f;
+      unit = "KB";
+    }
+    return roundedsize + " " + unit;
+  }
+
+  private static long getFileSize(String path) {return new File(path).length();}
 
   private static void displayhelp() {
     base.clear();
     String help = globalvariables.getHelpMessage();
     userinput.pressToContinue(help);
+  }
+
+  private static void sortFilesBySize(String parent, String[] files) {
+    if (files.length == 0) {userinput.pressToContinue("There are no files in this directory!"); return;}
+    long[] fileSizes = new long[files.length];
+    String[] files_with_size = new String[files.length];
+
+    for (int i = 0; i < files.length; i++) {
+      fileSizes[i] = getFileSize(parent + "/" + files[i]);
+      files_with_size[i] =
+        files[i] + "  "
+        + base.foreground("green")
+        + roundSize(fileSizes[i])
+        + base.foreground("default");
+    }
+    sortSizes(files_with_size, fileSizes);
+    String screen =
+      "Sorting files by size:\n\n" + formSizeTreeString(parent, files_with_size);
+    
+    base.clear();
+    userinput.pressToContinue(screen);
+  }
+
+  public static void sortSizes(String[] files, long[] sizes) {
+    String temp = "";
+    long templ = 0;
+    for (int i = 0; i < files.length; i++) {
+      int biggest = findBiggestFile(sizes, i);
+      if (i != biggest) {
+        temp = files[i];
+        files[i] = files[biggest];
+        files[biggest] = temp;
+
+        templ = sizes[i];
+        sizes[i] = sizes[biggest];
+        sizes[biggest] = templ;
+      }
+    }
+  }
+  private static int findBiggestFile(long[] sizes, int i) {
+    int biggest_i = i;
+    for (int c = i; c < sizes.length; c++) {
+      if (sizes[c] > sizes[biggest_i]) {biggest_i = c;}
+    }
+    return biggest_i;
+  }
+
+  public static String formSizeTreeString(String parent, String[] paths) {
+    String s = "===Files===\n";
+    for (int i = 0; i < paths.length; i++) {
+      String num = base.foreground("green") + (i+1) + ": " + base.foreground("default");
+      s = s + num + paths[i] + "\n";
+    }
+    return s;
   }
 }

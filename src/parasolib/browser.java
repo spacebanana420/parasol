@@ -24,7 +24,7 @@ public class browser {
     return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
 
-  private static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
+  public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
     String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
     int column_size = 0;
     for (int i = 0; i < paths.length; i++) {
@@ -41,7 +41,7 @@ public class browser {
     return s + "\n";
   }
 
-  private static String mkEmptySpace(int len) {
+  public static String mkEmptySpace(int len) {
     String empty_space = "";
     for (int i = 0; i < 65-len; i++) {
       empty_space += " ";
@@ -59,7 +59,7 @@ public class browser {
     return buf + "[...]";
   }
 
-  private static String[][] getPaths(String parent) {
+  public static String[][] getPaths(String parent) {
     String[] paths = new File(parent).list();
     if (paths == null || paths.length == 0) {
       return new String[][]{};
@@ -118,7 +118,7 @@ public class browser {
   }
 }
 
-class runner { //finish
+class runner {
   public static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
     String[] cmd = getRunnerCMD(full_path);
