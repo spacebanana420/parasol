@@ -13,6 +13,9 @@ public class commands {
       case "help":
         displayhelp();
         break;
+      case "version":
+        userinput.pressToContinue("Parasol version " + globalvariables.PARASOL_VERSION);
+      break;
       // case "archive":
       //   break;
       case "vertical":
