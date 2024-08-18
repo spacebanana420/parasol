@@ -27,49 +27,62 @@ public class commands {
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 2 && numops.isUint(args[1])) {
-            int i = browser.answerToIndex(args[1]);
-            if (browser.indexLeadsToFile(i, paths)) {
-              printSize(parent + "/" + browser.returnFile(i, paths));
-            }
+          if (args.length < 2 || !numops.isUint(args[1])) {return true;}
+
+          int i = browser.answerToIndex(args[1]);
+          if (browser.indexLeadsToFile(i, paths)) {
+            printSize(parent + "/" + browser.returnFile(i, paths));
           }
         }
         else if (misc.startsWith(cmd_str, "mkdir ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 2) {
-            String mkdir_path = parent + "/" + args[1];
-            new File(mkdir_path).mkdir();
-            userinput.pressToContinue("Created directory at " + mkdir_path);
+          if (args.length < 2) { return true;}
+
+          String mkdir_path = parent + "/" + args[1];
+          new File(mkdir_path).mkdir();
+          userinput.pressToContinue("Created directory at " + mkdir_path);
+        }
+        else if (misc.startsWith(cmd_str, "move ")) {
+          String args[] = misc.groupStrings(cmd_str);
+          if (args.length < 3) {return true;}
+          int file_i = browser.answerToIndex(args[1]);
+          int dir_i = browser.answerToIndex(args[2]);
+          if (!browser.indexLeadsToFile(file_i, paths) || (!browser.indexLeadsToDir(dir_i, paths) && args[2] != "1")) {return true;}
+          String file_name = browser.returnFile(file_i, paths);
+          String dir_name = browser.returnDir(dir_i, paths);
+          if (args[3] == "1") {
+            dir_name = new File(parent).getParent();
+            new File(parent + "/" + file_name).renameTo(new File(dir_name + "/" + file_name));
           }
+          else {
+            new File(parent + "/" + file_name).renameTo(new File(parent + "/" + dir_name + "/" + file_name));
+          }
+          userinput.pressToContinue(file_name + " has been moved to " + dir_name);
         }
         else if (misc.startsWith(cmd_str, "rename ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 3) { //incomplete
-            int i = browser.answerToIndex(args[1]);
-            String new_name = parent + "/" + args[2];
-            String old_name = "";
-            if (browser.indexLeadsToDir(i, paths)) {old_name = browser.returnDir(i, paths);}
-            else if (browser.indexLeadsToFile(i, paths)) {old_name = browser.returnFile(i, paths);}
+          if (args.length < 3) {return true;} //incomplete
+          int i = browser.answerToIndex(args[1]);
+          String new_name = parent + "/" + args[2];
+          String old_name = "";
+          if (browser.indexLeadsToDir(i, paths)) {old_name = browser.returnDir(i, paths);}
+          else if (browser.indexLeadsToFile(i, paths)) {old_name = browser.returnFile(i, paths);}
 
-            if (old_name != "") {
-              String full_path = parent + "/" + old_name;
-              new File(full_path).renameTo(new File(new_name));
-            }
-            else {return true;}
-            userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
-          }
+          if (old_name == "") {return true;}
+          String full_path = parent + "/" + old_name;
+          new File(full_path).renameTo(new File(new_name));
+          userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
         }
         else if (misc.startsWith(cmd_str, "exec ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 2) {
-            int i = browser.answerToIndex(args[1]);
-            String file_path =
-              (browser.indexLeadsToFile(i, paths)) ? parent + "/" + browser.returnFile(i, paths) : "";
-            if (file_path != "" && new File(file_path).canExecute()) {
-              runner.execute(new String[]{file_path});
-            }
-            else {userinput.pressToContinue("The file does not exist or is not executable!");}
+          if (args.length < 2) {return true;}
+          int i = browser.answerToIndex(args[1]);
+          String file_path =
+            (browser.indexLeadsToFile(i, paths)) ? parent + "/" + browser.returnFile(i, paths) : "";
+          if (file_path != "" && new File(file_path).canExecute()) {
+            runner.execute(new String[]{file_path});
           }
+          else {userinput.pressToContinue("The file does not exist or is not executable!");}
         }
         else if (misc.startsWith(cmd_str, "goto ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -87,7 +100,7 @@ public class commands {
               int i = browser.answerToIndex(args[1]);
               String file = browser.returnFile(i, paths);
               if (userinput.askPrompt("The file " + file + " will be deleted, this is not reversible. Proceed?", false)) {
-                try{
+                try {
                   Files.delete(Path.of(file));
                   userinput.pressToContinue("The file " + file + "has been deleted!");
                 }
@@ -109,8 +122,8 @@ public class commands {
     }
     String roundedsize = roundSize(getFileSize(path));
     userinput.pressToContinue(
-      "Size of " + base.foreground("green") + path + base.foreground("default")
-      + ":\n" + roundedsize);
+      "Size of " + path 
+      + ":\n" + base.foreground("green") + roundedsize + base.foreground("default"));
   }
 
   private static String roundSize(long size) {

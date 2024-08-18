@@ -75,7 +75,7 @@ public class browser {
     return i >= paths[0].length && i - paths[0].length < paths[1].length;
   }
   public static boolean indexLeadsToDir(int i, String[][] paths) {
-    return i < paths[0].length;
+    return i < paths[0].length && i >= 0;
   }
   public static int answerToIndex(String a) {return userinput.answerToNumber(a)-2;}
 
