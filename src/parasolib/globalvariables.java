@@ -23,6 +23,7 @@ public class globalvariables {
     + green+"CLI arguments:\n"+default_color
     + "   -h (--help) - opens this menu\n"
     + "   -H (--hidden) - shows hidden paths\n"
+    + "   -home (--home) - opens Parasol on the user's home directory\n"
     + "   -v (--version) - shows Parasol's version\n"
     + "   -V (--vertical) - displays all paths vertically\n"
     + "   -s (--size) [path to file] - displays the size of a file\n\n"
@@ -37,6 +38,7 @@ public class globalvariables {
     + "   * rename [number] [name] - renames the path of value [number] to [name]\n"
     + "   * delete [number] - deletes the path of number [number]\n"
     + "   * goto [name] - changes location to the absolute path [name]\n"
+    + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n\n";
    }
 }

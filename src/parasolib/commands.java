@@ -24,6 +24,8 @@ public class commands {
       case "size-tree":
         sortFilesBySize(parent, paths[1]);
         break;
+      case "home":
+        browser.runBrowser(System.getProperty("user.home")); return false;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -91,7 +93,7 @@ public class commands {
             return false;
           }
         }
-        else if (misc.startsWith(cmd_str, "delete ")) { //unfinished
+        else if (misc.startsWith(cmd_str, "delete ")) {
           String[] args = misc.groupStrings(cmd_str);
           if (args.length < 2) {return true;}
 

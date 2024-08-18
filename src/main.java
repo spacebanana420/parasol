@@ -58,9 +58,10 @@ public class main {
   private static String getPath(String[] args) {
     String absoluteParent = new File("").getAbsolutePath();
     for (int i = 0; i < args.length; i++) {
-      if (new File(args[i]).isDirectory()) {
-        return new File(args[i]).getAbsolutePath();
+      if (args[i].equals("-home") || args[i].equals("--home")) {
+        return System.getProperty("user.home");
       }
+      if (new File(args[i]).isDirectory()) {return new File(args[i]).getAbsolutePath();}
       if (args[i].equals("")) {return absoluteParent;}
     }
     return absoluteParent;
