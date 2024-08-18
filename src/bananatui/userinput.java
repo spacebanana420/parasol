@@ -17,7 +17,7 @@ public class userinput {
     String yellow = base.foreground("yellow"); String deflt = base.foreground("default");
     String prompt = (clear) ? "\u001B[3J\u001B[1J\u001B[H" + ui + yellow + "(y/n)" + deflt: ui + yellow + "(y/n)" + deflt;
     String answer = spawnAndRead(prompt).toLowerCase();
-    return answer == "yes" || answer == "y";
+    return answer.equals("yes") || answer.equals("y");
   }
 
   public static int answerToNumber(String str) {
@@ -63,7 +63,7 @@ public class userinput {
 
   private static int findStringMatch(String[] opts, String key, int i) {
     if (i >= opts.length) {return -1;}
-    if (opts[i] == key) {return i;}
+    if (opts[i].equals(key)) {return i;}
     return findStringMatch(opts, key, i+1);
   }
 
@@ -112,7 +112,7 @@ public class userinput {
 
   public static String chooseOption_dir(String txt) {
     String answer = spawnAndRead(txt);
-    if (answer == "")  {return ".";}
+    if (answer.equals(""))  {return ".";}
     if (new File(answer).isDirectory()) {return answer;}
     pressToContinue("That is not a real directory in your system!");
     return chooseOption_dir(txt);

@@ -91,23 +91,23 @@ public class commands {
             return false;
           }
         }
-        else if (misc.startsWith(cmd_str, "delete ")) {
+        else if (misc.startsWith(cmd_str, "delete ")) { //unfinished
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 2 && new File(args[1]).isFile()) {
-            if (new File(args[1]).canWrite()
-            && numops.isUint(args[1])
-            && browser.indexLeadsToFile(browser.answerToIndex(args[1]), paths)) {
-              int i = browser.answerToIndex(args[1]);
-              String file = browser.returnFile(i, paths);
-              if (userinput.askPrompt("The file " + file + " will be deleted, this is not reversible. Proceed?", false)) {
-                try {
-                  Files.delete(Path.of(file));
-                  userinput.pressToContinue("The file " + file + "has been deleted!");
-                }
-                catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}                
-              }
-            }
+          if (args.length < 2) {return true;}
+
+          int file_index = browser.answerToIndex(args[1]);
+          if (!browser.indexLeadsToFile(file_index, paths)) {return true;}
+          String file_name = browser.returnFile(file_index, paths);
+          if (new File(parent + "/" + file_name).canWrite() == false) {
+            userinput.pressToContinue("The file cannot be deleted, it lacks write permissions!");
+            return true;
           }
+          if (!userinput.askPrompt("The file " + file_name + " will be deleted, this is not reversible. Proceed?", false)) {return true;}
+          try {
+            Files.delete(Path.of(parent + "/" + file_name));
+            userinput.pressToContinue("The file " + file_name + " has been deleted!");
+          }
+          catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}                
         }
         break;
     }

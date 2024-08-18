@@ -11,7 +11,7 @@ public class base {
   public static void restoreScreen() {print("\u001B[?47l");}
 
   public static void moveCursor(String mode, int lines) {
-    if (mode == "up") {print("\u001B[" + lines + "A");}
+    if (mode.equals("up")) {print("\u001B[" + lines + "A");}
     else {print("\u001B[" + lines + "B");}
   }
 
