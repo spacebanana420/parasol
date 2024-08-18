@@ -114,7 +114,7 @@ public class commands {
     return true;
   }
 
-  private static void printSize(String path) {
+  public static void printSize(String path) {
     File pathfile = new File(path);
     if (!pathfile.isFile() || !pathfile.canRead()) {
       userinput.pressToContinue("The file " + path + " does not exist, isn't a file or cannot be read!");

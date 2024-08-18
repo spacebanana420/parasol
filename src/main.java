@@ -7,7 +7,7 @@ import bananatui.extra;
 public class main {
   public static void main(String[] args) {
     if (System.getProperty("os.name").contains("Windows")) {extra.windows_enableASCII();}
-    if (checkForHelp(args) || checkForVersion(args)) {return;}
+    if (checkForHelp(args) || checkForVersion(args) || checkForSize(args)) {return;}
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
 
@@ -19,6 +19,19 @@ public class main {
       if (a.equals("-V") || a.equals("--vertical")) {return true;} 
     }
     return false; 
+  }
+
+  private static boolean checkForSize(String[] args) {
+    for (int i = 0; i < args.length; i++) {
+      if (
+        (args[i].equals("-s") || args[i].equals("--size"))
+        && i < args.length-1
+        && new File(args[i+1]).isFile() && new File(args[i+1]).canRead() 
+      ) {
+        commands.printSize(args[i+1]); return true;
+      }
+    }
+    return false;
   }
 
   private static boolean checkForVersion(String[] args) {

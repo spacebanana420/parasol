@@ -24,7 +24,8 @@ public class globalvariables {
     + "   -h (--help) - opens this menu\n"
     + "   -H (--hidden) - shows hidden paths\n"
     + "   -v (--version) - shows Parasol's version\n"
-    + "   -V (--vertical) - displays all paths vertically\n\n"
+    + "   -V (--vertical) - displays all paths vertically\n"
+    + "   -s (--size) [path to file] - displays the size of a file\n\n"
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"
     + "   * version - displays Parasol's version\n"
