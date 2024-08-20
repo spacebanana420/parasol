@@ -1,6 +1,7 @@
 package parasolib;
 
 import java.util.ArrayList;
+import java.io.File;
 
 public class misc {
   public static void selectionSort(String[] s) {
@@ -51,5 +52,15 @@ public class misc {
       if (s.charAt(i) != keyword.charAt(i)) {return false;}
     }
     return true;
+  }
+
+  public static String generateFileName(String path, String name) {
+    if (!new File(path + "/" + name).isFile()) {return path + "/" + name;}
+    int i = 0;
+    while (true) {
+      String full_path = path + "/" + i + "_" + name;
+      if (!new File(full_path).isFile()) {return full_path;}
+      i+=1;
+    }
   }
 }

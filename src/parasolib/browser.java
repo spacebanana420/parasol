@@ -142,3 +142,7 @@ class runner {
     catch(Exception e) {e.printStackTrace();}
   }
 }
+
+class browserdata {
+  public static String[] file_clipboard = new String[]{"", ""}; //path, name
+}

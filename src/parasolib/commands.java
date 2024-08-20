@@ -26,6 +26,35 @@ public class commands {
         break;
       case "home":
         browser.runBrowser(System.getProperty("user.home")); return false;
+      case "clear-clipboard":
+        browserdata.file_clipboard = new String[]{"", ""};
+        break;
+      case "view-clipboard":
+        String name = browserdata.file_clipboard[1];
+        String path = browserdata.file_clipboard[0];
+        if (name == "" || path == "") {userinput.pressToContinue("The clipboard is empty!");}
+        else {userinput.pressToContinue("Clipboard file: " + name + "\nPath: " + path);}
+        break;
+      case "paste":
+        if (browserdata.file_clipboard[0] == "") {
+          userinput.pressToContinue("The clipboard is empty!");
+          return true;
+        }
+        String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
+        Path source = Path.of(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1]);
+        Path target = Path.of(new_path);
+        userinput.pressToContinue(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1] + "\n" + new_path);
+        try {
+          Files.copy(source, target);
+          userinput.pressToContinue("File " + browserdata.file_clipboard[1] + " has been pasted!");
+        }
+        catch (IOException e) {
+          String message =
+            "An error occurred while attempting to paste the file\n"
+            + "Make sure you have read and write permissions for your source file and the current directory.";
+          userinput.pressToContinue(message);
+        }
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -60,6 +89,15 @@ public class commands {
             new File(parent + "/" + file_name).renameTo(new File(parent + "/" + dir_name + "/" + file_name));
           }
           userinput.pressToContinue(file_name + " has been moved to " + dir_name);
+        }
+        else if (misc.startsWith(cmd_str, "copy ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          int i = browser.answerToIndex(args[1]);
+          if (!browser.indexLeadsToFile(i, paths)) {return true;}
+          String file_name = browser.returnFile(i, paths);
+          String file_path = parent;
+          browserdata.file_clipboard = new String[]{file_path, file_name};
         }
         else if (misc.startsWith(cmd_str, "rename ")) {
           String[] args = misc.groupStrings(cmd_str);
