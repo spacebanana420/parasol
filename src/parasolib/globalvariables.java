@@ -33,6 +33,7 @@ public class globalvariables {
     + "   * size [number] - gets the size of the file which is assigned to [number]\n"
     + "   * size-tree - Sorts the files of the current directory by size, from biggest to smallest\n"
     + "   * exec [number] - executes the file which is assigned to [number]\n"
+    + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * move [file number] [dir number] - moves a file into a directory\n"
     + "   * copy [file number] - copies a file into Parasol's clipboard\n"
@@ -41,6 +42,8 @@ public class globalvariables {
     + "   * view-clipboard - views the file that is stored in the clipboard, if any\n"
     + "   * rename [number] [name] - renames the path of value [number] to [name]\n"
     + "   * delete [number] - deletes the path of number [number]\n"
+    + "   * create-file [name] - creates a new file\n"
+    + "\n"
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n\n";

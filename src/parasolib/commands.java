@@ -3,6 +3,7 @@ package parasolib;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
+import java.io.FileOutputStream;
 import java.nio.file.Path;
 
 import bananatui.*;
@@ -148,6 +149,16 @@ public class commands {
             userinput.pressToContinue("The file " + file_name + " has been deleted!");
           }
           catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}                
+        }
+        else if (misc.startsWith(cmd_str, "create-file ")){
+          String args[] = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          String filename = misc.generateFileName(parent, args[1]);
+          try {
+            Files.createFile(Path.of(filename));
+            userinput.pressToContinue("File " + filename + " has been created!");
+          }
+          catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
         }
         break;
     }
