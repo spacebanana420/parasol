@@ -34,6 +34,8 @@ public class globalvariables {
     + "   * size-tree - Sorts the files of the current directory by size, from biggest to smallest\n"
     + "   * exec [number] - executes the file which is assigned to [number]\n"
     + "   * find [keyword] - shows all files and directories that contain [keyword] in the name\n"
+    + "   * dirs - Displays available directories\n"
+    + "   * files - Displays available files\n"
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * move [file number] [dir number] - moves a file into a directory\n"
@@ -47,6 +49,7 @@ public class globalvariables {
     + "\n"
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
-    + "   * vertical - toggles displaying all paths vertically\n\n";
+    + "   * vertical - toggles displaying all paths vertically\n"
+    + "\n";
    }
 }

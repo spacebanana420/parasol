@@ -55,6 +55,16 @@ public class commands {
           userinput.pressToContinue(message);
         }
         break;
+      case "dirs":
+        String dirs_txt = browser.formString(parent, paths[0], false, 2);
+        base.clear();
+        userinput.pressToContinue("Displaying directories:\n\n" + dirs_txt);
+        break;
+      case "files":
+        String files_txt = browser.formString(parent, paths[1], true, 2+paths[0].length);
+        base.clear();
+        userinput.pressToContinue("Displaying files:\n\n" + files_txt);
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
