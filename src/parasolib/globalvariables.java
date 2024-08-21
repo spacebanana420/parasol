@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = "0.3"; 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.4"+base.foreground("default"); 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -16,7 +16,7 @@ public class globalvariables {
     String default_color = base.foreground("default");
     String green = base.foreground("green");
 
-    return green + "=====Parasol help menu=====" + default_color
+    return green + "====Parasol Help Menu====" + default_color
     + "\n\nWhile browsing:\n   Press 0 to close the program\n"
     + "   Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\n"
     + "General usage: parasol [directory-path] [options]\n\n"
@@ -33,6 +33,7 @@ public class globalvariables {
     + "   * size [number] - gets the size of the file which is assigned to [number]\n"
     + "   * size-tree - Sorts the files of the current directory by size, from biggest to smallest\n"
     + "   * exec [number] - executes the file which is assigned to [number]\n"
+    + "   * find [keyword] - shows all files and directories that contain [keyword] in the name\n"
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * move [file number] [dir number] - moves a file into a directory\n"

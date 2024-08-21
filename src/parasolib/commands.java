@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
 
 import bananatui.*;
 
@@ -63,6 +64,19 @@ public class commands {
           if (browser.indexLeadsToFile(i, paths)) {
             printSize(parent + "/" + browser.returnFile(i, paths));
           }
+        }
+        else if (misc.startsWith(cmd_str, "find ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          String[][] filtered_paths = filterByMatch(args[1], paths);
+          String dir_txt = formString_findCommand(filtered_paths[0], false, 2);
+          String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
+          String screen =
+            "Keyword: " + base.foreground("green") + args[1] + base.foreground("default")
+            + "\nThe following paths have been found:\n\n"
+            + dir_txt + file_txt;
+          base.clear();
+          userinput.pressToContinue(screen);
         }
         else if (misc.startsWith(cmd_str, "mkdir ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -282,5 +296,28 @@ public class commands {
       Files.delete(Path.of(path));
       return true;
     } catch(IOException e) {e.printStackTrace(); return false;}
+  }
+
+  private static String[][] filterByMatch(String keyword, String[][] paths) {
+    ArrayList<String> files = new ArrayList<String>();
+    ArrayList<String> dirs = new ArrayList<String>();
+    int i = 2;
+    for (String d : paths[0]) {
+      String num = base.foreground("green") + i + ": " + base.foreground("default");
+      if (d.contains(keyword)) {dirs.add(num+d);}
+      i+=1;
+    }
+    for (String f : paths[1]) {
+      String num = base.foreground("green") + i + ": " + base.foreground("default");
+      if (f.contains(keyword)) {files.add(num+f);}
+      i+=1;
+    }
+    return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
+  }
+
+  private static String formString_findCommand(String[] paths, boolean checkFiles, int baseI) {
+    String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
+    for (String p : paths) {s = s + p + "\n";}
+    return s + "\n";
   }
 }
