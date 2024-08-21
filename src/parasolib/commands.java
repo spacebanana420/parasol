@@ -43,7 +43,6 @@ public class commands {
         String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
         Path source = Path.of(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1]);
         Path target = Path.of(new_path);
-        userinput.pressToContinue(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1] + "\n" + new_path);
         try {
           Files.copy(source, target);
           userinput.pressToContinue("File " + browserdata.file_clipboard[1] + " has been pasted!");
@@ -136,20 +135,22 @@ public class commands {
           if (args.length < 2) {return true;}
 
           int file_index = browser.answerToIndex(args[1]);
-          if (!browser.indexLeadsToFile(file_index, paths)) {return true;}
-          String file_name = browser.returnFile(file_index, paths);
-          if (new File(parent + "/" + file_name).canWrite() == false) {
-            userinput.pressToContinue("The file cannot be deleted, it lacks write permissions!");
-            return true;
+          if (browser.indexLeadsToFile(file_index, paths)) {
+            String file_name = browser.returnFile(file_index, paths);
+            deleteFile(file_name, parent + "/" + file_name);
           }
-          if (!userinput.askPrompt("The file " + file_name + " will be deleted, this is not reversible. Proceed?", false)) {return true;}
-          try {
-            Files.delete(Path.of(parent + "/" + file_name));
-            userinput.pressToContinue("The file " + file_name + " has been deleted!");
+          else if (browser.indexLeadsToDir(file_index, paths)) {
+            String dir_name = browser.returnDir(file_index, paths);
+            String message = "You are about to delete the directory " + dir_name + " and all contents inside it. Proceed?";
+            if (userinput.askPrompt(message, false)) {
+              base.print("Deleting directory...");
+              boolean result = deleteDirectory(parent + "/" + dir_name);
+              if (result) {userinput.pressToContinue("The directory " + dir_name + " has been deleted!");}
+              else {userinput.pressToContinue("An error has occurred finishing the deletion of the directory\nMaybe you lack write permission!");}
+            }
           }
-          catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}                
         }
-        else if (misc.startsWith(cmd_str, "create-file ")){
+        else if (misc.startsWith(cmd_str, "mkfile ")){
           String args[] = misc.groupStrings(cmd_str);
           if (args.length < 2) {return true;}
           String filename = misc.generateFileName(parent, args[1]);
@@ -256,16 +257,30 @@ public class commands {
     return s;
   }
 
-  // public static void deleteDirectory(String path) {
-  //   String[] path_list = new File(path).list();
-  //   for (String p : path_list) {
-  //     File pf = new File(p);
-  //     String full_path = path + "/" + p;
-  //     if (pf.isFile()) {Files.delete(Path.of(full_path));}
-  //     else {
-  //       deleteDirectory(full_path);
-  //       Files.delete(Path.of(full_path));
-  //     }
-  //   }
-  // }
+  public static void deleteFile(String name, String full_path) {
+    if (!new File(full_path).canWrite()) {
+      userinput.pressToContinue("The file cannot be deleted, it lacks write permissions!");
+      return;
+    }
+    if (!userinput.askPrompt("The file " + name + " will be deleted, this is not reversible. Proceed?", false)) {return;}
+    try {
+      Files.delete(Path.of(full_path));
+      userinput.pressToContinue("The file " + name + " has been deleted!");
+    }
+    catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
+  }
+
+  public static boolean deleteDirectory(String path) {
+    String[] path_list = new File(path).list();
+    try {
+      for (String p : path_list) {
+        String full_path = path + "/" + p;
+        File pf = new File(full_path);
+        if (pf.isFile()) {Files.delete(Path.of(full_path));}
+        else {deleteDirectory(full_path);}
+      }
+      Files.delete(Path.of(path));
+      return true;
+    } catch(IOException e) {e.printStackTrace(); return false;}
+  }
 }
