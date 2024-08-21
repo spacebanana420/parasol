@@ -38,7 +38,10 @@ public class browser {
         if (column_size < 1) {column_size += 1;} else {column_size = 0;}
       }
     }
-    return s + "\n";
+    if (!globalvariables.DISPLAY_VERTICALLY_ONLY && column_size != 0) {
+      return s + "\n\n";
+    }
+    else {return s + "\n";}
   }
 
   public static String mkEmptySpace(int len) {

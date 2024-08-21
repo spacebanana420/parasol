@@ -3,7 +3,6 @@ package parasolib;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.io.FileOutputStream;
 import java.nio.file.Path;
 
 import bananatui.*;
@@ -256,4 +255,17 @@ public class commands {
     }
     return s;
   }
+
+  // public static void deleteDirectory(String path) {
+  //   String[] path_list = new File(path).list();
+  //   for (String p : path_list) {
+  //     File pf = new File(p);
+  //     String full_path = path + "/" + p;
+  //     if (pf.isFile()) {Files.delete(Path.of(full_path));}
+  //     else {
+  //       deleteDirectory(full_path);
+  //       Files.delete(Path.of(full_path));
+  //     }
+  //   }
+  // }
 }
