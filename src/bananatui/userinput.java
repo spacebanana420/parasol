@@ -16,7 +16,7 @@ public class userinput {
   public static boolean askPrompt(String ui, boolean clear) {
     String yellow = base.foreground("yellow"); String deflt = base.foreground("default");
     String prompt = (clear) ? "\u001B[3J\u001B[1J\u001B[H" + ui + yellow + "(y/n)" + deflt: ui + yellow + "(y/n)" + deflt;
-    String answer = spawnAndRead(prompt).toLowerCase();
+    String answer = readUserInput(prompt).toLowerCase();
     return answer.equals("yes") || answer.equals("y");
   }
 

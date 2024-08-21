@@ -141,7 +141,7 @@ public class commands {
           }
           else if (browser.indexLeadsToDir(file_index, paths)) {
             String dir_name = browser.returnDir(file_index, paths);
-            String message = "You are about to delete the directory " + dir_name + " and all contents inside it. Proceed?";
+            String message = "You are about to delete the directory " + dir_name + " and all contents inside it. Proceed? ";
             if (userinput.askPrompt(message, false)) {
               base.print("Deleting directory...");
               boolean result = deleteDirectory(parent + "/" + dir_name);
@@ -262,7 +262,7 @@ public class commands {
       userinput.pressToContinue("The file cannot be deleted, it lacks write permissions!");
       return;
     }
-    if (!userinput.askPrompt("The file " + name + " will be deleted, this is not reversible. Proceed?", false)) {return;}
+    if (!userinput.askPrompt("The file " + name + " will be deleted, this is not reversible. Proceed? ", false)) {return;}
     try {
       Files.delete(Path.of(full_path));
       userinput.pressToContinue("The file " + name + " has been deleted!");
