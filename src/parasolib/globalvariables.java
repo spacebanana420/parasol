@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.4"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.5"+base.foreground("default"); 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -38,7 +38,7 @@ public class globalvariables {
     + "   * files - Displays available files\n"
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
-    + "   * move [file number] [dir number] - moves a file into a directory\n"
+    + "   * move [file/dir number] [dir number] - moves a file or directory into a directory\n"
     + "   * copy [file number] - copies a file into Parasol's clipboard\n"
     + "   * paste - pastes the file currently in clipboard into the current directory\n"
     + "   * clear-clipboard - clears the clipboard\n"
