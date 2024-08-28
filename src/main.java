@@ -10,8 +10,9 @@ public class main {
     if (checkForHelp(args) || checkForVersion(args) || checkForSize(args)) {return;}
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
-
-    browser.runBrowser(getPath(args));
+    
+    String parent = getPath(args);
+    browser.runBrowser(parent);
   }
 
   private static boolean displayVertically(String[] args) {

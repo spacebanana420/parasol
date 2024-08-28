@@ -50,6 +50,12 @@ public class globalvariables {
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
+    + "   * tabs - displays currently saved tabs\n"
+    + "   * tab - saves the current directory\n"
+    + "   * tab [index] - changes directory to the tab's respective directory\n"
+    + "   * tab set [index] - changes the path of a tab"
+    + "   * tab remove [index] - deletes a tab\n"
+    + "   * tab clear - clears all tabs\n"
     + "\n";
    }
 }

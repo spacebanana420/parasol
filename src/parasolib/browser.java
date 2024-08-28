@@ -148,4 +148,24 @@ class runner {
 
 class browserdata {
   public static String[] file_clipboard = new String[]{"", ""}; //path, name
+  public static ArrayList<String> browser_tabs = new ArrayList<String>();
+
+  public static void addTab(String path) {browser_tabs.add(path);}
+  public static String getTab(int i) {return browser_tabs.get(i);}
+  public static void setTab(String path, int i) {browser_tabs.set(i, path);}
+  public static void removeTab(int i) {browser_tabs.remove(i);}
+  public static void clearTabs() {browser_tabs.clear();}
+  public static int tabSize() {return browser_tabs.size();}
+
+  public static String getTabList() {
+    if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
+    String txt = "Currently saved tabs:\n\n";
+    String green = base.foreground("green"); String default_color = base.foreground("default");
+    for (int i = 0; i < browser_tabs.size(); i++) {
+      String tab = browser_tabs.get(i);
+      String num = green + i + ": " + default_color;
+      txt = txt + num + tab + "\n";
+    }
+    return txt;
+  }
 }

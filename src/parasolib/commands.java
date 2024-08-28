@@ -65,6 +65,16 @@ public class commands {
         base.clear();
         userinput.pressToContinue("Displaying files:\n\n" + files_txt);
         break;
+      case "tab":
+        browserdata.addTab(parent);
+        break;
+      case "tabs":
+        String txt = browserdata.getTabList();
+        userinput.pressToContinue(txt);
+        break;
+      case "tab clear":
+        browserdata.clearTabs();
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -169,6 +179,30 @@ public class commands {
             userinput.pressToContinue("File " + filename + " has been created!");
           }
           catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
+        }
+        else if (misc.startsWith(cmd_str, "tab ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          int i = userinput.answerToNumber(args[1]);
+          if (i < 0 || i >= browserdata.tabSize()) {return true;}
+          String tab_path = browserdata.getTab(i);
+          browser.runBrowser(tab_path); return false;
+        }
+        else if (misc.startsWith(cmd_str, "tab set ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          int i = userinput.answerToNumber(args[1]);
+          if (i < 0 || i >= browserdata.tabSize()) {return true;}
+          browserdata.setTab(parent, i);
+          return true;          
+        }
+        else if (misc.startsWith(cmd_str, "tab remove ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          int i = userinput.answerToNumber(args[1]);
+          if (i < 0 || i >= browserdata.tabSize()) {return true;}
+          browserdata.removeTab(i);
+          return true;          
         }
         break;
     }
