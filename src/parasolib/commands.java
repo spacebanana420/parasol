@@ -75,6 +75,12 @@ public class commands {
       case "tab clear":
         browserdata.clearTabs();
         break;
+      case "tab set":
+        changeTab(parent);
+        break;
+      case "tab remove":
+        removeTabs();
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -188,23 +194,6 @@ public class commands {
           String tab_path = browserdata.getTab(i);
           browser.runBrowser(tab_path); return false;
         }
-        else if (misc.startsWith(cmd_str, "tab set ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
-          int i = userinput.answerToNumber(args[1]);
-          if (i < 0 || i >= browserdata.tabSize()) {return true;}
-          browserdata.setTab(parent, i);
-          return true;          
-        }
-        else if (misc.startsWith(cmd_str, "tab remove ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
-          int i = userinput.answerToNumber(args[1]);
-          if (i < 0 || i >= browserdata.tabSize()) {return true;}
-          browserdata.removeTab(i);
-          return true;          
-        }
-        break;
     }
     return true;
   }
@@ -411,5 +400,30 @@ public class commands {
     String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
     for (String p : paths) {s = s + p + "\n";}
     return s + "\n";
+  }
+
+  private static void removeTabs() {
+    String txt = browserdata.getTabList();
+    if (browserdata.tabSize() == 0) {
+      userinput.pressToContinue(txt);
+      return;
+    }
+    String answer = userinput.readUserInput(txt + "\nChoose a tab to remove");
+    int i = userinput.answerToNumber(answer);
+    if (i >= 0 && i < browserdata.tabSize()) {
+      browserdata.removeTab(i);
+    }
+  }
+  private static void changeTab(String parent) {
+    String txt = browserdata.getTabList();
+    if (browserdata.tabSize() == 0) {
+      userinput.pressToContinue(txt);
+      return;
+    }
+    String answer = userinput.readUserInput(txt + "\nChoose a tab to change its directory");
+    int i = userinput.answerToNumber(answer);
+    if (i >= 0 && i < browserdata.tabSize()) {
+      browserdata.setTab(parent, i);;
+    }
   }
 }

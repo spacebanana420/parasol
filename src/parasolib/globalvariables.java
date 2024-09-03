@@ -53,8 +53,8 @@ public class globalvariables {
     + "   * tabs - displays currently saved tabs\n"
     + "   * tab - saves the current directory\n"
     + "   * tab [index] - changes directory to the tab's respective directory\n"
-    + "   * tab set [index] - changes the path of a tab"
-    + "   * tab remove [index] - deletes a tab\n"
+    + "   * tab set - changes the path of a tab\n"
+    + "   * tab remove - deletes a tab\n"
     + "   * tab clear - clears all tabs\n"
     + "\n";
    }
