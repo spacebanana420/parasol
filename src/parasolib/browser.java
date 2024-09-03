@@ -148,6 +148,8 @@ class runner {
 
 class browserdata {
   public static String[] file_clipboard = new String[]{"", ""}; //path, name
+  public static boolean clipboard_cut = false;
+
   public static ArrayList<String> browser_tabs = new ArrayList<String>();
 
   public static void addTab(String path) {browser_tabs.add(path);}

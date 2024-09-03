@@ -45,8 +45,14 @@ public class commands {
         Path source = Path.of(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1]);
         Path target = Path.of(new_path);
         try {
-          Files.copy(source, target);
-          userinput.pressToContinue("File " + browserdata.file_clipboard[1] + " has been pasted!");
+          if (browserdata.clipboard_cut) {
+            Files.move(source, target);
+            userinput.pressToContinue("File " + browserdata.file_clipboard[1] + " has been cut!");
+          }
+          else {
+            Files.copy(source, target);
+            userinput.pressToContinue("File " + browserdata.file_clipboard[1] + " has been pasted!");
+          }
         }
         catch (IOException e) {
           String message =
@@ -118,11 +124,12 @@ public class commands {
         else if (misc.startsWith(cmd_str, "copy ")) {
           String[] args = misc.groupStrings(cmd_str);
           if (args.length < 2) {return true;}
-          int i = browser.answerToIndex(args[1]);
-          if (!browser.indexLeadsToFile(i, paths)) {return true;}
-          String file_name = browser.returnFile(i, paths);
-          String file_path = parent;
-          browserdata.file_clipboard = new String[]{file_path, file_name};
+          copyToClipboard(args, paths, parent, false);
+        }
+        else if (misc.startsWith(cmd_str, "cut ")) {
+          String[] args = misc.groupStrings(cmd_str);
+          if (args.length < 2) {return true;}
+          copyToClipboard(args, paths, parent, true);    
         }
         else if (misc.startsWith(cmd_str, "rename ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -425,5 +432,14 @@ public class commands {
     if (i >= 0 && i < browserdata.tabSize()) {
       browserdata.setTab(parent, i);;
     }
+  }
+
+  private static void copyToClipboard(String[] args, String[][] paths, String parent, boolean cut) {
+    int i = browser.answerToIndex(args[1]);
+    if (!browser.indexLeadsToFile(i, paths)) {return;}
+    String file_name = browser.returnFile(i, paths);
+    String file_path = parent;
+    browserdata.file_clipboard = new String[]{file_path, file_name};
+    browserdata.clipboard_cut = cut;
   }
 }

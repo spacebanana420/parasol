@@ -40,6 +40,7 @@ public class globalvariables {
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * move [file/dir number] [dir number] - moves a file or directory into a directory\n"
     + "   * copy [file number] - copies a file into Parasol's clipboard\n"
+    + "   * cut [file number] - cuts a file into Parasol's clipboard\n"
     + "   * paste - pastes the file currently in clipboard into the current directory\n"
     + "   * clear-clipboard - clears the clipboard\n"
     + "   * view-clipboard - views the file that is stored in the clipboard, if any\n"
