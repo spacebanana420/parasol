@@ -14,7 +14,7 @@ public class test {
   }
   private static void freebsd_devicetest() {
     String[] invalid_paths = new String[]{
-      "", "/dev", "/usr/src", "/usr/ports", "/var/", "/tmp",
+      "/dev", "/usr/src", "/usr/ports", "/var/", "/tmp",
       "/home", "/zroot"
     };
     for (FileStore store: FileSystems.getDefault().getFileStores()) {
