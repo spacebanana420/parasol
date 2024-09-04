@@ -4,7 +4,7 @@ Parasol is a simple and cross-platform terminal-based (TUI) file explorer.
 Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
 <p align="center">
-<img src="images/parasol.png" width="400"/>
+<img src="images/parasol.png" width="350"/>
 </p>
 
 
@@ -50,5 +50,5 @@ Alternatively, you can run the build script with ```bash build.sh```.
 
 
 <p align="center">
-<img src="images/boo.png" width="200"/>
+<img src="images/boo.png" width="250"/>
 </p>
