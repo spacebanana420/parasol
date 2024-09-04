@@ -21,7 +21,7 @@ public class test {
       var path = store.toString();
       if (invalidPath_softmatch(invalid_paths, path)) {continue;}
       path = sanitize_path(path);
-      println(path); println("Filesystem: " + store.type());
+      println(path); println("Filesystem: " + store.type() + "\n");
     }
   }
 
@@ -33,15 +33,15 @@ public class test {
   }
 
   private static int getFilterStart(String path) {
-    for (int i = path.length()-1; i >= 0; i--) {
-      if (path.charAt(i) == '(') {return i;}
+    for (int i = path.length()-1; i >= 0; i-=1) {
+      if (path.charAt(i) == '(') {return i-1;} //-1 because the previous character is an unwanted whitespace
     }
     return path.length();
   }
 
   private static String sanitize_path(String path) {
     String final_path = "";
-    int copy_end = getFilterStart(final_path);
+    int copy_end = getFilterStart(path);
 
     for (int i = 0; i < copy_end; i++) {
       final_path += path.charAt(i);

@@ -51,7 +51,7 @@ public class globalvariables {
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
-    + "   * devices - opens a list of disk partitions you can jump to (Linux only)\n"
+    + "   * devices - opens a list of disk partitions you can jump to (Linux and FreeBSD only)\n"
     + "\n"
     + "   * tabs - displays currently saved tabs\n"
     + "   * tab - saves the current directory\n"
