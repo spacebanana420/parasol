@@ -91,7 +91,7 @@ public class commands {
         String[] devices = platform.getSystemDisks();
         if (devices.length == 0) {break;}
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
-        if (!d.equals("")) {browser.runBrowser(d);}
+        if (!d.equals("")) {browser.runBrowser(d); return false;}
         break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
