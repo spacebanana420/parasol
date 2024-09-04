@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.5"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.6"+base.foreground("default"); 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -38,6 +38,7 @@ public class globalvariables {
     + "   * files - Displays available files\n"
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
+    + "   * mkfile [name] - creates a new file\n"
     + "   * move [file/dir number] [dir number] - moves a file or directory into a directory\n"
     + "   * copy [file number] - copies a file into Parasol's clipboard\n"
     + "   * cut [file number] - cuts a file into Parasol's clipboard\n"
@@ -46,11 +47,12 @@ public class globalvariables {
     + "   * view-clipboard - views the file that is stored in the clipboard, if any\n"
     + "   * rename [number] [name] - renames the path of value [number] to [name]\n"
     + "   * delete [number] - deletes the path of number [number]\n"
-    + "   * mkfile [name] - creates a new file\n"
     + "\n"
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
+    + "   * devices - opens a list of disk partitions you can jump to (Linux only)\n"
+    + "\n"
     + "   * tabs - displays currently saved tabs\n"
     + "   * tab - saves the current directory\n"
     + "   * tab [index] - changes directory to the tab's respective directory\n"

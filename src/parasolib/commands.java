@@ -87,6 +87,18 @@ public class commands {
       case "tab remove":
         removeTabs();
         break;
+      case "devices":
+        String[] devices = platform.getSystemDisks();
+        if (devices.length == 0) {
+          userinput.pressToContinue(
+            "Device functionality is only available for Linux-based systems!\n"
+            + "If you are on a Linux system, make sure the kernel utility \"lsblk\" is installed!"
+          );
+          break;
+        }
+        String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
+        if (!d.equals("")) {browser.runBrowser(d);}
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
