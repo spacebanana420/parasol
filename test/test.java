@@ -20,7 +20,7 @@ public class test {
     for (FileStore store: FileSystems.getDefault().getFileStores()) {
       var path = store.toString();
       if (invalidPath_softmatch(invalid_paths, path)) {continue;}
-      path = sanitize_path(null);
+      path = sanitize_path(path);
       println(path); println("Filesystem: " + store.type());
     }
   }
