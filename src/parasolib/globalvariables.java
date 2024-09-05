@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.6"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.7"+base.foreground("default"); 
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -52,6 +52,7 @@ public class globalvariables {
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
     + "   * devices - opens a list of disk partitions you can jump to (Linux and FreeBSD only)\n"
+    + "   * shell - opens an interactive shell"
     + "\n"
     + "   * tabs - displays currently saved tabs\n"
     + "   * tab - saves the current directory\n"

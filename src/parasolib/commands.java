@@ -94,6 +94,9 @@ public class commands {
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
         if (!d.equals("")) {browser.browser_directory = d; return;}
         break;
+      case "shell":
+        shell.runShell();
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
