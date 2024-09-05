@@ -85,39 +85,38 @@ public class browser {
   public static String returnDir(int i, String[][] paths) {return paths[0][i];}
   public static String returnFile(int i, String[][] paths) {return paths[1][i-paths[0].length];}
 
+  public static String browser_directory = "";
+  public static void runBrowser() {
+    while (true) {
+      String parent = browser_directory;
+      String[][] subpaths = getPaths(parent);
+      String dir_txt = formString(parent, subpaths[0], false, 2);
+      String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
 
-  public static void runBrowser(String parent) {
-    String[][] subpaths = getPaths(parent);
-    String dir_txt = formString(parent, subpaths[0], false, 2);
-    String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
+      base.clear();
+      String screen = parent + "\n\n" + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt;
+      String answer = userinput.readUserInput(screen).strip();
 
-    base.clear();
-    String screen = parent + "\n\n" + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt;
-    String answer = userinput.readUserInput(screen).strip();
+      if (answer.equals("0")) {return;}
+      if (answer.equals("1")) {
+        String newparent = new File(parent).getParent();
+        if (newparent != null) {browser_directory = newparent;}
+        continue;
+      }
 
-    if (answer.equals("0")) {return;}
-    if (answer.equals("1")) {
-      String newparent = new File(parent).getParent();
-      if (newparent != null) {runBrowser(newparent);}
-      else {runBrowser(parent);}
-      return;
+      if (!numops.isUint(answer)) {
+        commands.runCommand(answer, parent, subpaths);
+        continue;
+      }
+      int answer_i = answerToIndex(answer);
+
+      if (indexLeadsToFile(answer_i, subpaths)) {
+        runner.openFile(parent, returnFile(answer_i, subpaths));
+      }
+      else if (indexLeadsToDir(answer_i, subpaths)) {
+        browser_directory = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
+      }
     }
-
-    if (!numops.isUint(answer)) {
-      boolean result = commands.runCommand(answer, parent, subpaths);
-      if (result) {runBrowser(parent);}
-      return;
-    }
-    int answer_i = answerToIndex(answer);
-
-    if (indexLeadsToFile(answer_i, subpaths)) {
-      runner.openFile(parent, returnFile(answer_i, subpaths));
-      runBrowser(parent);
-    }
-    else if (indexLeadsToDir(answer_i, subpaths)) {
-      runBrowser(parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths));
-    }
-    else {runBrowser(parent);}
   }
 }
 

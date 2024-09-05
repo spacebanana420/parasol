@@ -11,8 +11,8 @@ public class main {
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
     
-    String parent = getPath(args);
-    browser.runBrowser(parent);
+    browser.browser_directory = getPath(args);
+    browser.runBrowser();
   }
 
   private static boolean displayVertically(String[] args) {

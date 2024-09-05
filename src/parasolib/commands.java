@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import bananatui.*;
 
 public class commands {
-  public static boolean runCommand(String cmd_str, String parent, String[][] paths) { //parasol commands, not system processes
+  public static void runCommand(String cmd_str, String parent, String[][] paths) { //parasol commands, not system processes
     switch (cmd_str) {
       case "help":
         displayhelp();
@@ -26,7 +26,8 @@ public class commands {
         sortFilesBySize(parent, paths[1]);
         break;
       case "home":
-        browser.runBrowser(System.getProperty("user.home")); return false;
+        browser.browser_directory = System.getProperty("user.home");
+        return;
       case "clear-clipboard":
         browserdata.file_clipboard = new String[]{"", ""};
         break;
@@ -39,7 +40,7 @@ public class commands {
       case "paste":
         if (browserdata.file_clipboard[0] == "") {
           userinput.pressToContinue("The clipboard is empty!");
-          return true;
+          return;
         }
         String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
         Path source = Path.of(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1]);
@@ -91,12 +92,12 @@ public class commands {
         String[] devices = platform.getSystemDisks();
         if (devices.length == 0) {break;}
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
-        if (!d.equals("")) {browser.runBrowser(d); return false;}
+        if (!d.equals("")) {browser.browser_directory = d; return;}
         break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2 || !numops.isUint(args[1])) {return true;}
+          if (args.length < 2 || !numops.isUint(args[1])) {return;}
 
           int i = browser.answerToIndex(args[1]);
           if (browser.indexLeadsToFile(i, paths)) {
@@ -108,7 +109,7 @@ public class commands {
         }
         else if (misc.startsWith(cmd_str, "find ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           String[][] filtered_paths = filterByMatch(args[1], paths);
           String dir_txt = formString_findCommand(filtered_paths[0], false, 2);
           String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
@@ -121,7 +122,7 @@ public class commands {
         }
         else if (misc.startsWith(cmd_str, "mkdir ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) { return true;}
+          if (args.length < 2) {return;}
 
           String mkdir_path = parent + "/" + args[1];
           new File(mkdir_path).mkdir();
@@ -132,31 +133,31 @@ public class commands {
         }
         else if (misc.startsWith(cmd_str, "copy ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           copyToClipboard(args, paths, parent, false);
         }
         else if (misc.startsWith(cmd_str, "cut ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           copyToClipboard(args, paths, parent, true);    
         }
         else if (misc.startsWith(cmd_str, "rename ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 3) {return true;} //incomplete
+          if (args.length < 3) {return;} //incomplete
           int i = browser.answerToIndex(args[1]);
           String new_name = parent + "/" + args[2];
           String old_name = "";
           if (browser.indexLeadsToDir(i, paths)) {old_name = browser.returnDir(i, paths);}
           else if (browser.indexLeadsToFile(i, paths)) {old_name = browser.returnFile(i, paths);}
 
-          if (old_name == "") {return true;}
+          if (old_name == "") {return;}
           String full_path = parent + "/" + old_name;
           new File(full_path).renameTo(new File(new_name));
           userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
         }
         else if (misc.startsWith(cmd_str, "exec ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           int i = browser.answerToIndex(args[1]);
           String file_path =
             (browser.indexLeadsToFile(i, paths)) ? parent + "/" + browser.returnFile(i, paths) : "";
@@ -168,13 +169,13 @@ public class commands {
         else if (misc.startsWith(cmd_str, "goto ")) {
           String[] args = misc.groupStrings(cmd_str);
           if (args.length >= 2 && new File(args[1]).isDirectory()) {
-            browser.runBrowser(new File(args[1]).getAbsolutePath());
-            return false;
+            browser.browser_directory = new File(args[1]).getAbsolutePath();
+            return;
           }
         }
         else if (misc.startsWith(cmd_str, "delete ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
 
           int file_index = browser.answerToIndex(args[1]);
           if (browser.indexLeadsToFile(file_index, paths)) {
@@ -194,7 +195,7 @@ public class commands {
         }
         else if (misc.startsWith(cmd_str, "mkfile ")){
           String args[] = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           String filename = misc.generateFileName(parent, args[1]);
           try {
             Files.createFile(Path.of(filename));
@@ -204,14 +205,14 @@ public class commands {
         }
         else if (misc.startsWith(cmd_str, "tab ")) {
           String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return true;}
+          if (args.length < 2) {return;}
           int i = userinput.answerToNumber(args[1]);
-          if (i < 0 || i >= browserdata.tabSize()) {return true;}
+          if (i < 0 || i >= browserdata.tabSize()) {return;}
           String tab_path = browserdata.getTab(i);
-          browser.runBrowser(tab_path); return false;
+          browser.browser_directory = tab_path;
+          return;
         }
     }
-    return true;
   }
 
   public static void printSize_file(String path) {
