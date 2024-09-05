@@ -7,12 +7,16 @@ import bananatui.extra;
 public class main {
   public static void main(String[] args) {
     if (System.getProperty("os.name").contains("Windows")) {extra.windows_enableASCII();}
-    if (checkForHelp(args) || checkForVersion(args) || checkForSize(args)) {return;}
+    if (
+      checkForHelp(args)
+      || checkForVersion(args)
+      || checkForSize(args))
+      {return;}
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
     
     browser.browser_directory = getPath(args);
-    browser.runBrowser();
+    if (!checkShell(args)) {browser.runBrowser();}
   }
 
   private static boolean displayVertically(String[] args) {
@@ -36,22 +40,31 @@ public class main {
   }
 
   private static boolean checkForVersion(String[] args) {
-    for (String a : args) {
-      if (a.equals("-v") || a.equals("--version")) {
-        base.println("Parasol version " + globalvariables.PARASOL_VERSION);
-        return true;
-      } 
+    boolean result = checkForArgument(args, new String[]{"-v", "--version"});
+    if (result) {
+      base.println("Parasol version " + globalvariables.PARASOL_VERSION);
     }
-    return false;
+    return result;
   }
 
   private static boolean checkForHelp(String[] args) {
+    boolean result = checkForArgument(args, new String[]{"-h", "--help"});
+    if (result) {
+      String help = globalvariables.getHelpMessage();
+      base.println(help);
+    }
+    return result;
+  }
+
+  private static boolean checkShell(String[] args) {
+    boolean result = checkForArgument(args, new String[]{"-S", "--shell"});
+    if (result) {shell.runShell();}
+    return result;
+  }
+
+  private static boolean checkForArgument(String[] args, String[] keywords) {
     for (String a : args) {
-      if (a.equals("-h") || a.equals("--help")) {
-        String help = globalvariables.getHelpMessage();
-        base.println(help);
-        return true;
-      }
+      for (String k : keywords) {if (a.equals(k)) {return true;}}
     }
     return false;
   }
