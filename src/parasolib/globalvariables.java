@@ -30,7 +30,7 @@ public class globalvariables {
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"
     + "   * version - displays Parasol's version\n"
-    + "   * size [number] - gets the size of the file which is assigned to [number]\n"
+    + "   * size [number] - gets the size of the file/directory which is assigned to [number]\n"
     + "   * size-tree - Sorts the files of the current directory by size, from biggest to smallest\n"
     + "   * exec [number] - executes the file which is assigned to [number]\n"
     + "   * find [keyword] - shows all files and directories that contain [keyword] in the name\n"

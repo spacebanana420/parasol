@@ -100,7 +100,10 @@ public class commands {
 
           int i = browser.answerToIndex(args[1]);
           if (browser.indexLeadsToFile(i, paths)) {
-            printSize(parent + "/" + browser.returnFile(i, paths));
+            printSize_file(parent + "/" + browser.returnFile(i, paths));
+          }
+          else if (browser.indexLeadsToDir(i, paths)) {
+            printSize_dir(parent + "/" + browser.returnDir(i, paths));
           }
         }
         else if (misc.startsWith(cmd_str, "find ")) {
@@ -211,13 +214,25 @@ public class commands {
     return true;
   }
 
-  public static void printSize(String path) {
+  public static void printSize_file(String path) {
     File pathfile = new File(path);
     if (!pathfile.isFile() || !pathfile.canRead()) {
-      userinput.pressToContinue("The file " + path + " does not exist, isn't a file or cannot be read!");
+      userinput.pressToContinue("The file " + path + " does not exist, isn't real or cannot be read!");
       return;
     }
     String roundedsize = roundSize(getFileSize(path));
+    userinput.pressToContinue(
+      "Size of " + path 
+      + ":\n" + base.foreground("green") + roundedsize + base.foreground("default"));
+  }
+
+  public static void printSize_dir(String path) {
+    File pathfile = new File(path);
+    if (!pathfile.isDirectory() || !pathfile.canRead()) {
+      userinput.pressToContinue("The directory " + path + " does not exist, isn't real or cannot be read!");
+      return;
+    }
+    String roundedsize = roundSize(getDirSize(path));
     userinput.pressToContinue(
       "Size of " + path 
       + ":\n" + base.foreground("green") + roundedsize + base.foreground("default"));
@@ -242,6 +257,17 @@ public class commands {
   }
 
   private static long getFileSize(String path) {return new File(path).length();}
+
+  public static long getDirSize(String path) {
+    String[] path_list = new File(path).list();
+    long dir_size = 0L;
+    for (String p : path_list) {
+      String full_path = path + "/" + p; File pf = new File(full_path);
+      if (pf.isFile()) {dir_size += pf.length();}
+      else {dir_size += getDirSize(full_path);}
+    }
+    return dir_size;
+  }
 
   private static void displayhelp() {
     base.clear();

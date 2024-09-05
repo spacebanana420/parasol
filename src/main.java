@@ -24,12 +24,12 @@ public class main {
 
   private static boolean checkForSize(String[] args) {
     for (int i = 0; i < args.length; i++) {
-      if (
-        (args[i].equals("-s") || args[i].equals("--size"))
-        && i < args.length-1
-        && new File(args[i+1]).isFile() && new File(args[i+1]).canRead() 
-      ) {
-        commands.printSize(args[i+1]); return true;
+      if ((args[i].equals("-s") || args[i].equals("--size")) && i < args.length-1) {
+        var f = new File(args[i+1]);
+        if (!f.exists() || !f.canRead()) {continue;}
+        if (f.isFile()) {commands.printSize_file(args[i+1]);}
+        else {commands.printSize_dir(args[i+1]);}
+        return true;
       }
     }
     return false;
