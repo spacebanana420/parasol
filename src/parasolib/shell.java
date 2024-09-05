@@ -19,7 +19,14 @@ public class shell {
       String[] cmd = misc.groupStrings(prompt);
       if (cmd[0].equals("cd")) {
         if (cmd.length == 1) {browser.browser_directory = System.getProperty("user.home");}
-        else if (new File(cmd[1]).isDirectory()) {browser.browser_directory = cmd[1];}
+        else if (cmd[1].equals("..")) {
+          String newparent = new File(browser.browser_directory).getParent();
+          if (newparent != null) {browser.browser_directory = newparent;}
+        }
+        else if (onlyDots(cmd[1])) {continue;}
+        else if (new File(cmd[1]).isDirectory()) {
+          browser.browser_directory = new File(cmd[1]).getAbsolutePath();
+        }
         else if (new File(browser.browser_directory + "/" + cmd[1]).isDirectory()) {
           browser.browser_directory += System.getProperty("path.separator") + cmd[1];
         }
@@ -46,5 +53,12 @@ public class shell {
     return
       base.foreground("green")+"[Parasol Shell]\n"+base.foreground("default")
       +"Type :q or :quit to leave\n";
+  }
+
+  private static boolean onlyDots(String path) {
+    for (int i = 0; i < path.length(); i++) {
+      if (path.charAt(i) != '.') {return false;}
+    }
+    return true;
   }
 }
