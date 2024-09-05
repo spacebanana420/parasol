@@ -16,7 +16,6 @@ public class shell {
       String prompt = userinput.readUserInput().trim();
       if (prompt.equals(":q") || prompt.equals(":quit")) {return;}
       if (prompt.length() == 0) {continue;}
-      if (prompt.length() >= 2 && prompt.charAt(0) == ':' && prompt.charAt(1) == 'c') {continue;}
       String[] cmd = misc.groupStrings(prompt);
       if (cmd[0].equals("cd")) {
         if (cmd.length == 1) {browser.browser_directory = System.getProperty("user.home");}
@@ -46,7 +45,6 @@ public class shell {
   private static String getStartMessage() {
     return
       base.foreground("green")+"[Parasol Shell]\n"+base.foreground("default")
-      +"Type :q or :quit to leave\n"
-      +"Include :c at the end of your command to cancel its execution\n";
+      +"Type :q or :quit to leave\n";
   }
 }
