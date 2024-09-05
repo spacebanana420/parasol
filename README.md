@@ -4,15 +4,15 @@ Parasol is a simple and cross-platform terminal-based (TUI) file explorer.
 Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
 
 <p align="center">
-<img src="images/parasol.png" width="350"/>
+<img src="images/parasol.png" width="390"/>
 </p>
 
 
 ## Download
 
-You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases)
+You can download the latest release of Parasol [here](https://github.com/spacebanana420/parasol/releases).
 
-You can run Parasol with `java -jar parasol.jar`.
+Download `parasol.jar` and run it with `java -jar parasol.jar`.
 
 For a help screen and list of commands, run Parasol with `-h` or `--help` command-line argument or type `help` while running Parasol.
 
@@ -50,5 +50,5 @@ Alternatively, you can run the build script with ```bash build.sh```.
 
 
 <p align="center">
-<img src="images/boo.png" width="250"/>
+<img src="images/boo.png" width="280"/>
 </p>

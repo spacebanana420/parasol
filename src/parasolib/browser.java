@@ -94,8 +94,10 @@ public class browser {
       String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
 
       base.clear();
-      String screen = parent + "\n\n" + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt;
-      String answer = userinput.readUserInput(screen).strip();
+      String answer = userinput.readUserInput(
+        parent + "\n\n"
+        + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt
+        ).strip();
 
       if (answer.equals("0")) {return;}
       if (answer.equals("1")) {
