@@ -9,7 +9,7 @@ import bananatui.userinput;
 public class shell {
   public static void runShell() {
     base.clear();
-    base.println(getStartMessage());
+    if (!globalvariables.SHELL_SILENT) {base.println(getStartMessage());}
     while (true) {
       String lineStart =
         base.foreground("green")
@@ -20,6 +20,7 @@ public class shell {
       String prompt = userinput.readUserInput().trim();
       if (userPromptedExit(prompt)) {return;}
       if (prompt.length() == 0) {continue;}
+      if (prompt.equals("help")) {base.println(globalvariables.getHelpMessage()); continue;}
 
       String[] cmd = misc.groupStrings(prompt);
       if (cmd[0].equals("cd")) {

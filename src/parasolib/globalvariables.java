@@ -6,6 +6,7 @@ public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
   public static String PARASOL_VERSION = base.foreground("green")+"0.7"+base.foreground("default"); 
+  public static boolean SHELL_SILENT = false;
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
   //  + "   * archive - archives all files in current directory\n"
@@ -28,6 +29,7 @@ public class globalvariables {
     + "   -V (--vertical) - displays all paths vertically\n"
     + "   -s (--size) [path to file] - displays the size of a file\n"
     + "   -S (--shell) - opens Parasol's shell instead\n"
+    + "   --silent-shell - does not print the start message when running the shell\n"
     + "\n"
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"

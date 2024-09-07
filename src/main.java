@@ -12,6 +12,8 @@ public class main {
       || checkForVersion(args)
       || checkForSize(args))
       {return;}
+
+    globalvariables.SHELL_SILENT = checkForArgument(args, "--silent-shell");
     globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
     
@@ -65,6 +67,13 @@ public class main {
   private static boolean checkForArgument(String[] args, String[] keywords) {
     for (String a : args) {
       for (String k : keywords) {if (a.equals(k)) {return true;}}
+    }
+    return false;
+  }
+
+  private static boolean checkForArgument(String[] args, String keyword) {
+    for (String a : args) {
+      if (a.equals(keyword)) {return true;}
     }
     return false;
   }
