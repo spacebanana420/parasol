@@ -25,13 +25,16 @@ public class shell {
       if (userPromptedExit(prompt)) {return;}
       if (repeatLastCommand(prompt, previous_line)) {prompt = previous_line;}
       if (prompt.equals(":v")) {
-        if (previous_line.length() != 0) {base.println("Last executed command: " + previous_line);}
+        if (previous_line.length() != 0) {
+          base.println("Last executed command: " + base.boldMode(true) + previous_line + base.boldMode(false));
+        }
         continue;
       }
       if (prompt.equals("help")) {base.println(globalvariables.getHelpMessage()); continue;}
       if (prompt.equals(":h")) {base.println(globalvariables.getShellHelp()); continue;}
 
       String[] cmd = misc.groupStrings(prompt);
+      replaceHomeAbbreviation(cmd);
       if (cmd[0].equals("cd")) {
         changeDirectory(cmd);
         continue;
@@ -44,7 +47,7 @@ public class shell {
           .waitFor();
       }
       catch (IOException e) {base.println("Error running \"" + cmd[0] + "\": process not found");}
-      catch (InterruptedException e) {base.println("Error running \"" + cmd[0] + "\": process was improperly interrupted");}
+      catch (InterruptedException e) {base.println("Error running \"" + cmd[0] + "\": process was interrupted");}
       previous_line = prompt;
     }
   }
@@ -71,9 +74,7 @@ public class shell {
   }
 
   private static boolean repeatLastCommand(String prompt, String previous_line) {
-    return
-      (prompt.equals(":l") || prompt.equals("[A"))
-      && previous_line.length() != 0;
+    return prompt.equals(":l") && previous_line.length() != 0;
   }
 
   private static void changeDirectory(String[] cmd) {
@@ -98,5 +99,23 @@ public class shell {
       return  "~" + path.replaceFirst(home, "");
     }
     return path;
+  }
+
+  private static void replaceHomeAbbreviation(String[] cmd) { //for ~ to be translated into the home directory
+    String home = System.getProperty("user.home");
+    char path_separator = System.getProperty("file.separator").toCharArray()[0];
+
+    for (int i = 0; i < cmd.length; i++) {
+      if (new File(cmd[i]).exists()) {continue;}
+      if (cmd[i].equals("~")) {cmd[i] = home; continue;}
+      if (
+        cmd[i].length() > 1
+        && cmd[i].charAt(0) == '~'
+        && cmd[i].charAt(1) == path_separator
+        ) {
+        String replacement = cmd[i].replaceFirst("~", home);
+        if (new File(replacement).exists()) {cmd[i] = replacement;}
+      }
+    }
   }
 }
