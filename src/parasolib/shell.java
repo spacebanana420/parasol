@@ -8,6 +8,7 @@ import bananatui.userinput;
 
 public class shell {
   public static void runShell() {
+    String previous_line = "";
     base.clear();
     if (!globalvariables.SHELL_SILENT) {base.println(getStartMessage());}
     while (true) {
@@ -18,9 +19,15 @@ public class shell {
 
       base.print(lineStart);
       String prompt = userinput.readUserInput().trim();
-      if (userPromptedExit(prompt)) {return;}
       if (prompt.length() == 0) {continue;}
+      if (userPromptedExit(prompt)) {return;}
+      if (repeatLastCommand(prompt, previous_line)) {prompt = previous_line;}
+      if (prompt.equals(":v")) {
+        if (previous_line.length() != 0) {base.println("Last executed command: " + previous_line);}
+        continue;
+      }
       if (prompt.equals("help")) {base.println(globalvariables.getHelpMessage()); continue;}
+      if (prompt.equals(":h")) {base.println(globalvariables.getShellHelp()); continue;}
 
       String[] cmd = misc.groupStrings(prompt);
       if (cmd[0].equals("cd")) {
@@ -36,6 +43,7 @@ public class shell {
       }
       catch (IOException e) {base.println("Error running \"" + cmd[0] + "\": process not found");}
       catch (InterruptedException e) {base.println("Error running \"" + cmd[0] + "\": process was improperly interrupted");}
+      previous_line = prompt;
     }
   }
 
@@ -46,7 +54,7 @@ public class shell {
   private static String getStartMessage() {
     return
       base.foreground("green")+"[Parasol Shell]\n"+base.foreground("default")
-      +"Type :q or :quit to leave\n";
+      +"Type :h for help and :q or :quit to leave\n";
   }
 
   private static boolean onlyDots(String path) {
@@ -58,6 +66,12 @@ public class shell {
 
   private static boolean userPromptedExit(String prompt) {
     return prompt.equals(":q") || prompt.equals(":quit") || prompt.equals("exit");
+  }
+
+  private static boolean repeatLastCommand(String prompt, String previous_line) {
+    return
+      (prompt.equals(":l") || prompt.equals("[A"))
+      && previous_line.length() != 0;
   }
 
   private static void changeDirectory(String[] cmd) {

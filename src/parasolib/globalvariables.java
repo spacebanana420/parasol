@@ -66,4 +66,17 @@ public class globalvariables {
     + "   * tab clear - clears all tabs\n"
     + "\n";
    }
+
+   public static String getShellHelp() {
+    String default_color = base.foreground("default");
+    String green = base.foreground("green");
+
+    return green + "====Parasol Shell====\n\n" + default_color
+    + "Command list:\n"
+    + "   :h - opens this menu\n"
+    + "   help - opens Parasol's main help menu\n"
+    + "   :q, :quit or exit - exits the shell\n"
+    + "   :l - repeats last command \n"
+    + "   :v - views last command\n";
+   }
 }
