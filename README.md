@@ -1,7 +1,7 @@
 # Parasol
-Parasol is a simple and cross-platform terminal-based (TUI) file explorer.
+Parasol is a terminal-based (TUI) file explorer and shell.
 
-Unlike most TUI file explorers, Parasol does not use the arrow keys for navigation, instead each file and directory is assigned a number and you can interact with the files and paths through their numbers.
+With Parasol, you can navigate your filesystem, perform file operations, view available disk devices, measure file and directory sizes, execute files, open files with your preferred applications, and run its own built-in shell either alongside the file explorer or standalone.
 
 <p align="center">
 <img src="images/parasol.png" width="390"/>
