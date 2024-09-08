@@ -13,9 +13,11 @@ public class shell {
     if (!globalvariables.SHELL_SILENT) {base.println(getStartMessage());}
     while (true) {
       String lineStart =
-        base.foreground("green")
+        base.boldMode(true)
+        + base.foreground("green")
         + "[" + System.getProperty("user.name") + ":" + shortenPath(browser.browser_directory)
-        + "]$ " + base.foreground("default");
+        + "]$ " + base.foreground("default")
+        + base.boldMode(false);
 
       base.print(lineStart);
       String prompt = userinput.readUserInput().trim();

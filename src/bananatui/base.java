@@ -54,4 +54,10 @@ public class base {
       default: return "\u001B[49m";
     }
   }
+
+  public static String resetMode() {return "\u001B[0m";}
+  public static String boldMode(boolean enable) {return (enable) ? "\u001B[1m" : "\u001B[22m";}
+  public static String dimMode(boolean enable) {return (enable) ? "\u001B[2m" : "\u001B[22m";}
+  public static String italicMode(boolean enable) {return (enable) ? "\u001B[3m" : "\u001B[23m";}
+  public static String underlineMode(boolean enable) {return (enable) ? "\u001B[4m" : "\u001B[24m";}
 }
