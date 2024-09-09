@@ -356,7 +356,7 @@ public class commands {
     if (browser.indexLeadsToFile(source_i, paths)) {
       String file_name = browser.returnFile(source_i, paths);
       String dir_name = browser.returnDir(target_i, paths);
-      if (args[3] == "1") {
+      if (args[2] == "1") {
         dir_name = new File(parent).getParent();
         new File(parent + "/" + file_name).renameTo(new File(dir_name + "/" + file_name));
       }
