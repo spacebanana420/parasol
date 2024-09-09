@@ -16,8 +16,10 @@ public class globalvariables {
   public static String getHelpMessage() {
     String default_color = base.foreground("default");
     String green = base.foreground("green");
+    String bold_on = base.boldMode(true);
+    String bold_off = base.boldMode(false);
 
-    return green + "====Parasol Help Menu====" + default_color
+    return green + bold_on + "====Parasol Help Menu====" + bold_off + default_color
     + "\n\nWhile browsing:\n   Press 0 to close the program\n"
     + "   Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\n"
     + "General usage: parasol [directory-path] [options]\n\n"
@@ -72,7 +74,7 @@ public class globalvariables {
     String default_color = base.foreground("default");
     String green = base.foreground("green");
 
-    return green + "====Parasol Shell====\n\n" + default_color
+    return green + base.boldMode(true) + "====Parasol Shell====\n\n" + base.boldMode(false) + default_color
     + "Command list:\n"
     + "   :h - opens this menu\n"
     + "   help - opens Parasol's main help menu\n"
