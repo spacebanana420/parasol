@@ -348,12 +348,12 @@ public class commands {
     int source_i = browser.answerToIndex(args[1]);
     int target_i = browser.answerToIndex(args[2]);
     if (args[1].equals(args[2])) {return;}
-    if (!browser.indexLeadsToDir(target_i, paths) && args[2] != "1") {return;}
+    if (!browser.indexLeadsToDir(target_i, paths) && !args[2].equals("1")) {return;}
     
     if (browser.indexLeadsToFile(source_i, paths)) {
       String file_name = browser.returnFile(source_i, paths);
       String dir_name = browser.returnDir(target_i, paths);
-      if (args[2] == "1") {
+      if (args[2].equals("1")) {
         dir_name = new File(parent).getParent();
         new File(parent + "/" + file_name).renameTo(new File(dir_name + "/" + file_name));
       }
@@ -362,23 +362,21 @@ public class commands {
       }
       userinput.pressToContinue(file_name + " has been moved to " + dir_name);
     }
-    else if (browser.indexLeadsToDir(source_i, paths) && source_i != target_i) {
+    else if (browser.indexLeadsToDir(source_i, paths)) {
       String source_name = browser.returnDir(source_i, paths);
       String full_source = parent + "/" + source_name;
       String target_name = "";
       String full_target = "";
-      if (args[3] == "1") {
-        full_target = new File(parent).getParent() + "/" + source_name;
-        target_name = full_target;
+      if (args[2].equals("1")) {
+        target_name = new File(parent).getParent();
+        full_target = target_name + "/" + source_name;
       }
       else {
         target_name = browser.returnDir(target_i, paths);
         full_target = parent + "/" + target_name + "/" + source_name;
       }
-
+        
       base.println("Moving directory " + source_name);
-      if (args[3] == "1") {}
-      
       boolean result = fileops.moveDirectory(full_source, full_target);
       if (result) {userinput.pressToContinue("Directory has been moved to " + target_name + "/" + source_name);}
       else {userinput.pressToContinue("The operation has failed! Maybe you lack file read and write permissions!");}
