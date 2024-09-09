@@ -103,7 +103,7 @@ public class shell {
 
   private static void replaceHomeAbbreviation(String[] cmd) { //for ~ to be translated into the home directory
     String home = System.getProperty("user.home");
-    char path_separator = System.getProperty("file.separator").toCharArray()[0];
+    char path_separator = System.getProperty("file.separator").charAt(0);
 
     for (int i = 0; i < cmd.length; i++) {
       if (new File(cmd[i]).exists()) {continue;}
