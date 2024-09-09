@@ -31,7 +31,7 @@ public class commands {
       case "clear-clipboard":
         browserdata.file_clipboard = new String[]{"", ""};
         break;
-      case "view-clipboard":
+      case "clipboard":
         String name = browserdata.file_clipboard[1];
         String path = browserdata.file_clipboard[0];
         if (name == "" || path == "") {userinput.pressToContinue("The clipboard is empty!");}
@@ -42,8 +42,10 @@ public class commands {
           userinput.pressToContinue("The clipboard is empty!");
           return;
         }
+        String old_path = browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1];
         String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
-        Path source = Path.of(browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1]);
+        if (old_path.equals(new_path)) {return;}
+        Path source = Path.of(old_path);
         Path target = Path.of(new_path);
         try {
           if (browserdata.clipboard_cut) {
@@ -111,17 +113,10 @@ public class commands {
           }
         }
         else if (misc.startsWith(cmd_str, "find ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          String[][] filtered_paths = filterByMatch(args[1], paths);
-          String dir_txt = formString_findCommand(filtered_paths[0], false, 2);
-          String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
-          String screen =
-            "Keyword: " + base.foreground("green") + args[1] + base.foreground("default")
-            + "\nThe following paths have been found:\n\n"
-            + dir_txt + file_txt;
-          base.clear();
-          userinput.pressToContinue(screen);
+          findPaths(cmd_str, paths, false);
+        }
+        else if (misc.startsWith(cmd_str, "find-strict ")) {
+          findPaths(cmd_str, paths, true);
         }
         else if (misc.startsWith(cmd_str, "mkdir ")) {
           String[] args = misc.groupStrings(cmd_str);
@@ -155,6 +150,7 @@ public class commands {
 
           if (old_name == "") {return;}
           String full_path = parent + "/" + old_name;
+          if (full_path.equals(new_name)) {return;}
           new File(full_path).renameTo(new File(new_name));
           userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
         }
@@ -190,7 +186,7 @@ public class commands {
             String message = "You are about to delete the directory " + dir_name + " and all contents inside it. Proceed? ";
             if (userinput.askPrompt(message, false)) {
               base.print("Deleting directory...");
-              boolean result = deleteDirectory(parent + "/" + dir_name);
+              boolean result = fileops.deleteDirectory(parent + "/" + dir_name);
               if (result) {userinput.pressToContinue("The directory " + dir_name + " has been deleted!");}
               else {userinput.pressToContinue("An error has occurred finishing the deletion of the directory\nMaybe you lack write permission!");}
             }
@@ -351,6 +347,7 @@ public class commands {
     if (args.length < 3) {return;}
     int source_i = browser.answerToIndex(args[1]);
     int target_i = browser.answerToIndex(args[2]);
+    if (args[1].equals(args[2])) {return;}
     if (!browser.indexLeadsToDir(target_i, paths) && args[2] != "1") {return;}
     
     if (browser.indexLeadsToFile(source_i, paths)) {
@@ -382,58 +379,34 @@ public class commands {
       base.println("Moving directory " + source_name);
       if (args[3] == "1") {}
       
-      boolean result = moveDirectory(full_source, full_target);
+      boolean result = fileops.moveDirectory(full_source, full_target);
       if (result) {userinput.pressToContinue("Directory has been moved to " + target_name + "/" + source_name);}
       else {userinput.pressToContinue("The operation has failed! Maybe you lack file read and write permissions!");}
     }
   }
 
-  public static boolean deleteDirectory(String path) {
-    String[] path_list = new File(path).list();
-    try {
-      for (String p : path_list) {
-        String full_path = path + "/" + p;
-        File pf = new File(full_path);
-        if (pf.isFile()) {Files.delete(Path.of(full_path));}
-        else {deleteDirectory(full_path);}
-      }
-      Files.delete(Path.of(path));
-      return true;
-    } catch(IOException e) {e.printStackTrace(); return false;}
-  }
 
-  public static boolean moveDirectory(String path, String target) {
-    String[] path_list = new File(path).list();
-    if (!new File(target).isDirectory()) {
-      new File(target).mkdir();
-    }
-    try {
-      for (String p : path_list) {
-        String full_path = path + "/" + p;
-        String target_path = target + "/" + p;
-        Path pp = Path.of(full_path);
-        Path tp = Path.of(target_path);
 
-        if (new File(full_path).isFile()) {Files.move(pp, tp);}
-        else {moveDirectory(full_path, target + "/" + p);}
-      }
-      Files.delete(Path.of(path));
-      return true;
-    } catch(IOException e) {e.printStackTrace(); return false;}
-  }
-
-  private static String[][] filterByMatch(String keyword, String[][] paths) {
+  private static String[][] filterByMatch(String keyword, String[][] paths, boolean strict) {
     ArrayList<String> files = new ArrayList<String>();
     ArrayList<String> dirs = new ArrayList<String>();
     int i = 2;
+    String keyword_match = (strict) ? keyword : keyword.toLowerCase();
+
     for (String d : paths[0]) {
       String num = base.foreground("green") + i + ": " + base.foreground("default");
-      if (d.contains(keyword)) {dirs.add(num+d);}
+      if (
+        (d.contains(keyword_match) && strict)
+        || (d.toLowerCase().contains(keyword_match) && !strict)
+        ) {dirs.add(num+d);}
       i+=1;
     }
     for (String f : paths[1]) {
       String num = base.foreground("green") + i + ": " + base.foreground("default");
-      if (f.contains(keyword)) {files.add(num+f);}
+      if (
+        (f.contains(keyword_match) && strict)
+        || (f.toLowerCase().contains(keyword_match) && !strict)
+        ) {files.add(num+f);}
       i+=1;
     }
     return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
@@ -477,5 +450,21 @@ public class commands {
     String file_path = parent;
     browserdata.file_clipboard = new String[]{file_path, file_name};
     browserdata.clipboard_cut = cut;
+  }
+
+  private static void findPaths(String cmd_str, String[][] paths, boolean strict) {
+    String[] args = misc.groupStrings(cmd_str);
+    if (args.length < 2) {return;}
+
+    String[][] filtered_paths = filterByMatch(args[1], paths, strict);
+    String dir_txt = formString_findCommand(filtered_paths[0], false, 2);
+    String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
+    
+    String screen =
+      "Keyword: " + base.foreground("green") + args[1] + base.foreground("default")
+      + "\nThe following paths have been found:\n\n"
+      + dir_txt + file_txt;
+    base.clear();
+    userinput.pressToContinue(screen);
   }
 }
