@@ -18,6 +18,7 @@ public class main {
     globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
     
     browser.browser_directory = getPath(args);
+    config.initialize();
     if (!checkShell(args)) {browser.runBrowser();}
   }
 
