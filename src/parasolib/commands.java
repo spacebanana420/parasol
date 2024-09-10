@@ -141,6 +141,7 @@ public class commands {
         break;
       case "hidden":
         globalvariables.SHOW_HIDDEN_FILES = !globalvariables.SHOW_HIDDEN_FILES;
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
