@@ -11,14 +11,17 @@ import bananatui.userinput;
 
 public class platform {
   public static String[] getSystemDisks() {
-    switch(System.getProperty("os.name")) {
+    String os = System.getProperty("os.name");
+    if (os.contains("Windows")) {return getSystemDisks_windows();}
+    switch(os) {
       case "Linux":
         return getSystemDisks_linux();
       case "FreeBSD":
         return getSystemDisks_freebsd();
       default:
-        userinput.pressToContinue("This feature is only available for Linux systems and FreeBSD!");
-        return new String[]{};
+        return getSystemDisks_freebsd();
+        //userinput.pressToContinue("This feature is only available for Linux systems, FreeBSD, and Windows!");
+        //return new String[]{};
     }
 
   }
@@ -28,7 +31,7 @@ public class platform {
       Process process = new ProcessBuilder(cmd).start();
       String result = new String(process.getInputStream().readAllBytes());
 
-      String[] invalid_paths = new String[]{"", "MOUNTPOINT", "MOUNT", "/boot", "/efi", "/boot/efi"};
+      String[] invalid_paths = new String[]{"", "[SWAP]", "SWAP", "swap", "MOUNTPOINT", "MOUNT", "/boot", "/efi", "/boot/efi"};
       String buf = "";
       ArrayList<String> devices = new ArrayList<>();
       for(int i = 0; i < result.length(); i++) {
@@ -76,6 +79,23 @@ public class platform {
       devices.add(path);
     }
     return devices.toArray(new String[0]);
+  }
+
+  private static String[] getSystemDisks_windows() {
+    ArrayList<String> devices = new ArrayList<>();
+    for (FileStore store: FileSystems.getDefault().getFileStores()) {
+      var path = store.toString();
+      if (!windows_checkDisk(path)) {continue;}
+      path = sanitize_path(path);
+      devices.add(path);
+    }
+    return devices.toArray(new String[0]);
+  }
+
+  private static boolean windows_checkDisk(String path) {
+    if (path.length() == 0) {return false;} 
+    byte firstChar = path.getBytes()[0];
+    return firstChar >= 65 && firstChar <= 90; //A-Z, capital alphabet
   }
 
   private static int getFilterStart(String path) {

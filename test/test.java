@@ -10,8 +10,16 @@ import java.nio.file.FileStore;
 
 public class test {
   public static void main(String[] args) {
-    freebsd_devicetest();
+    linux_devicetest();
   }
+  private static void linux_devicetest() {
+    for (FileStore store: FileSystems.getDefault().getFileStores()) {
+      var path = store.toString();
+      path = sanitize_path(path);
+      println(path); println("Filesystem: " + store.type() + "\n");
+    }  
+  }
+
   private static void freebsd_devicetest() {
     String[] invalid_paths = new String[]{
       "/dev", "/usr/src", "/usr/ports", "/var/", "/tmp",
