@@ -62,7 +62,7 @@ public class shell {
       +"Type :h for help and :q or :quit to leave\n";
   }
 
-  private static boolean onlyDots(String path) {
+  public static boolean onlyDots(String path) {
     for (int i = 0; i < path.length(); i++) {
       if (path.charAt(i) != '.') {return false;}
     }

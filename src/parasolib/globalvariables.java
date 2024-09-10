@@ -5,7 +5,7 @@ import bananatui.base;
 public class globalvariables {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.7"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.8"+base.foreground("default"); 
   public static boolean SHELL_SILENT = false;
 
   //  + "   * find [name] - finds entries that contain [name] in their name\n"
