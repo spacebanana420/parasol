@@ -130,6 +130,12 @@ public class commands {
         String b = userinput.chooseOption_string(bookmarks, "Choose a place to go to", "Cancel");
         if (!b.equals("")) {browser.browser_directory = b; return;}
         break;
+      case "add-bookmark":
+        config.addBookmark(browser.browser_directory);
+        userinput.pressToContinue(
+          "The current directory has been added to the bookmarks list at\n" + config.CONFIG_PATH + "/bookmarks.parasol"
+          );
+        break;
       case "shell":
         shell.runShell();
         break;

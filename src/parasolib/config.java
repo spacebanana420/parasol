@@ -2,6 +2,8 @@ package parasolib;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -35,6 +37,10 @@ public class config {
     }
     return bookmarks.toArray(new String[0]);
   }
+  public static void addBookmark(String bookmark) {
+    if (!new File(bookmark).isDirectory()) {return;}
+    writeFile(CONFIG_PATH + "/bookmarks.parasol", bookmark + "\n", true);
+  }
 
   private static String getConfigPath() {
     String os = System.getProperty("os.name");
@@ -62,6 +68,17 @@ public class config {
     }
     catch(Exception e) {return "";}
     return new String(config_bytes);
+  }
+
+  private static boolean writeFile(String path, String contents, boolean append) {
+    try {
+      var stream = new FileOutputStream(path, append);
+      stream.write(contents.getBytes());
+      stream.close();
+      return true;
+    }
+    catch (FileNotFoundException e) {return false;}
+    catch (IOException e) {return false;}
   }
 
   private static boolean createFiles(String path) { //more files will be added here later

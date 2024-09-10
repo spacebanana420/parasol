@@ -60,6 +60,7 @@ public class globalvariables {
     + "   * vertical - toggles displaying all paths vertically\n"
     + "   * devices - opens a list of disk partitions you can jump to\n"
     + "   * bookmarks - opens a list of bookmarks you can jump to\n"
+    + "   * add-bookmark - adds the current directory to the bookmarks list\n"
     + "   * shell - opens an interactive shell\n"
     + "\n"
     + "   * tabs - displays currently saved tabs\n"
