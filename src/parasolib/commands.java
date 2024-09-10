@@ -42,7 +42,7 @@ public class commands {
           userinput.pressToContinue("The clipboard is empty!");
           return;
         }
-        String name = browserdata.file_clipboard[1];
+        String name_temp = browserdata.file_clipboard[1];
         String old_path = browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1];
         String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
         if (old_path.equals(new_path)) {return;}
@@ -74,7 +74,7 @@ public class commands {
               Files.copy(source, target);
             }
           }
-          userinput.pressToContinue(path_type + name + " has been " + operation_type);
+          userinput.pressToContinue(path_type + name_temp + " has been " + operation_type);
         }
         catch (IOException e) {
           String message =
