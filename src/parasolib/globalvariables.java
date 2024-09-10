@@ -58,6 +58,7 @@ public class globalvariables {
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
+    + "   * hidden - toggles viewing hidden paths\n"
     + "   * devices - opens a list of disk partitions you can jump to\n"
     + "   * bookmarks - opens a list of bookmarks you can jump to\n"
     + "   * add-bookmark - adds the current directory to the bookmarks list\n"

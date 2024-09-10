@@ -139,6 +139,8 @@ public class commands {
       case "shell":
         shell.runShell();
         break;
+      case "hidden":
+        globalvariables.SHOW_HIDDEN_FILES = !globalvariables.SHOW_HIDDEN_FILES;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
