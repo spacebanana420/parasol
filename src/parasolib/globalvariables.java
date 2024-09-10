@@ -59,6 +59,7 @@ public class globalvariables {
     + "   * home - changes location to the user's home directory\n"
     + "   * vertical - toggles displaying all paths vertically\n"
     + "   * devices - opens a list of disk partitions you can jump to\n"
+    + "   * bookmarks - opens a list of bookmarks you can jump to\n"
     + "   * shell - opens an interactive shell\n"
     + "\n"
     + "   * tabs - displays currently saved tabs\n"

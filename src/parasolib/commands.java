@@ -115,6 +115,19 @@ public class commands {
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
         if (!d.equals("")) {browser.browser_directory = d; return;}
         break;
+      case "bookmarks":
+        String[] bookmarks = config.getBookmarks();
+        if (bookmarks.length == 0) {
+          userinput.pressToContinue(
+            "You didn't add any bookmarks to parasol!"
+            + "\nTo add bookmarks, create a file at " + config.CONFIG_PATH + System.getProperty("file.separator") + "bookmarks.parasol"
+            + " and add directory paths, one per line"
+            + "\nExample\n/home/user\n/path/to/games\n/home/user/music"
+          );
+        }
+        String b = userinput.chooseOption_string(bookmarks, "Choose a place to go to", "Cancel");
+        if (!b.equals("")) {browser.browser_directory = b; return;}
+        break;
       case "shell":
         shell.runShell();
         break;
