@@ -88,7 +88,7 @@ public class shell {
       browser.browser_directory = new File(cmd[1]).getAbsolutePath();
     }
     else if (new File(browser.browser_directory + "/" + cmd[1]).isDirectory()) {
-      browser.browser_directory += System.getProperty("path.separator") + cmd[1];
+      browser.browser_directory += System.getProperty("file.separator") + cmd[1];
     }
     else {base.println("cd error: " + cmd[1] + " is not a directory!");}
   }
