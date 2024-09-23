@@ -24,6 +24,7 @@ For a help screen and list of commands, run Parasol with `-h` or `--help` comman
 ### Officially tested systems:
 * Linux-based
 * FreeBSD
+* Haiku
 
 ### Systems that should work:
 * Windows
