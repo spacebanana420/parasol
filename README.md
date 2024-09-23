@@ -34,20 +34,25 @@ For a help screen and list of commands, run Parasol with `-h` or `--help` comman
 
 ## Building Parasol
 
-To build Parasol, make sure you have Java 11 or newer installed in your system.
+### Using [Yuuka](https://github.com/spacebanana420/yuuka)
+```
+yuuka package -o parasol.jar
+```
 
-You can run the commands:
-
+### Using Bash
 ```
 mkdir build
-javac src/*.java src/*/*.java --release 11
+bash build.sh
+```
+
+### With a Unix-like shell:
+```
+mkdir build
+javac src/*.java src/*/*.java
 cd src
 jar cfe ../build/parasol.jar main *.class */*.class
 cd ..
 ```
-
-Alternatively, you can run the build script with ```bash build.sh```.
-
 
 <p align="center">
 <img src="images/boo.png" width="280"/>
