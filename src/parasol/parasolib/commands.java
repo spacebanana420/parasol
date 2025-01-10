@@ -7,6 +7,10 @@ import java.nio.file.Path;
 import java.util.ArrayList;
 
 import parasol.global;
+import parasol.misc.misc;
+import parasol.misc.fileops;
+import parasol.misc.numops;
+
 import bananatui.*;
 
 public class commands {

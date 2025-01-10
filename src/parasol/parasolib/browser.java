@@ -2,6 +2,8 @@ package parasol.parasolib;
 
 import bananatui.*;
 import parasol.global;
+import parasol.misc.misc;
+import parasol.misc.numops;
 
 import java.io.File;
 import java.lang.ProcessBuilder.Redirect;

@@ -1,4 +1,4 @@
-package parasol.parasolib;
+package parasol.misc;
 
 import java.io.File;
 import java.io.IOException;
