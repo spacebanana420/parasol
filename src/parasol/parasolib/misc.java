@@ -1,4 +1,4 @@
-package parasolib;
+package parasol.parasolib;
 
 import java.util.ArrayList;
 import java.io.File;

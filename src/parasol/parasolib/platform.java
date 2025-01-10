@@ -1,4 +1,4 @@
-package parasolib;
+package parasol.parasolib;
 
 import java.io.IOException;
 import java.nio.file.FileStore;

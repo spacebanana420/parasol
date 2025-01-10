@@ -1,8 +1,9 @@
-package parasolib;
+package parasol.parasolib;
 
 import java.io.IOException;
 import java.io.File;
 
+import parasol.global;
 import bananatui.base;
 import bananatui.userinput;
 
@@ -10,7 +11,7 @@ public class shell {
   public static void runShell() {
     String previous_line = "";
     base.clear();
-    if (!globalvariables.SHELL_SILENT) {base.println(getStartMessage());}
+    if (!global.SHELL_SILENT) {base.println(getStartMessage());}
     while (true) {
       String lineStart =
         base.boldMode(true)
@@ -30,8 +31,8 @@ public class shell {
         }
         continue;
       }
-      if (prompt.equals("help")) {base.println(globalvariables.getHelpMessage()); continue;}
-      if (prompt.equals(":h")) {base.println(globalvariables.getShellHelp()); continue;}
+      if (prompt.equals("help")) {base.println(global.getHelpMessage()); continue;}
+      if (prompt.equals(":h")) {base.println(global.getShellHelp()); continue;}
 
       String[] cmd = misc.groupStrings(prompt);
       replaceHomeAbbreviation(cmd);

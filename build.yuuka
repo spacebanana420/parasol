@@ -1,0 +1,16 @@
+Yuuka build config
+The settings below override Yuuka's defaults
+CLI arguments override this config
+To enable a setting, uncomment it by removing the "#" at its start
+Empty or invalid settings are ignored
+
+main_class=parasol/main
+jar_filename=parasol.jar
+#release_target=21
+#source_target=21
+#class_target=21
+#disable_warnings=false
+#graal_path=native-image
+#install_path=
+#tests_include_src=true
+#verbose_level=1

@@ -1,4 +1,4 @@
-package parasolib;
+package parasol.parasolib;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+import parasol.global;
 import bananatui.*;
 
 public class commands {
@@ -15,12 +16,12 @@ public class commands {
         displayhelp();
         break;
       case "version":
-        userinput.pressToContinue("Parasol version " + globalvariables.PARASOL_VERSION);
+        userinput.pressToContinue("Parasol version " + global.PARASOL_VERSION);
       break;
       // case "archive":
       //   break;
       case "vertical":
-        globalvariables.DISPLAY_VERTICALLY_ONLY = !globalvariables.DISPLAY_VERTICALLY_ONLY;
+        global.DISPLAY_VERTICALLY_ONLY = !global.DISPLAY_VERTICALLY_ONLY;
         break;
       case "size-tree":
         sortFilesBySize(parent, paths[1]);
@@ -140,7 +141,7 @@ public class commands {
         shell.runShell();
         break;
       case "hidden":
-        globalvariables.SHOW_HIDDEN_FILES = !globalvariables.SHOW_HIDDEN_FILES;
+        global.SHOW_HIDDEN_FILES = !global.SHOW_HIDDEN_FILES;
         break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
@@ -314,7 +315,7 @@ public class commands {
 
   private static void displayhelp() {
     base.clear();
-    String help = globalvariables.getHelpMessage();
+    String help = global.getHelpMessage();
     userinput.pressToContinue(help);
   }
 

@@ -1,17 +1,12 @@
-package parasolib;
+package parasol;
 
 import bananatui.base;
 
-public class globalvariables {
+public class global {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
   public static String PARASOL_VERSION = base.foreground("green")+"0.8"+base.foreground("default"); 
   public static boolean SHELL_SILENT = false;
-
-  //  + "   * find [name] - finds entries that contain [name] in their name\n"
-  //  + "   * archive - archives all files in current directory\n"
-  //  + "      Note: there is currently no implementation to extract the archive, this is an experimental command\n"
-  // filter [dir/d/file/f]
   
   public static String getHelpMessage() {
     String default_color = base.foreground("default");

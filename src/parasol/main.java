@@ -1,4 +1,6 @@
-import parasolib.*;
+package parasol;
+
+import parasol.parasolib.*;
 import java.io.File;
 
 import bananatui.base;
@@ -13,9 +15,9 @@ public class main {
       || checkForSize(args))
       {return;}
 
-    globalvariables.SHELL_SILENT = checkForArgument(args, "--silent-shell");
-    globalvariables.SHOW_HIDDEN_FILES = showHiddenFiles(args);
-    globalvariables.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
+    global.SHELL_SILENT = checkForArgument(args, "--silent-shell");
+    global.SHOW_HIDDEN_FILES = showHiddenFiles(args);
+    global.DISPLAY_VERTICALLY_ONLY = displayVertically(args);
     
     browser.browser_directory = getPath(args);
     config.initialize();
@@ -45,7 +47,7 @@ public class main {
   private static boolean checkForVersion(String[] args) {
     boolean result = checkForArgument(args, new String[]{"-v", "--version"});
     if (result) {
-      base.println("Parasol version " + globalvariables.PARASOL_VERSION);
+      base.println("Parasol version " + global.PARASOL_VERSION);
     }
     return result;
   }
@@ -53,7 +55,7 @@ public class main {
   private static boolean checkForHelp(String[] args) {
     boolean result = checkForArgument(args, new String[]{"-h", "--help"});
     if (result) {
-      String help = globalvariables.getHelpMessage();
+      String help = global.getHelpMessage();
       base.println(help);
     }
     return result;

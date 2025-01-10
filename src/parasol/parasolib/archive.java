@@ -1,4 +1,4 @@
-package parasolib;
+package parasol.parasolib;
 
 import java.io.File;
 import java.nio.file.Files;

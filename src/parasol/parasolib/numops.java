@@ -1,4 +1,4 @@
-package parasolib;
+package parasol.parasolib;
 
 public class numops {
   public static boolean isUint(String s) {

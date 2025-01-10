@@ -1,6 +1,8 @@
-package parasolib;
+package parasol.parasolib;
 
 import bananatui.*;
+import parasol.global;
+
 import java.io.File;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
@@ -16,7 +18,7 @@ public class browser {
 
     for (int i = 0; i < paths.length; i++) {
       File f = new File(parent + "/" + paths[i]);
-      if (globalvariables.SHOW_HIDDEN_FILES || !f.isHidden()) {
+      if (global.SHOW_HIDDEN_FILES || !f.isHidden()) {
         if (f.isFile()) {files.add(paths[i]);}
         else if (f.isDirectory()) {dirs.add(paths[i]);}
       }
@@ -32,13 +34,13 @@ public class browser {
       String num = addNumberStr(i+baseI);
       if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory())) {
         String path_element = num + paths[i]; path_element = shortenName(path_element);
-        String separator = (column_size >= 1 || globalvariables.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
+        String separator = (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
 
         s = s + path_element + separator;
         if (column_size < 1) {column_size += 1;} else {column_size = 0;}
       }
     }
-    if (!globalvariables.DISPLAY_VERTICALLY_ONLY && column_size != 0) {
+    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {
       return s + "\n\n";
     }
     else {return s + "\n";}
@@ -53,7 +55,7 @@ public class browser {
   }
 
   private static String shortenName(String name) {
-    int max_length = (globalvariables.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
+    int max_length = (global.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
     if (name.length() < max_length) {return name;}
     String buf = "";
     for (int i = 0; i < max_length-1; i++) {
