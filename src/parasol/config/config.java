@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class config {
   public static String[] getBookmarks() {
-    ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.patasol");
+    ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();
     
     for (String line : lines) {

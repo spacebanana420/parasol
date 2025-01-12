@@ -25,9 +25,9 @@ public class confio {
       var stream = new FileInputStream(path);
       config_bytes = stream.readAllBytes();
       stream.close();
+      return new String(config_bytes);
     }
     catch(IOException e) {return "";}
-    return new String(config_bytes);
   }
   
   public static ArrayList<String> readLines(String path) {
@@ -37,8 +37,10 @@ public class confio {
     for (int i = 0; i < confstr.length(); i++) {
       char c = confstr.charAt(i);
       boolean isnewline = c == '\n';
-      if (isnewline && line.length() > 0) {lines.add(line); line = "";}
-      else if (!isnewline) {line += c;}
+      if (isnewline) {
+        if (line.length() > 0) {lines.add(line); line = "";}
+      }
+      else {line += c;}
     }
     return lines;
   }
