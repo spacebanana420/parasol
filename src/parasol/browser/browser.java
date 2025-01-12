@@ -1,4 +1,4 @@
-package parasol.parasolib;
+package parasol.browser;
 
 import bananatui.*;
 import parasol.global;

@@ -1,6 +1,6 @@
 package parasol;
 
-import parasol.parasolib.commands;
+import parasol.browser.commands;
 import java.io.File;
 
 public class cli {

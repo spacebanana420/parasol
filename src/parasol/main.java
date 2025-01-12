@@ -1,6 +1,7 @@
 package parasol;
 
-import parasol.parasolib.*;
+import parasol.browser.*;
+import parasol.config.confio;
 import java.io.File;
 
 import bananatui.base;
@@ -16,7 +17,7 @@ public class main {
     global.DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
     
     browser.browser_directory = cli.getPath(args);
-    config.initialize();
+    confio.initialize();
     if (cli.checkShell(args)) {shell.runShell();}
     else {browser.runBrowser();}
   }

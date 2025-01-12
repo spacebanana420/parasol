@@ -37,13 +37,7 @@ For a help screen and list of commands, run Parasol with `-h` or `--help` comman
 
 ### Using [Yuuka](https://github.com/spacebanana420/yuuka)
 ```
-yuuka package -o parasol.jar
-```
-
-### Using Bash
-```
-mkdir build
-bash build.sh
+yuuka package
 ```
 
 ### With a Unix-like shell:

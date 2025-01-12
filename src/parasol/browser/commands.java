@@ -1,4 +1,4 @@
-package parasol.parasolib;
+package parasol.browser;
 
 import java.io.File;
 import java.io.IOException;
@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 
+import parasol.config.config;
+import parasol.config.confio;
 import parasol.global;
 import parasol.misc.misc;
 import parasol.misc.fileops;
@@ -126,7 +128,7 @@ public class commands {
           base.clear();
           userinput.pressToContinue(
             "You didn't add any bookmarks to parasol!"
-            + "\nTo add bookmarks, create a file at " + config.CONFIG_PATH + System.getProperty("file.separator") + "bookmarks.parasol"
+            + "\nTo add bookmarks, create a file at " + confio.CONFIG_PATH + System.getProperty("file.separator") + "bookmarks.parasol"
             + " and add directory paths, one per line"
             + "\n\nExample:\n/home/user\n/path/to/games\n/home/user/music"
           );
@@ -138,7 +140,7 @@ public class commands {
       case "add-bookmark":
         config.addBookmark(browser.browser_directory);
         userinput.pressToContinue(
-          "The current directory has been added to the bookmarks list at\n" + config.CONFIG_PATH + "/bookmarks.parasol"
+          "The current directory has been added to the bookmarks list at\n" + confio.CONFIG_PATH + "/bookmarks.parasol"
           );
         break;
       case "shell":
