@@ -12,64 +12,45 @@ import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
 
 public class browser {
-  private static String color_green = base.foreground("green");
-  private static String color_default = base.foreground("default");
-  private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
   public static String BROWSER_DIRECTORY = "";
+  
+  public static void runBrowser() {
+    while (true) {
+      String parent = BROWSER_DIRECTORY;
+      String[][] subpaths = getPaths(parent);
+      String dir_txt = browsertui.formString(parent, subpaths[0], false, 2);
+      String file_txt = browsertui.formString(parent, subpaths[1], true, 2+subpaths[0].length);
 
-  private static String[][] filterPaths(String parent, String[] paths) {
-    ArrayList<String> files = new ArrayList<String>();
-    ArrayList<String> dirs = new ArrayList<String>();
+      String screen = browsertui.buildScreen(parent, dir_txt, file_txt);
+      base.clear();
+      String answer = userinput.readUserInput(screen).strip();
 
-    for (int i = 0; i < paths.length; i++)
-    {
-      File f = new File(parent + "/" + paths[i]);
-      if (global.SHOW_HIDDEN_FILES || !f.isHidden())
+      if (answer.equals("0")) {return;}
+      if (answer.equals("1"))
       {
-        if (f.isFile()) {files.add(paths[i]);}
-        else if (f.isDirectory()) {dirs.add(paths[i]);}
+        String newparent = new File(parent).getParent();
+        if (newparent != null) {BROWSER_DIRECTORY = newparent;}
+        continue;
+      }
+
+      if (!numops.isUint(answer)) 
+      {
+        commands.runCommand(answer, parent, subpaths);
+        continue;
+      }
+      int answer_i = answerToIndex(answer);
+
+      if (indexLeadsToFile(answer_i, subpaths))
+      {
+        runner.openFile(parent, returnFile(answer_i, subpaths));
+      }
+      else if (indexLeadsToDir(answer_i, subpaths))
+      {
+        BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
       }
     }
-    return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
-
-  public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
-    String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
-    int column_size = 0;
-    
-    for (int i = 0; i < paths.length; i++)
-    {
-      File f = new File(parent + "/" + paths[i]);
-      String num = addNumberStr(i+baseI);
-      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory()))
-      {
-        String path_element = num + paths[i]; path_element = shortenName(path_element);
-        String separator = (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
-
-        s = s + path_element + separator;
-        if (column_size < 1) {column_size += 1;} else {column_size = 0;}
-      }
-    }
-    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return s + "\n\n";}
-    else {return s + "\n";}
-  }
-
-  private static String mkEmptySpace(int len) {
-    String empty_space = "";
-    for (int i = 0; i < 65-len; i++) {empty_space += " ";}
-    return empty_space;
-  }
-
-  private static String shortenName(String name) {
-    int max_length = (global.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
-    if (name.length() < max_length) {return name;}
-    String buf = "";
-    for (int i = 0; i < max_length-1; i++) {
-      buf += name.charAt(i);
-    }
-    return buf + "[...]";
-  }
-
+  
   public static String[][] getPaths(String parent) {
     String[] paths = new File(parent).list();
     if (paths == null || paths.length == 0) {return new String[][]{};}
@@ -91,40 +72,21 @@ public class browser {
 
   public static String returnDir(int i, String[][] paths) {return paths[0][i];}
   public static String returnFile(int i, String[][] paths) {return paths[1][i-paths[0].length];}
+  
+  private static String[][] filterPaths(String parent, String[] paths) {
+    ArrayList<String> files = new ArrayList<String>();
+    ArrayList<String> dirs = new ArrayList<String>();
 
-  public static void runBrowser() {
-    while (true) {
-      String parent = BROWSER_DIRECTORY;
-      String[][] subpaths = getPaths(parent);
-      String dir_txt = formString(parent, subpaths[0], false, 2);
-      String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
-
-      base.clear();
-      String answer = userinput.readUserInput(
-        parent + "\n\n"
-        + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt
-        ).strip();
-
-      if (answer.equals("0")) {return;}
-      if (answer.equals("1")) {
-        String newparent = new File(parent).getParent();
-        if (newparent != null) {BROWSER_DIRECTORY = newparent;}
-        continue;
-      }
-
-      if (!numops.isUint(answer)) {
-        commands.runCommand(answer, parent, subpaths);
-        continue;
-      }
-      int answer_i = answerToIndex(answer);
-
-      if (indexLeadsToFile(answer_i, subpaths)) {
-        runner.openFile(parent, returnFile(answer_i, subpaths));
-      }
-      else if (indexLeadsToDir(answer_i, subpaths)) {
-        BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
+    for (int i = 0; i < paths.length; i++)
+    {
+      File f = new File(parent + "/" + paths[i]);
+      if (global.SHOW_HIDDEN_FILES || !f.isHidden())
+      {
+        if (f.isFile()) {files.add(paths[i]);}
+        else if (f.isDirectory()) {dirs.add(paths[i]);}
       }
     }
+    return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
 }
 

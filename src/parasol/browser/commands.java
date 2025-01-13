@@ -91,12 +91,12 @@ public class commands {
         }
         break;
       case "dirs":
-        String dirs_txt = browser.formString(parent, paths[0], false, 2);
+        String dirs_txt = browsertui.formString(parent, paths[0], false, 2);
         base.clear();
         userinput.pressToContinue("Displaying directories:\n\n" + dirs_txt);
         break;
       case "files":
-        String files_txt = browser.formString(parent, paths[1], true, 2+paths[0].length);
+        String files_txt = browsertui.formString(parent, paths[1], true, 2+paths[0].length);
         base.clear();
         userinput.pressToContinue("Displaying files:\n\n" + files_txt);
         break;

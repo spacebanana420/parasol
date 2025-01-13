@@ -58,6 +58,7 @@ public class confio {
     for (int i = 0; i < confstr.length(); i++) {
       char c = confstr.charAt(i);
       if (c == '\n') {
+        line = line.trim();
         if (line.length() > 0 && line.charAt(0) != '#') {lines.add(line);}
         line = "";
       }
