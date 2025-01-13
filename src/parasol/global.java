@@ -5,7 +5,7 @@ import bananatui.base;
 public class global {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.8"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"0.9"+base.foreground("default"); 
   public static boolean SHELL_SILENT = false;
   
   public static String getHelpMessage() {

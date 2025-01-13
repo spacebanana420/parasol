@@ -18,8 +18,10 @@ For a help screen and list of commands, run Parasol with `-h` or `--help` comman
 
 ### Requirements
 * Java 11 or newer
-* xdg-utils **(for Unix-like systems only)**
+* xdg-utils **(for Unix-like systems only) (optional)**
 * lsblk (for listing disks on Linux) **(optional)**
+
+Note: for xdg-utils to be optional on unix-like system you must set an appropriate command/program for each file extension in `~/.config/parasol/config.parasol`
 
 ### Officially tested systems:
 * Linux-based
