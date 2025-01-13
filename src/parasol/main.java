@@ -11,13 +11,14 @@ public class main {
   public static void main(String[] args) {
     if (System.getProperty("os.name").contains("Windows")) {extra.windows_enableASCII();}
     if (displayedInfo(args)) {return;}
-
+    
+    confio.initialize();
+    global.assignConfigValues();
     global.SHELL_SILENT = cli.silentShell(args);
     global.SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
     global.DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
     
     browser.BROWSER_DIRECTORY = cli.getPath(args);
-    confio.initialize();
     if (cli.checkShell(args)) {shell.runShell();}
     else {browser.runBrowser();}
   }

@@ -25,11 +25,16 @@ public class confio {
           String default_config =
             "==Parasol config=="
             + "\n# Lines starting with # are ignored"
-            + "\n\n# Override the program and arguments to run according to the file extension, you can add as many as you want"
+            + "\n"
+            + "\n# Override the program and arguments to run according to the file extension, you can add as many as you want"
             + "\n# You can pass the argument %F to the command to specify where the file you open should be, otherwise it's added at the end"
             + "\n#runner=extension1,extension2,extension3:command arg1 arg2 arg3 %F"
             + "\n#Example: runner=mp4,mov,mkv,avi:vlc"
             + "\n#Example: runner=png,jpg,webp:mpv %F --keep-open"
+            + "\n"
+            + "\n# When set to true, the applications Parasol opens will inherit its standard input and output"
+            + "\n# Enable this setting to view the output of CLI applications or interact with TUI applications (such as Vim and Nano)"
+            + "\n#process-inherit-io=true"
           ;
           fo.write(default_config.getBytes());
           fo.close();
@@ -75,6 +80,14 @@ public class confio {
       return true;
     }
     catch (IOException e) {return false;}
+  }
+  
+  static String findOptionValue(ArrayList<String> lines, String setting) {
+    for (String line : lines) {
+      String result = getOptionValue(line, setting);
+      if (result != null) {return result;}
+    }
+    return null;
   }
   
   static String getOptionValue(String line, String setting) {

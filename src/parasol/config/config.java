@@ -5,6 +5,15 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class config {
+  public static ArrayList<String> readBaseConfig() {
+    return confio.readLines(confio.CONFIG_PATH + "/config.parasol");
+  }
+  
+  public static boolean processInheritIO(ArrayList<String> conf) {
+    String result = confio.findOptionValue(conf, "process-inherit-io");
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
   public static String[] getBookmarks() {
     ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();
@@ -21,8 +30,7 @@ public class config {
     confio.writeFile(confio.CONFIG_PATH + "/bookmarks.parasol", bookmark + "\n", true);
   }
   
-  public static FileRunner[] getFileRunners() {
-    ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/config.parasol");
+  public static FileRunner[] getFileRunners(ArrayList<String> lines) {
     var runners = new ArrayList<FileRunner>();
     for (String line : lines)
     {

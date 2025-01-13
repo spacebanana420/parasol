@@ -91,12 +91,10 @@ public class browser {
   }
 }
 
-class runner {
-  private static final FileRunner[] FILE_RUNNERS = config.getFileRunners();
-  
+class runner {  
   public static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
-    for (FileRunner fr : FILE_RUNNERS) 
+    for (FileRunner fr : global.FILE_RUNNERS) 
     {
       if (fr.hasValidExtension(file))
       {
@@ -123,8 +121,11 @@ class runner {
     try
     {
       ProcessBuilder pbuilder = new ProcessBuilder(command);
-      pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later support
-      pbuilder.redirectError(Redirect.DISCARD);
+      if (global.PROCESS_INHERIT_IO) {pbuilder.inheritIO();}
+      else {
+        pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later support
+        pbuilder.redirectError(Redirect.DISCARD);
+      }
       pbuilder.start();
     }
     catch(IOException e) {
