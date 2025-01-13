@@ -54,7 +54,7 @@ public class browser {
   
   public static String[][] getPaths(String parent) {
     String[] paths = new File(parent).list();
-    if (paths == null || paths.length == 0) {return new String[][]{};}
+    if (paths == null || paths.length == 0) {return new String[][]{new String[0], new String[0]};}
     
     String[][] result = filterPaths(parent, paths);
     misc.selectionSort(result[0]);
