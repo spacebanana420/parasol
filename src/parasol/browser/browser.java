@@ -7,6 +7,7 @@ import parasol.misc.numops;
 import parasol.config.FileRunner;
 import parasol.config.config;
 
+import java.io.IOException;
 import java.io.File;
 import java.lang.ProcessBuilder.Redirect;
 import java.util.ArrayList;
@@ -122,11 +123,16 @@ class runner {
     try
     {
       ProcessBuilder pbuilder = new ProcessBuilder(command);
-      pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later
+      pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later support
       pbuilder.redirectError(Redirect.DISCARD);
       pbuilder.start();
     }
-    catch(Exception e) {e.printStackTrace();}
+    catch(IOException e) {
+      e.printStackTrace();
+      String txt = "===Command arguments===\n";
+      for (String arg : command) {txt += arg + " ";}
+      userinput.pressToContinue(txt+"\n============\n\nFailed to open file!");
+    }
   }
 }
 
