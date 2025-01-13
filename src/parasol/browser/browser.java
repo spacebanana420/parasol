@@ -4,6 +4,8 @@ import bananatui.*;
 import parasol.global;
 import parasol.misc.misc;
 import parasol.misc.numops;
+import parasol.config.FileRunner;
+import parasol.config.config;
 
 import java.io.File;
 import java.lang.ProcessBuilder.Redirect;
@@ -13,14 +15,17 @@ public class browser {
   private static String color_green = base.foreground("green");
   private static String color_default = base.foreground("default");
   private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
+  public static String BROWSER_DIRECTORY = "";
 
   private static String[][] filterPaths(String parent, String[] paths) {
     ArrayList<String> files = new ArrayList<String>();
     ArrayList<String> dirs = new ArrayList<String>();
 
-    for (int i = 0; i < paths.length; i++) {
+    for (int i = 0; i < paths.length; i++)
+    {
       File f = new File(parent + "/" + paths[i]);
-      if (global.SHOW_HIDDEN_FILES || !f.isHidden()) {
+      if (global.SHOW_HIDDEN_FILES || !f.isHidden())
+      {
         if (f.isFile()) {files.add(paths[i]);}
         else if (f.isDirectory()) {dirs.add(paths[i]);}
       }
@@ -31,10 +36,13 @@ public class browser {
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
     String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
     int column_size = 0;
-    for (int i = 0; i < paths.length; i++) {
+    
+    for (int i = 0; i < paths.length; i++)
+    {
       File f = new File(parent + "/" + paths[i]);
       String num = addNumberStr(i+baseI);
-      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory())) {
+      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory()))
+      {
         String path_element = num + paths[i]; path_element = shortenName(path_element);
         String separator = (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
 
@@ -42,17 +50,13 @@ public class browser {
         if (column_size < 1) {column_size += 1;} else {column_size = 0;}
       }
     }
-    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {
-      return s + "\n\n";
-    }
+    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return s + "\n\n";}
     else {return s + "\n";}
   }
 
-  public static String mkEmptySpace(int len) {
+  private static String mkEmptySpace(int len) {
     String empty_space = "";
-    for (int i = 0; i < 65-len; i++) {
-      empty_space += " ";
-    }
+    for (int i = 0; i < 65-len; i++) {empty_space += " ";}
     return empty_space;
   }
 
@@ -68,9 +72,8 @@ public class browser {
 
   public static String[][] getPaths(String parent) {
     String[] paths = new File(parent).list();
-    if (paths == null || paths.length == 0) {
-      return new String[][]{};
-    }
+    if (paths == null || paths.length == 0) {return new String[][]{};}
+    
     String[][] result = filterPaths(parent, paths);
     misc.selectionSort(result[0]);
     misc.selectionSort(result[1]);
@@ -89,10 +92,9 @@ public class browser {
   public static String returnDir(int i, String[][] paths) {return paths[0][i];}
   public static String returnFile(int i, String[][] paths) {return paths[1][i-paths[0].length];}
 
-  public static String browser_directory = "";
   public static void runBrowser() {
     while (true) {
-      String parent = browser_directory;
+      String parent = BROWSER_DIRECTORY;
       String[][] subpaths = getPaths(parent);
       String dir_txt = formString(parent, subpaths[0], false, 2);
       String file_txt = formString(parent, subpaths[1], true, 2+subpaths[0].length);
@@ -106,7 +108,7 @@ public class browser {
       if (answer.equals("0")) {return;}
       if (answer.equals("1")) {
         String newparent = new File(parent).getParent();
-        if (newparent != null) {browser_directory = newparent;}
+        if (newparent != null) {BROWSER_DIRECTORY = newparent;}
         continue;
       }
 
@@ -120,15 +122,26 @@ public class browser {
         runner.openFile(parent, returnFile(answer_i, subpaths));
       }
       else if (indexLeadsToDir(answer_i, subpaths)) {
-        browser_directory = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
+        BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
       }
     }
   }
 }
 
 class runner {
+  private static final FileRunner[] FILE_RUNNERS = config.getFileRunners();
+  
   public static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
+    for (FileRunner fr : FILE_RUNNERS) 
+    {
+      if (fr.hasValidExtension(file))
+      {
+        String[] cmd = fr.buildCommand(full_path);
+        execute(cmd);
+        return;
+      }
+    }
     String[] cmd = getRunnerCMD(full_path);
     execute(cmd);
   }
@@ -144,7 +157,8 @@ class runner {
   }
 
   public static void execute(String[] command) {
-    try {
+    try
+    {
       ProcessBuilder pbuilder = new ProcessBuilder(command);
       pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later
       pbuilder.redirectError(Redirect.DISCARD);

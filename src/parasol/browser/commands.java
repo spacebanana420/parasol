@@ -33,7 +33,7 @@ public class commands {
         sortFilesBySize(parent, paths[1]);
         break;
       case "home":
-        browser.browser_directory = System.getProperty("user.home");
+        browser.BROWSER_DIRECTORY = System.getProperty("user.home");
         return;
       case "clear-clipboard":
         browserdata.file_clipboard = new String[]{"", ""};
@@ -120,7 +120,7 @@ public class commands {
         String[] devices = platform.getSystemDisks();
         if (devices.length == 0) {break;}
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
-        if (!d.equals("")) {browser.browser_directory = d; return;}
+        if (!d.equals("")) {browser.BROWSER_DIRECTORY = d; return;}
         break;
       case "bookmarks":
         String[] bookmarks = config.getBookmarks();
@@ -135,10 +135,10 @@ public class commands {
           break;
         }
         String b = userinput.chooseOption_string(bookmarks, "Choose a place to go to", "Cancel");
-        if (!b.equals("")) {browser.browser_directory = b; return;}
+        if (!b.equals("")) {browser.BROWSER_DIRECTORY = b; return;}
         break;
       case "add-bookmark":
-        config.addBookmark(browser.browser_directory);
+        config.addBookmark(browser.BROWSER_DIRECTORY);
         userinput.pressToContinue(
           "The current directory has been added to the bookmarks list at\n" + confio.CONFIG_PATH + "/bookmarks.parasol"
           );
@@ -218,7 +218,7 @@ public class commands {
         else if (misc.startsWith(cmd_str, "goto ")) {
           String[] args = misc.groupStrings(cmd_str);
           if (args.length >= 2 && new File(args[1]).isDirectory()) {
-            browser.browser_directory = new File(args[1]).getAbsolutePath();
+            browser.BROWSER_DIRECTORY = new File(args[1]).getAbsolutePath();
             return;
           }
         }
@@ -258,7 +258,7 @@ public class commands {
           int i = userinput.answerToNumber(args[1]);
           if (i < 0 || i >= browserdata.tabSize()) {return;}
           String tab_path = browserdata.getTab(i);
-          browser.browser_directory = tab_path;
+          browser.BROWSER_DIRECTORY = tab_path;
           return;
         }
     }

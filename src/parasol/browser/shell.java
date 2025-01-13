@@ -18,7 +18,7 @@ public class shell {
       String lineStart =
         base.boldMode(true)
         + base.foreground("green")
-        + "[" + System.getProperty("user.name") + ":" + shortenPath(browser.browser_directory)
+        + "[" + System.getProperty("user.name") + ":" + shortenPath(browser.BROWSER_DIRECTORY)
         + "]$ " + base.foreground("default")
         + base.boldMode(false);
 
@@ -44,7 +44,7 @@ public class shell {
       }
       try {
         new ProcessBuilder(cmd)
-          .directory(new File(browser.browser_directory))
+          .directory(new File(browser.BROWSER_DIRECTORY))
           .inheritIO()
           .start()
           .waitFor();
@@ -81,17 +81,17 @@ public class shell {
   }
 
   private static void changeDirectory(String[] cmd) {
-    if (cmd.length == 1) {browser.browser_directory = System.getProperty("user.home");}
+    if (cmd.length == 1) {browser.BROWSER_DIRECTORY = System.getProperty("user.home");}
     else if (cmd[1].equals("..")) {
-      String newparent = new File(browser.browser_directory).getParent();
-      if (newparent != null) {browser.browser_directory = newparent;}
+      String newparent = new File(browser.BROWSER_DIRECTORY).getParent();
+      if (newparent != null) {browser.BROWSER_DIRECTORY = newparent;}
     }
     else if (onlyDots(cmd[1])) {return;}
     else if (new File(cmd[1]).isDirectory()) {
-      browser.browser_directory = new File(cmd[1]).getAbsolutePath();
+      browser.BROWSER_DIRECTORY = new File(cmd[1]).getAbsolutePath();
     }
-    else if (new File(browser.browser_directory + "/" + cmd[1]).isDirectory()) {
-      browser.browser_directory += System.getProperty("file.separator") + cmd[1];
+    else if (new File(browser.BROWSER_DIRECTORY + "/" + cmd[1]).isDirectory()) {
+      browser.BROWSER_DIRECTORY += System.getProperty("file.separator") + cmd[1];
     }
     else {base.println("cd error: " + cmd[1] + " is not a directory!");}
   }

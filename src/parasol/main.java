@@ -16,7 +16,7 @@ public class main {
     global.SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
     global.DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
     
-    browser.browser_directory = cli.getPath(args);
+    browser.BROWSER_DIRECTORY = cli.getPath(args);
     confio.initialize();
     if (cli.checkShell(args)) {shell.runShell();}
     else {browser.runBrowser();}
