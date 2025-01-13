@@ -126,7 +126,11 @@ class runner {
         pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later support
         pbuilder.redirectError(Redirect.DISCARD);
       }
-      pbuilder.start();
+      if (global.PROCESS_WAIT_FOR_COMPLETION) {
+        try{pbuilder.start().waitFor();}
+        catch (InterruptedException e) {return;}
+      }
+      else {pbuilder.start();}
     }
     catch(IOException e) {
       e.printStackTrace();

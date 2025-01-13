@@ -14,11 +14,13 @@ public class global {
   
   public static FileRunner[] FILE_RUNNERS;
   public static boolean PROCESS_INHERIT_IO = false;
+  public static boolean PROCESS_WAIT_FOR_COMPLETION = false;
   
   public static void assignConfigValues() {
     ArrayList<String> conf = config.readBaseConfig();
     FILE_RUNNERS = config.getFileRunners(conf);
     PROCESS_INHERIT_IO = config.processInheritIO(conf);
+    PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
   }
   
   public static String getHelpMessage() {

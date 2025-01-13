@@ -14,6 +14,11 @@ public class config {
     return result != null && result.toLowerCase().equals("true");
   }
   
+  public static boolean processWaitForCompletion(ArrayList<String> conf) {
+    String result = confio.findOptionValue(conf, "process-wait-for-completion");
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
   public static String[] getBookmarks() {
     ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();
