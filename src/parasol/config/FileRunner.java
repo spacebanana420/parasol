@@ -46,6 +46,7 @@ public class FileRunner {
   }
   
   private boolean hasExtension(String filepath, String extension) {
+    if (filepath.length() <= extension.length()) {return false;}
     String full_extension = "." + extension;
     int offset = filepath.length()-full_extension.length();
     for (int i = 0; i < full_extension.length(); i++) {
