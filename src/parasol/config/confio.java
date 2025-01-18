@@ -10,18 +10,20 @@ import java.util.ArrayList;
 
 public class confio {
   public static final String CONFIG_PATH = getConfigPath();
+  public static String getConfigFile() {return CONFIG_PATH + "/config.parasol";}
   
   public static boolean initialize() {
     if (new File(CONFIG_PATH).isDirectory()) {
+      String config_file = getConfigFile();
       try
       {
         var p_bookmarks = Path.of(CONFIG_PATH + "/bookmarks.parasol");
-        var p_config = Path.of(CONFIG_PATH + "/config.parasol");
+        var p_config = Path.of(config_file);
         if (!Files.exists(p_bookmarks)) {Files.createFile(p_bookmarks);}
         if (!Files.exists(p_config))
         {
           Files.createFile(p_config);
-          var fo = new FileOutputStream(CONFIG_PATH + "/config.parasol");
+          var fo = new FileOutputStream(config_file);
           String default_config =
             "==Parasol config=="
             + "\n# Lines starting with # are ignored"

@@ -19,7 +19,9 @@ public class main {
     global.DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
     
     browser.BROWSER_DIRECTORY = cli.getPath(args);
-    if (cli.checkShell(args)) {shell.runShell();}
+    
+    if (cli.checkOpenConfig(args)) {browser.openConfig();}
+    else if (cli.checkShell(args)) {shell.runShell();}
     else {browser.runBrowser();}
   }
   

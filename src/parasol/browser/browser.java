@@ -4,8 +4,7 @@ import bananatui.*;
 import parasol.global;
 import parasol.misc.misc;
 import parasol.misc.numops;
-import parasol.config.FileRunner;
-import parasol.config.config;
+import parasol.config.*;
 
 import java.io.IOException;
 import java.io.File;
@@ -89,9 +88,11 @@ public class browser {
     }
     return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
+  
+  public static void openConfig() {runner.openFile("", confio.getConfigFile());}
 }
 
-class runner {  
+class runner {
   public static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
     for (FileRunner fr : global.FILE_RUNNERS) 

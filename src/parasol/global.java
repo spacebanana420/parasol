@@ -42,6 +42,7 @@ public class global {
     + "   -s (--size) [path to file] - displays the size of a file\n"
     + "   -S (--shell) - opens Parasol's shell instead\n"
     + "   --silent-shell - does not print the start message when running the shell\n"
+    + "   -c (--config) - open Parasol's main config with a text editor\n"
     + "\n"
     + green+"List of commands:\n"+default_color
     + "   * help - opens this menu\n"
@@ -53,6 +54,7 @@ public class global {
     + "   * find-strict [keyword] - shows all files and directories that contain [keyword] in the name (case-sensitive)\n"
     + "   * dirs - Displays available directories\n"
     + "   * files - Displays available files\n"
+    + "   * config - open Parasol's main config with a text editor\n"
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * mkfile [name] - creates a new file\n"

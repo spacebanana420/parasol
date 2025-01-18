@@ -26,6 +26,8 @@ public class cli {
   public static boolean checkShell(String[] args) {return checkForArgument(args, "-S", "--shell");}
   
   public static boolean silentShell(String[] args) {return checkForArgument(args, "--silent-shell");}
+  
+  public static boolean checkOpenConfig(String[] args) {return checkForArgument(args, "-c", "--config");}
 
   public static String getPath(String[] args) {
     String absoluteParent = new File("").getAbsolutePath();

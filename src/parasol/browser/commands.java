@@ -149,6 +149,9 @@ public class commands {
       case "hidden":
         global.SHOW_HIDDEN_FILES = !global.SHOW_HIDDEN_FILES;
         break;
+      case "config":
+        browser.openConfig();
+        break;
       default:
         if (misc.startsWith(cmd_str, "size ")) {
           String[] args = misc.groupStrings(cmd_str);
