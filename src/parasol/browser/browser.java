@@ -110,12 +110,9 @@ class runner {
 
   private static String[] getRunnerCMD(String path) {
     String os = System.getProperty("os.name");
-    if (os.contains("Windows"))
-      {return new String[]{"explorer.exe", path};}
-    else if (os.contains("Mac") || os.equals("Haiku"))
-      {return new String[]{"open", path};}
-    else
-      {return new String[]{"xdg-open", path};}
+    if (os.contains("Windows")) {return new String[]{"explorer.exe", path};}
+    else if (os.contains("Mac") || os.equals("Haiku")) {return new String[]{"open", path};}
+    else {return new String[]{"xdg-open", path};}
   }
 
   public static void execute(String[] command) {

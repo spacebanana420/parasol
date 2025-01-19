@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class global {
   public static boolean SHOW_HIDDEN_FILES = false;
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
-  public static String PARASOL_VERSION = base.foreground("green")+"0.9"+base.foreground("default"); 
+  public static String PARASOL_VERSION = base.foreground("green")+"1.0"+base.foreground("default"); 
   public static boolean SHELL_SILENT = false;
   
   public static FileRunner[] FILE_RUNNERS;

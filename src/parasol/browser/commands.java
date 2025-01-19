@@ -9,14 +9,12 @@ import java.util.ArrayList;
 import parasol.config.config;
 import parasol.config.confio;
 import parasol.global;
-import parasol.misc.misc;
-import parasol.misc.fileops;
-import parasol.misc.numops;
+import parasol.misc.*;
 
 import bananatui.*;
 
 public class commands {
-  public static void runCommand(String cmd_str, String parent, String[][] paths) { //parasol commands, not system processes
+  public static void runCommand(String cmd_str, String parent, String[][] paths) {
     switch (cmd_str) {
       case "help":
         displayhelp();
