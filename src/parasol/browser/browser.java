@@ -22,8 +22,7 @@ public class browser {
       String file_txt = browsertui.formString(parent, subpaths[1], true, 2+subpaths[0].length);
 
       String screen = browsertui.buildScreen(parent, dir_txt, file_txt);
-      base.clear();
-      String answer = userinput.readUserInput(screen).strip();
+      String answer = userinput.spawnAndRead(screen).strip();
 
       if (answer.equals("0")) {return;}
       if (answer.equals("1"))
@@ -156,7 +155,9 @@ class browserdata {
     if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
     String txt = "Currently saved tabs:\n\n";
     String green = base.foreground("green"); String default_color = base.foreground("default");
-    for (int i = 0; i < browser_tabs.size(); i++) {
+    
+    for (int i = 0; i < browser_tabs.size(); i++)
+    {
       String tab = browser_tabs.get(i);
       String num = green + i + ": " + default_color;
       txt = txt + num + tab + "\n";

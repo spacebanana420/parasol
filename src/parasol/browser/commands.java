@@ -21,7 +21,7 @@ public class commands {
         break;
       case "version":
         userinput.pressToContinue("Parasol version " + global.PARASOL_VERSION);
-      break;
+        break;
       // case "archive":
       //   break;
       case "vertical":
@@ -292,18 +292,9 @@ public class commands {
   private static String roundSize(long size) {
     float roundedsize = size;
     String unit = "bytes";
-    if (size > 1000000000) {
-      roundedsize = size / 1000000000f;
-      unit = "GB";
-    }
-    else if (size > 1000000) {
-      roundedsize = size / 1000000f;
-      unit = "MB";
-    }
-    else if (size > 1000) {
-      roundedsize = size / 1000f;
-      unit = "KB";
-    }
+    if (size > 1000000000) {roundedsize = size / 1000000000f; unit = "GB";}
+    else if (size > 1000000) {roundedsize = size / 1000000f; unit = "MB";}
+    else if (size > 1000) {roundedsize = size / 1000f; unit = "KB";}
     return roundedsize + " " + unit;
   }
 
