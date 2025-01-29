@@ -92,7 +92,7 @@ public class browser {
 }
 
 class runner {
-  public static void openFile(String parent, String file) {
+  static void openFile(String parent, String file) {
     String full_path = parent + "/" + file;
     for (FileRunner fr : global.FILE_RUNNERS) 
     {
@@ -107,14 +107,7 @@ class runner {
     execute(cmd);
   }
 
-  private static String[] getRunnerCMD(String path) {
-    String os = System.getProperty("os.name");
-    if (os.contains("Windows")) {return new String[]{"explorer.exe", path};}
-    else if (os.contains("Mac") || os.equals("Haiku")) {return new String[]{"open", path};}
-    else {return new String[]{"xdg-open", path};}
-  }
-
-  public static void execute(String[] command) {
+  static void execute(String[] command) {
     try
     {
       ProcessBuilder pbuilder = new ProcessBuilder(command);
@@ -136,22 +129,29 @@ class runner {
       userinput.pressToContinue(txt+"\n============\n\nFailed to open file!");
     }
   }
+  
+  private static String[] getRunnerCMD(String path) {
+    String os = System.getProperty("os.name");
+    if (os.contains("Windows")) {return new String[]{"explorer.exe", path};}
+    else if (os.contains("Mac") || os.equals("Haiku")) {return new String[]{"open", path};}
+    else {return new String[]{"xdg-open", path};}
+  }
 }
 
 class browserdata {
-  public static String[] file_clipboard = new String[]{"", ""}; //path, name
-  public static boolean clipboard_cut = false;
+  static String[] file_clipboard = new String[]{"", ""}; //path, name
+  static boolean clipboard_cut = false;
 
-  public static ArrayList<String> browser_tabs = new ArrayList<String>();
+  static ArrayList<String> browser_tabs = new ArrayList<String>();
 
-  public static void addTab(String path) {browser_tabs.add(path);}
-  public static String getTab(int i) {return browser_tabs.get(i);}
-  public static void setTab(String path, int i) {browser_tabs.set(i, path);}
-  public static void removeTab(int i) {browser_tabs.remove(i);}
-  public static void clearTabs() {browser_tabs.clear();}
-  public static int tabSize() {return browser_tabs.size();}
+  static void addTab(String path) {browser_tabs.add(path);}
+  static String getTab(int i) {return browser_tabs.get(i);}
+  static void setTab(String path, int i) {browser_tabs.set(i, path);}
+  static void removeTab(int i) {browser_tabs.remove(i);}
+  static void clearTabs() {browser_tabs.clear();}
+  static int tabSize() {return browser_tabs.size();}
 
-  public static String getTabList() {
+  static String getTabList() {
     if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
     String txt = "Currently saved tabs:\n\n";
     String green = base.foreground("green"); String default_color = base.foreground("default");
