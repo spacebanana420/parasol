@@ -16,11 +16,15 @@ public class global {
   public static boolean PROCESS_INHERIT_IO = false;
   public static boolean PROCESS_WAIT_FOR_COMPLETION = false;
   
-  public static void assignConfigValues() {
+  public static void assignValues(String[] args) {
     ArrayList<String> conf = config.readBaseConfig();
     FILE_RUNNERS = config.getFileRunners(conf);
     PROCESS_INHERIT_IO = config.processInheritIO(conf);
     PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
+    
+    SHELL_SILENT = cli.silentShell(args);
+    SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
+    DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
   }
   
   public static String getHelpMessage() {

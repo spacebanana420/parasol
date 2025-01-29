@@ -13,11 +13,7 @@ public class main {
     if (displayedInfo(args)) {return;}
     
     confio.initialize();
-    global.assignConfigValues();
-    global.SHELL_SILENT = cli.silentShell(args);
-    global.SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
-    global.DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
-    
+    global.assignValues(args);
     browser.BROWSER_DIRECTORY = cli.getPath(args);
     
     if (cli.checkOpenConfig(args)) {browser.openConfig();}

@@ -16,19 +16,25 @@ public class browsertui {
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
     String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
     int column_size = 0;
+    int lines_amt = 0;
     
     for (int i = 0; i < paths.length; i++)
     {
       File f = new File(parent + "/" + paths[i]);
-      String num = addNumberStr(i+baseI);
-      if ((checkFiles && f.isFile()) || (!checkFiles && f.isDirectory()))
-      {
-        String path_element = num + paths[i]; path_element = shortenName(path_element);
-        String separator = (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) ? "\n" : mkEmptySpace(path_element.length());
-
-        s = s + path_element + separator;
-        if (column_size < 1) {column_size += 1;} else {column_size = 0;}
+      String file_number = addNumberStr(i+baseI);
+      boolean path_is_valid = (checkFiles && f.isFile()) || (!checkFiles && f.isDirectory());
+      if (!path_is_valid) {continue;}
+      
+      String path_element = file_number + paths[i]; path_element = shortenName(path_element);
+      String separator;
+      if (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) {
+        lines_amt++;
+        column_size = 0;
+        if (lines_amt >= 10) {separator = "\n\n"; lines_amt=0;} else {separator="\n";}
       }
+      else {separator = mkEmptySpace(path_element.length()); column_size++;}
+      
+      s += path_element + separator;
     }
     if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return s + "\n\n";}
     else {return s + "\n";}
@@ -43,10 +49,9 @@ public class browsertui {
   private static String shortenName(String name) {
     int max_length = (global.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
     if (name.length() < max_length) {return name;}
+    
     String buf = "";
-    for (int i = 0; i < max_length-1; i++) {
-      buf += name.charAt(i);
-    }
+    for (int i = 0; i < max_length-1; i++) {buf += name.charAt(i);}
     return buf + "[...]";
   }
 }
