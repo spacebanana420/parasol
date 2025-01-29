@@ -1,7 +1,7 @@
 package parasol.browser;
 
 import parasol.global;
-import bananatui.*;
+import bananatui.base;
 import java.io.File;
 
 public class browsertui {
@@ -10,11 +10,18 @@ public class browsertui {
   private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
   
   public static String buildScreen(String parent, String dir_txt, String file_txt) {
-    return parent + "\n\n" + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n" + dir_txt + file_txt;
+    return
+      base.boldMode(true) + parent + base.resetMode() + "\n\n"
+      + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n"
+      + dir_txt + file_txt;
   }
   
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
-    String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
+    String s =
+      (checkFiles)
+      ? base.boldMode(true) + "[Files]\n" + base.resetMode()
+      : base.boldMode(true) + "[Directories]\n" + base.resetMode()
+    ;
     int column_size = 0;
     int lines_amt = 0;
     
