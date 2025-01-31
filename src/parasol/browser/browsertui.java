@@ -17,10 +17,12 @@ public class browsertui {
   }
   
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
+    String bold = base.boldMode(true);
+    String no_bold = base.resetMode();
     String s =
       (checkFiles)
-      ? base.boldMode(true) + "[Files]\n" + base.resetMode()
-      : base.boldMode(true) + "[Directories]\n" + base.resetMode()
+      ? bold + "[Files]\n" + no_bold
+      : bold + "[Directories]\n" + no_bold
     ;
     int column_size = 0;
     int lines_amt = 0;

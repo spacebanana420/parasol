@@ -31,20 +31,13 @@ public class browser {
         if (newparent != null) {BROWSER_DIRECTORY = newparent;}
         continue;
       }
-
-      if (!numops.isUint(answer)) 
-      {
-        commands.runCommand(answer, parent, subpaths);
-        continue;
-      }
+      if (!numops.isUint(answer)) {commands.runCommand(answer, parent, subpaths); continue;}
+      
       int answer_i = answerToIndex(answer);
-
-      if (indexLeadsToFile(answer_i, subpaths))
-      {
+      if (indexLeadsToFile(answer_i, subpaths)) {
         runner.openFile(parent, returnFile(answer_i, subpaths));
       }
-      else if (indexLeadsToDir(answer_i, subpaths))
-      {
+      else if (indexLeadsToDir(answer_i, subpaths)){
         BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
       }
     }
@@ -160,7 +153,7 @@ class browserdata {
     {
       String tab = browser_tabs.get(i);
       String num = green + i + ": " + default_color;
-      txt = txt + num + tab + "\n";
+      txt += num + tab + "\n";
     }
     return txt;
   }
