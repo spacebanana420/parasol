@@ -36,6 +36,8 @@ public class global {
       DISPLAY_VERTICALLY_ONLY = config.displayPathsVertically(conf);
       DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
     });
+    
+    t1.start(); t2.start();
     try {t1.join(); t2.join();}
     catch (InterruptedException e) {e.printStackTrace();}
   }
