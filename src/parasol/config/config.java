@@ -10,28 +10,23 @@ public class config {
   }
   
   public static boolean processInheritIO(ArrayList<String> conf) {
-    String result = confio.findOptionValue(conf, "process-inherit-io");
-    return result != null && result.toLowerCase().equals("true");
+    return confio.findOptionBool(conf, "process-inherit-io");
   }
   
   public static boolean processWaitForCompletion(ArrayList<String> conf) {
-    String result = confio.findOptionValue(conf, "process-wait-for-completion");
-    return result != null && result.toLowerCase().equals("true");
+    return confio.findOptionBool(conf, "process-wait-for-completion");
   }
   
   public static boolean silentShell(ArrayList<String> conf) {
-    String result = confio.findOptionValue(conf, "silent-shell");
-    return result != null && result.toLowerCase().equals("true");
+    return confio.findOptionBool(conf, "silent-shell");
   }
   
   public static boolean showHiddenPaths(ArrayList<String> conf) {
-    String result = confio.findOptionValue(conf, "show-hidden-paths");
-    return result != null && result.toLowerCase().equals("true");
+    return confio.findOptionBool(conf, "show-hidden-paths");
   }
   
   public static boolean displayPathsVertically(ArrayList<String> conf) {
-    String result = confio.findOptionValue(conf, "display-paths-vertically");
-    return result != null && result.toLowerCase().equals("true");
+    return confio.findOptionBool(conf, "display-paths-vertically");
   }
   
   public static String[] getBookmarks() {

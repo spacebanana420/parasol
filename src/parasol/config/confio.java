@@ -97,6 +97,11 @@ public class confio {
     catch (IOException e) {return false;}
   }
   
+  static boolean findOptionBool(ArrayList<String> lines, String setting) {
+    String result = findOptionValue(lines, setting);
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
   static String findOptionValue(ArrayList<String> lines, String setting) {
     for (String line : lines) {
       String result = getOptionValue(line, setting);
