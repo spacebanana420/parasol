@@ -54,11 +54,7 @@ public class shell {
       previous_line = prompt;
     }
   }
-
-  // private static String getPathIndicator() {
-
-  // }
-
+  
   private static String getStartMessage() {
     return
       base.foreground("green")+"[Parasol Shell]\n"+base.foreground("default")

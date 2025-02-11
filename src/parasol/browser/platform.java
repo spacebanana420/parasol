@@ -20,12 +20,10 @@ public class platform {
         return getSystemDisks_freebsd();
       default:
         return getSystemDisks_freebsd();
-        //userinput.pressToContinue("This feature is only available for Linux systems, FreeBSD, and Windows!");
-        //return new String[]{};
     }
 
   }
-  private static String[] getSystemDisks_linux() { //linux-only at least for now
+  private static String[] getSystemDisks_linux() {
     var cmd = new String[]{"lsblk", "-A", "-l", "-o", "MOUNTPOINT"};
     try {
       Process process = new ProcessBuilder(cmd).start();

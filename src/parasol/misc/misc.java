@@ -37,15 +37,7 @@ public class misc {
     if (buffer.length() != 0) {group.add(buffer);}
     return group.toArray(new String[0]);
   }
-
-  // public static boolean startsWith(String s, String keyword) {
-  //   if (s.length() < keyword.length()) {return false;}
-  //   String buf = "";
-  //   for (int i = 0; i < keyword.length(); i++) {
-  //     buf += s.charAt(i);
-  //   }
-  //   return buf.equals(keyword);
-  // }
+  
   public static boolean startsWith(String s, String keyword) {
     if (s.length() < keyword.length()) {return false;}
     for (int i = 0; i < keyword.length(); i++) {
