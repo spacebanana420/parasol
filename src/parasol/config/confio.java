@@ -41,6 +41,15 @@ public class confio {
             + "\n# When set to true, Parasol will wait for the files it opens to be closed"
             + "\n# You can also use this setting to interact with CLI and TUI programs"
             + "\n#process-wait-for-completion=true"
+            + "\n"
+            + "\n# When set to true, Parasol's built-in shell does not print an initial message by default"
+            + "\n#silent-shell=false"
+            + "\n"
+            + "\n# Displays hidden paths by default"
+            + "\n#show-hidden-paths=false"
+            + "\n"
+            + "\n# Displays paths vertically, all separated by lines"
+            + "\n#display-paths-vertically=false"
           ;
           fo.write(default_config.getBytes());
           fo.close();

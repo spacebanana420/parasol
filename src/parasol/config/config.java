@@ -19,6 +19,21 @@ public class config {
     return result != null && result.toLowerCase().equals("true");
   }
   
+  public static boolean silentShell(ArrayList<String> conf) {
+    String result = confio.findOptionValue(conf, "silent-shell");
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
+  public static boolean showHiddenPaths(ArrayList<String> conf) {
+    String result = confio.findOptionValue(conf, "show-hidden-paths");
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
+  public static boolean displayPathsVertically(ArrayList<String> conf) {
+    String result = confio.findOptionValue(conf, "display-paths-vertically");
+    return result != null && result.toLowerCase().equals("true");
+  }
+  
   public static String[] getBookmarks() {
     ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();

@@ -18,13 +18,26 @@ public class global {
   
   public static void assignValues(String[] args) {
     ArrayList<String> conf = config.readBaseConfig();
-    FILE_RUNNERS = config.getFileRunners(conf);
-    PROCESS_INHERIT_IO = config.processInheritIO(conf);
-    PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
+    var t1 = new Thread(() ->
+    {
+      FILE_RUNNERS = config.getFileRunners(conf);
+      PROCESS_INHERIT_IO = config.processInheritIO(conf);
+      PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
+    });
     
-    SHELL_SILENT = cli.silentShell(args);
-    SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
-    DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
+    var t2 = new Thread(() ->
+    {
+      SHELL_SILENT = config.silentShell(conf);
+      SHELL_SILENT = cli.silentShell(args);
+      
+      SHOW_HIDDEN_FILES = config.showHiddenPaths(conf);
+      SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
+      
+      DISPLAY_VERTICALLY_ONLY = config.displayPathsVertically(conf);
+      DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
+    });
+    try {t1.join(); t2.join();}
+    catch (InterruptedException e) {e.printStackTrace();}
   }
   
   public static String getHelpMessage() {
