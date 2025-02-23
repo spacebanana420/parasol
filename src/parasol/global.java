@@ -84,7 +84,7 @@ public class global {
     + "   * clear-clipboard - clears the clipboard\n"
     + "   * clipboard - views the file that is stored in the clipboard, if any\n"
     + "   * rename [number] [name] - renames the path of value [number] to [name]\n"
-    + "   * delete [number] - deletes the path of number [number]\n"
+    + "   * delete [number 1] [number 2] ... - deletes one or multiple paths according to their number\n"
     + "\n"
     + "   * goto [name] - changes location to the absolute path [name]\n"
     + "   * home - changes location to the user's home directory\n"

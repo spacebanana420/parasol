@@ -224,24 +224,7 @@ public class commands {
           }
         }
         else if (misc.startsWith(cmd_str, "delete ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-
-          int file_index = browser.answerToIndex(args[1]);
-          if (browser.indexLeadsToFile(file_index, paths)) {
-            String file_name = browser.returnFile(file_index, paths);
-            deleteFile(file_name, parent + "/" + file_name);
-          }
-          else if (browser.indexLeadsToDir(file_index, paths)) {
-            String dir_name = browser.returnDir(file_index, paths);
-            String message = "You are about to delete the directory " + dir_name + " and all contents inside it. Proceed? ";
-            if (userinput.askPrompt(message, false)) {
-              base.print("Deleting directory...");
-              boolean result = fileops.deleteDirectory(parent + "/" + dir_name);
-              if (result) {userinput.pressToContinue("The directory " + dir_name + " has been deleted!");}
-              else {userinput.pressToContinue("An error has occurred finishing the deletion of the directory\nMaybe you lack write permission!");}
-            }
-          }
+          deleteCommand(cmd_str, parent, paths);
         }
         else if (misc.startsWith(cmd_str, "mkfile ")){
           String args[] = misc.groupStrings(cmd_str);
@@ -370,18 +353,63 @@ public class commands {
     }
     return s;
   }
-
-  public static void deleteFile(String name, String full_path) {
-    if (!new File(full_path).canWrite()) {
-      userinput.pressToContinue("The file cannot be deleted, it lacks write permissions!");
+  
+  private static void deleteCommand(String cmd_str, String parent, String[][] paths) {
+    String[] args = misc.groupStrings(cmd_str);
+    if (args.length < 2) {
+      userinput.pressToContinue("Not enough arguments!");
       return;
     }
-    if (!userinput.askPrompt("The file " + name + " will be deleted, this is not reversible. Proceed? ", false)) {return;}
-    try {
-      Files.delete(Path.of(full_path));
-      userinput.pressToContinue("The file " + name + " has been deleted!");
+    int[] indexes = new int[args.length];
+    boolean[] isFile = new boolean[args.length];
+    boolean[] isDir = new boolean[args.length];
+    String[] obtainedPaths = new String[args.length];
+    for (int i = 1; i < args.length; i++) {
+      indexes[i] = browser.answerToIndex(args[i]);
+      isFile[i] = browser.indexLeadsToFile(indexes[i], paths);
+      if (isFile[i]) {
+       obtainedPaths[i] = browser.returnFile(indexes[i], paths);
+      }
+      else {
+        isDir[i] = browser.indexLeadsToDir(indexes[i], paths);
+        if (!isDir[i]) {continue;}
+        obtainedPaths[i] = browser.returnDir(indexes[i], paths);
+      }
     }
-    catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
+    
+    String txt = "The following files/directories will be deleted:\n";
+    for (int i = 1; i < args.length; i++) {
+      if (!isFile[i] && !isDir[i]){continue;}
+      txt += "\t* " + paths[i] + "\n";
+    }
+    txt += "\nDeleting them is irreversible, proceed?";
+    if (!userinput.askPrompt(txt, false)) {return;}
+    
+    txt = "";
+    for (int i = 1; i < args.length; i++)
+    {
+      int file_index = indexes[i];
+      if (isFile[i]) {
+        String file_name = obtainedPaths[i];
+        String full_path = parent + "/" + file_name;
+        if (!new File(full_path).canWrite()) {
+          txt += "The file " + file_name + " cannot be deleted, it lacks write permissions!";
+          continue;
+        }
+        try {
+          Files.delete(Path.of(full_path));
+          txt += "The file " + file_name + " has been deleted";
+        }
+        catch(IOException e) {e.printStackTrace();}
+      }
+      else if (isDir[i]) {
+        String dir_name = obtainedPaths[i];
+        boolean result = fileops.deleteDirectory(parent + "/" + dir_name);
+        if (result) {txt += "The directory " + dir_name + " has been deleted!";}
+        else {txt += "Failed to delete the directory " + dir_name + ", maybe you lack write permission!";}
+      }
+    }
+    userinput.pressToContinue(txt);
   }
 
   private static void moveCommand(String cmd_str, String parent, String[][] paths) {
