@@ -363,7 +363,7 @@ public class commands {
     int[] indexes = new int[args.length];
     boolean[] isFile = new boolean[args.length];
     boolean[] isDir = new boolean[args.length];
-    String[] obtainedPaths = new String[args.length];
+    String[] obtainedPaths = new String[args.length]; //processing everything beforehand to ask for user confirmation
     for (int i = 1; i < args.length; i++) {
       indexes[i] = browser.answerToIndex(args[i]);
       isFile[i] = browser.indexLeadsToFile(indexes[i], paths);
@@ -377,12 +377,17 @@ public class commands {
       }
     }
     
+    String skipped = "";
     String txt = "The following files/directories will be deleted:\n";
     for (int i = 1; i < args.length; i++) {
-      if (!isFile[i] && !isDir[i]){continue;}
+      if (!isFile[i] && !isDir[i]){
+        skipped += "Skipping invalid argument: " + args[i] + "\n";
+        continue;
+      }
       txt += "\t* " + paths[i] + "\n";
     }
     txt += "\nDeleting them is irreversible, proceed?";
+    if (skipped.length() > 0) {txt = skipped + "\n" + txt;} 
     if (!userinput.askPrompt(txt, false)) {return;}
     
     txt = "";
@@ -393,20 +398,20 @@ public class commands {
         String file_name = obtainedPaths[i];
         String full_path = parent + "/" + file_name;
         if (!new File(full_path).canWrite()) {
-          txt += "The file " + file_name + " cannot be deleted, it lacks write permissions!";
+          txt += "The file " + file_name + " cannot be deleted, it lacks write permissions!\n";
           continue;
         }
         try {
           Files.delete(Path.of(full_path));
-          txt += "The file " + file_name + " has been deleted";
+          txt += "The file " + file_name + " has been deleted\n";
         }
         catch(IOException e) {e.printStackTrace();}
       }
       else if (isDir[i]) {
         String dir_name = obtainedPaths[i];
         boolean result = fileops.deleteDirectory(parent + "/" + dir_name);
-        if (result) {txt += "The directory " + dir_name + " has been deleted!";}
-        else {txt += "Failed to delete the directory " + dir_name + ", maybe you lack write permission!";}
+        if (result) {txt += "The directory " + dir_name + " has been deleted\n";}
+        else {txt += "Failed to delete the directory " + dir_name + ", maybe it lacks write permissions!\n";}
       }
     }
     userinput.pressToContinue(txt);
@@ -443,7 +448,7 @@ public class commands {
     {
       int source_i = browser.answerToIndex(args[i]);
       if (invalidIndex(source_i, indexes)) {
-        txt += "Skipping argument " + args[i] + ": already-used path or not a path number";
+        txt += "Skipping argument " + args[i] + ": already-used path or not a path number\n";
         continue;
       }
       indexes[i] = source_i;
