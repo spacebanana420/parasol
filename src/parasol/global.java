@@ -77,7 +77,7 @@ public class global {
     + "\n"
     + "   * mkdir [name] - creates a directory with name [name]\n"
     + "   * mkfile [name] - creates a new file\n"
-    + "   * move [file/dir number] [dir number] - moves a file or directory into a directory\n"
+    + "   * move [number 1] [number 2] ... [destination] - moves one or multiple files or directories into a directory\n"
     + "   * copy [number] - copies a file/directory into Parasol's clipboard\n"
     + "   * cut [number] - cuts a file/directory into Parasol's clipboard\n"
     + "   * paste - pastes the file currently in clipboard into the current directory\n"

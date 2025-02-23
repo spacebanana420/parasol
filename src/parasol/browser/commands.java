@@ -386,46 +386,85 @@ public class commands {
 
   private static void moveCommand(String cmd_str, String parent, String[][] paths) {
     String args[] = misc.groupStrings(cmd_str);
-    if (args.length < 3) {return;}
-    int source_i = browser.answerToIndex(args[1]);
-    int target_i = browser.answerToIndex(args[2]);
-    if (args[1].equals(args[2])) {return;}
-    if (!browser.indexLeadsToDir(target_i, paths) && !args[2].equals("1")) {return;}
+    if (args.length < 3) {
+      userinput.pressToContinue("Not enough arguments!");
+      return;
+    }
     
-    if (browser.indexLeadsToFile(source_i, paths)) {
-      String file_name = browser.returnFile(source_i, paths);
-      String dir_name = browser.returnDir(target_i, paths);
-      if (args[2].equals("1")) {
-        dir_name = new File(parent).getParent();
-        new File(parent + "/" + file_name).renameTo(new File(dir_name + "/" + file_name));
+    int target = args.length-1;
+    int target_i = browser.answerToIndex(args[target]);
+    boolean targetIsParent = args[target].equals("1");
+    if (!browser.indexLeadsToDir(target_i, paths) && !targetIsParent) {
+      userinput.pressToContinue("Destination path does not lead to a directory!");
+      return;
+    }
+    String target_dir = (targetIsParent) ? null : browser.returnDir(target_i, paths);
+    
+    for (int i = 1; i < target; i++) {
+      if (args[i].equals(args[target]) || args[i].equals("1")) {
+        userinput.pressToContinue("Input path must not be the same as destination!");
+        return;
+      }
+    }
+    
+    int[] indexes = new int[args.length]; //stores previously-used indexes so duplicates are ignored
+    for (int i = 0; i < indexes.length; i++) {indexes[i] = -1;} //negative values are unused
+    
+    String txt = "";
+    for (int i = 1; i < target; i++) //first value is the command
+    {
+      int source_i = browser.answerToIndex(args[i]);
+      if (invalidIndex(source_i, indexes)) {
+        txt += "Skipping argument " + args[i] + ": already-used path or not a path number";
+        continue;
+      }
+      indexes[i] = source_i;
+      if (browser.indexLeadsToFile(source_i, paths)) {
+        txt += moveFile(browser.returnFile(source_i, paths), target_dir, parent, targetIsParent) + "\n";
+      }
+      else if (browser.indexLeadsToDir(source_i, paths)) {
+        txt += moveDirectory(browser.returnDir(source_i, paths), target_dir, parent, targetIsParent) + "\n";
+      }
+    }
+    txt += "\nFinished moving all paths";
+    userinput.pressToContinue(txt);
+  }
+  
+  private static boolean invalidIndex(int i, int[] indexes) {
+    if (i < 0) {return true;}
+    for (int used_index : indexes) {
+      if (i == used_index) {return true;}
+    }
+    return false;
+  }
+  
+  private static String moveFile(String source_name, String target_name, String parent, boolean moveOutsideParent) {
+      if (moveOutsideParent) {
+        target_name = new File(parent).getParent();
+        new File(parent + "/" + source_name).renameTo(new File(target_name + "/" + source_name));
       }
       else {
-        new File(parent + "/" + file_name).renameTo(new File(parent + "/" + dir_name + "/" + file_name));
+        new File(parent + "/" + source_name).renameTo(new File(parent + "/" + target_name + "/" + source_name));
       }
-      userinput.pressToContinue(file_name + " has been moved to " + dir_name);
-    }
-    else if (browser.indexLeadsToDir(source_i, paths)) {
-      String source_name = browser.returnDir(source_i, paths);
+      return (source_name + " has been moved to " + target_name);
+  }
+  
+  private static String moveDirectory(String source_name, String target_name, String parent, boolean moveOutsideParent) {
       String full_source = parent + "/" + source_name;
-      String target_name = "";
       String full_target = "";
-      if (args[2].equals("1")) {
+      if (moveOutsideParent) {
         target_name = new File(parent).getParent();
         full_target = target_name + "/" + source_name;
       }
       else {
-        target_name = browser.returnDir(target_i, paths);
         full_target = parent + "/" + target_name + "/" + source_name;
       }
-        
+      
       base.println("Moving directory " + source_name);
       boolean result = fileops.moveDirectory(full_source, full_target);
-      if (result) {userinput.pressToContinue("Directory has been moved to " + target_name + "/" + source_name);}
-      else {userinput.pressToContinue("The operation has failed! Maybe you lack file read and write permissions!");}
-    }
+      if (result) {return "Directory has been moved to " + target_name + "/" + source_name;}
+      else {return "The operation has failed! Maybe you lack file read and write permissions!";}
   }
-
-
 
   private static String[][] filterByMatch(String keyword, String[][] paths, boolean strict) {
     ArrayList<String> files = new ArrayList<String>();
