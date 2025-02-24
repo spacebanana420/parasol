@@ -356,7 +356,7 @@ public class commands {
   
   private static void deleteCommand(String cmd_str, String parent, String[][] paths) {
     String[] args = misc.groupStrings(cmd_str);
-    if (args.length < 2) {
+    if (args.length < 2) { //some prior skipping is happening?
       userinput.pressToContinue("Not enough arguments!");
       return;
     }
@@ -364,30 +364,40 @@ public class commands {
     boolean[] isFile = new boolean[args.length];
     boolean[] isDir = new boolean[args.length];
     String[] obtainedPaths = new String[args.length]; //processing everything beforehand to ask for user confirmation
+    String skipped = "";
+    boolean addedAnyPaths = false;
+    for (int i = 1; i < args.length; i++) {indexes[i] = -1;}
     for (int i = 1; i < args.length; i++) {
-      indexes[i] = browser.answerToIndex(args[i]);
+      int index = browser.answerToIndex(args[i]);
+      if (invalidIndex(index, i, indexes)) {continue;}
+      indexes[i] = index;
       isFile[i] = browser.indexLeadsToFile(indexes[i], paths);
       if (isFile[i]) {
        obtainedPaths[i] = browser.returnFile(indexes[i], paths);
+       addedAnyPaths = true;
       }
       else {
         isDir[i] = browser.indexLeadsToDir(indexes[i], paths);
         if (!isDir[i]) {continue;}
         obtainedPaths[i] = browser.returnDir(indexes[i], paths);
+        addedAnyPaths = true;
       }
     }
     
-    String skipped = "";
     String txt = "The following files/directories will be deleted:\n";
     for (int i = 1; i < args.length; i++) {
       if (!isFile[i] && !isDir[i]){
-        skipped += "Skipping invalid argument: " + args[i] + "\n";
+        skipped += "Skipping invalid or duplicated argument: " + args[i] + "\n";
         continue;
       }
-      txt += "\t* " + paths[i] + "\n";
+      txt += "  * " + obtainedPaths[i] + "\n";
     }
     txt += "\nDeleting them is irreversible, proceed?";
-    if (skipped.length() > 0) {txt = skipped + "\n" + txt;} 
+    if (!addedAnyPaths) {
+      if (skipped.length() > 0) {userinput.pressToContinue(skipped);}
+      return;
+    }
+    else if (skipped.length() > 0) {txt = skipped + "\n" + txt;} 
     if (!userinput.askPrompt(txt, false)) {return;}
     
     txt = "";
@@ -447,7 +457,7 @@ public class commands {
     for (int i = 1; i < target; i++) //first value is the command
     {
       int source_i = browser.answerToIndex(args[i]);
-      if (invalidIndex(source_i, indexes)) {
+      if (invalidIndex(source_i, i, indexes)) {
         txt += "Skipping argument " + args[i] + ": already-used path or not a path number\n";
         continue;
       }
@@ -463,10 +473,10 @@ public class commands {
     userinput.pressToContinue(txt);
   }
   
-  private static boolean invalidIndex(int i, int[] indexes) {
-    if (i < 0) {return true;}
-    for (int used_index : indexes) {
-      if (i == used_index) {return true;}
+  private static boolean invalidIndex(int index, int current_i, int[] indexes) {
+    if (index < 0) {return true;}
+    for (int i = 1; i < current_i; i++) {
+      if (index == indexes[i]) {return true;}
     }
     return false;
   }
