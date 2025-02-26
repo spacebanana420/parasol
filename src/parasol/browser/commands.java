@@ -394,7 +394,10 @@ public class commands {
     }
     txt += "\nDeleting them is irreversible, proceed?";
     if (!addedAnyPaths) {
-      if (skipped.length() > 0) {userinput.pressToContinue(skipped);}
+      if (skipped.length() > 0) {
+        skipped += "\nYou haven't provided any valid argument, make sure you add the number of the files/directories you want to delete";
+        userinput.pressToContinue(skipped);
+      }
       return;
     }
     else if (skipped.length() > 0) {txt = skipped + "\n" + txt;} 
@@ -475,7 +478,7 @@ public class commands {
   
   private static boolean invalidIndex(int index, int current_i, int[] indexes) {
     if (index < 0) {return true;}
-    for (int i = 1; i < current_i; i++) {
+    for (int i = 1; i < current_i; i++) { //current_i prevents iterating uninitialized values
       if (index == indexes[i]) {return true;}
     }
     return false;
