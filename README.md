@@ -29,10 +29,9 @@ Note: for xdg-utils to be optional on unix-like system you must set an appropria
 * Haiku
 
 ### Systems that should work:
-* Windows
-* Other BSD systems (OpenBSD, etc)
+* Other BSD systems (OpenBSD, NetBSD, etc)
 * MacOS
-* Other systems that have xdg-utils
+* Windows
 
 
 ## Building Parasol
