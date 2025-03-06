@@ -1,6 +1,6 @@
 package parasol.browser;
 import java.io.File;
-import java.io.IOException
+import java.io.IOException;
 
 //for platform-related stuff
 public class platform {
