@@ -9,7 +9,7 @@ import bananatui.extra;
 
 public class main {
   public static void main(String[] args) {
-    if (System.getProperty("os.name").contains("Windows")) {platform.enableAsciiSupportWindows();}
+    if (System.getProperty("os.name").contains("Windows")) {platform.enableANSIWindows();}
     if (displayedInfo(args)) {return;}
     
     confio.initialize();
