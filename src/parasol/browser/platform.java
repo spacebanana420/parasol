@@ -121,14 +121,13 @@ public class platform {
       checkProcess.waitFor();
 
       if (checkProcess.exitValue() != 0) {
-        // Enable Virtual Terminal Processing (windows sucks)
+        // Enable Virtual Terminal Processing (enables ANSI support for Windows terminals)
         String[] enableCmd = {"cmd", "/c", "reg", "add", "HKCU\\Console", "/v", "VirtualTerminalLevel", "/t", "REG_DWORD", "/d", "1", "/f"};
         Process enableProcess = Runtime.getRuntime().exec(enableCmd);
         enableProcess.waitFor();
 
         if (enableProcess.exitValue() == 0) {
-          // close the current CMD window and open the program again
-          System.out.println("Windows Quirk! Added VirtualTerminalLevel to HKCU\\Console to enable ASCII support, please close your current command prompt and re-run the program.");
+          System.out.println("Windows ANSI support was enabled, please launch Parasol again.");
           Runtime.getRuntime().exit(0);
         }
         return enableProcess.exitValue() == 0;
