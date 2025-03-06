@@ -39,7 +39,7 @@ public class commands {
       case "clipboard":
         String name = browserdata.file_clipboard[1];
         String path = browserdata.file_clipboard[0];
-        if (name == "" || path == "") {userinput.pressToContinue("The clipboard is empty!");}
+        if (name.equals("") || path.equals("")) {userinput.pressToContinue("The clipboard is empty!");}
         else {userinput.pressToContinue("Clipboard file: " + name + "\nPath: " + path);}
         break;
       case "paste":
