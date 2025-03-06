@@ -9,7 +9,9 @@ public class browsertui {
   private static String color_default = base.foreground("default");
   private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
   
-  public static String buildScreen(String parent, String dir_txt, String file_txt) {
+  public static String buildScreen(String parent, String dirs[], String files[]) {
+    String dir_txt = formString(parent, dirs, false, 2);
+    String file_txt = formString(parent, files, true, 2+dirs.length);
     return
       base.boldMode(true) + parent + base.resetMode() + "\n\n"
       + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n"

@@ -18,10 +18,7 @@ public class browser {
     while (true) {
       String parent = BROWSER_DIRECTORY;
       String[][] subpaths = getPaths(parent);
-      String dir_txt = browsertui.formString(parent, subpaths[0], false, 2);
-      String file_txt = browsertui.formString(parent, subpaths[1], true, 2+subpaths[0].length);
-
-      String screen = browsertui.buildScreen(parent, dir_txt, file_txt);
+      String screen = browsertui.buildScreen(parent, subpaths[0], subpaths[1]);
       String answer = userinput.spawnAndRead(screen).strip();
 
       if (answer.equals("0")) {return;}
