@@ -199,7 +199,7 @@ public class commands {
           if (browser.indexLeadsToDir(i, paths)) {old_name = browser.returnDir(i, paths);}
           else if (browser.indexLeadsToFile(i, paths)) {old_name = browser.returnFile(i, paths);}
 
-          if (old_name == "") {return;}
+          if (old_name.equals("")) {return;}
           String full_path = parent + "/" + old_name;
           if (full_path.equals(new_name)) {return;}
           new File(full_path).renameTo(new File(new_name));
