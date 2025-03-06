@@ -19,7 +19,7 @@ public class browsertui {
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
     String bold = base.boldMode(true);
     String no_bold = base.resetMode();
-    String s =
+    String final_screen =
       (checkFiles)
       ? bold + "[Files]\n" + no_bold
       : bold + "[Directories]\n" + no_bold
@@ -29,12 +29,8 @@ public class browsertui {
     
     for (int i = 0; i < paths.length; i++)
     {
-      File f = new File(parent + "/" + paths[i]);
       String file_number = addNumberStr(i+baseI);
-      boolean path_is_valid = (checkFiles && f.isFile()) || (!checkFiles && f.isDirectory());
-      if (!path_is_valid) {continue;}
-      
-      String path_element = file_number + paths[i]; path_element = shortenName(path_element);
+      String path_element = shortenName(file_number + paths[i]);
       String separator;
       if (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) {
         lines_amt++;
@@ -43,10 +39,10 @@ public class browsertui {
       }
       else {separator = mkEmptySpace(path_element.length()); column_size++;}
       
-      s += path_element + separator;
+      final_screen += path_element + separator;
     }
-    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return s + "\n\n";}
-    else {return s + "\n";}
+    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return final_screen + "\n\n";}
+    else {return final_screen + "\n";}
   }
 
   private static String mkEmptySpace(int len) {
