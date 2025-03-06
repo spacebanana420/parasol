@@ -11,3 +11,6 @@ parasolib_old
 .scala-build
 .bsp
 .metals
+out/
+*.iml
+META-INF
