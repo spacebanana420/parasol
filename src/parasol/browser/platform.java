@@ -112,4 +112,31 @@ public class platform {
     }
     return final_path;
   }
+
+  public static boolean enableAsciiSupportWindows() {
+    try {
+      // check if the VirtualTerminalLevel key exists
+      String[] checkCmd = {"cmd", "/c", "reg", "query", "HKCU\\Console", "/v", "VirtualTerminalLevel"};
+      Process checkProcess = Runtime.getRuntime().exec(checkCmd);
+      checkProcess.waitFor();
+
+      if (checkProcess.exitValue() != 0) {
+        // Enable Virtual Terminal Processing (windows sucks)
+        String[] enableCmd = {"cmd", "/c", "reg", "add", "HKCU\\Console", "/v", "VirtualTerminalLevel", "/t", "REG_DWORD", "/d", "1", "/f"};
+        Process enableProcess = Runtime.getRuntime().exec(enableCmd);
+        enableProcess.waitFor();
+
+        if (enableProcess.exitValue() == 0) {
+          // close the current CMD window and open the program again
+          System.out.println("Windows Quirk! Added VirtualTerminalLevel to HKCU\\Console to enable ASCII support, please close your current command prompt and re-run the program.");
+          Runtime.getRuntime().exit(0);
+        }
+        return enableProcess.exitValue() == 0;
+      }
+      return true;
+    } catch (IOException | InterruptedException e) {
+      e.printStackTrace();
+      return false;
+    }
+  }
 }
