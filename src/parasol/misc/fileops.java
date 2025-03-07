@@ -1,11 +1,27 @@
 package parasol.misc;
 
+import bananatui.userinput;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class fileops {
+  public static boolean moveFile(String source, String target) {
+    Path sp = Path.of(source);
+    Path tp = Path.of(target);
+    try{Files.move(sp, tp); return true;}
+    catch (IOException e) {return false;}
+  }
+  
+  public static boolean copyFile(String source, String target) {
+    Path sp = Path.of(source);
+    Path tp = Path.of(target);
+    try{Files.copy(sp, tp); return true;}
+    catch (IOException e) {return false;}
+  }
+  
   public static boolean deleteDirectory(String path) {
     String[] path_list = new File(path).list();
     try {
@@ -26,6 +42,14 @@ public class fileops {
 
   public static boolean copyDirectory(String path, String target) {
     return copy_move(path, target, true);
+  }
+  
+  public static void printError() {
+    userinput.pressToContinue
+    (
+      "An error occurred while attempting to paste the file\n"
+      +"Make sure you have read and write permissions for your source file and the current directory."
+    );
   }
 
   private static boolean copy_move(String path, String target, boolean copy) {

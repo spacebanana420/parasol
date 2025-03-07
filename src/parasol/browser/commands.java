@@ -18,32 +18,32 @@ public class commands {
     switch (cmd_str) {
       case "help":
         displayhelp();
-        break;
+        return;
       case "version":
         userinput.pressToContinue("Parasol version " + global.PARASOL_VERSION);
-        break;
+        return;
       // case "archive":
       //   break;
       case "vertical":
         global.DISPLAY_VERTICALLY_ONLY = !global.DISPLAY_VERTICALLY_ONLY;
-        break;
+        return;
       case "size-tree":
         sortFilesBySize(parent, paths[1]);
-        break;
+        return;
       case "home":
         browser.BROWSER_DIRECTORY = System.getProperty("user.home");
         return;
       case "clear-clipboard":
         browserdata.file_clipboard = new String[]{"", ""};
-        break;
+        return;
       case "clipboard":
         String name = browserdata.file_clipboard[1];
         String path = browserdata.file_clipboard[0];
         if (name.equals("") || path.equals("")) {userinput.pressToContinue("The clipboard is empty!");}
         else {userinput.pressToContinue("Clipboard file: " + name + "\nPath: " + path);}
-        break;
+        return;
       case "paste":
-        if (browserdata.file_clipboard[0] == "") {
+        if (browserdata.file_clipboard[0].equals("")) {
           userinput.pressToContinue("The clipboard is empty!");
           return;
         }
@@ -51,20 +51,19 @@ public class commands {
         String old_path = browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1];
         String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
         if (old_path.equals(new_path)) {return;}
-        Path source = Path.of(old_path);
-        Path target = Path.of(new_path);
         
         String path_type = ""; String operation_type = ""; 
-        try {
           if (browserdata.clipboard_cut) {
             operation_type = "cut!";
             if (new File(old_path).isDirectory()) {
               path_type = "Directory ";
-              fileops.moveDirectory(old_path, new_path);
+              boolean result = fileops.moveDirectory(old_path, new_path);
+              if (!result) {fileops.printError(); return;}
             }
             else {
               path_type = "File ";
-              Files.move(source, target);
+              boolean result = fileops.moveFile(old_path, new_path);
+              if (!result) {fileops.printError(); return;}
             }
             browserdata.file_clipboard = new String[]{"", ""};
           }
@@ -72,54 +71,49 @@ public class commands {
             operation_type = "pasted!";
             if (new File(old_path).isDirectory()) {
               path_type = "Directory ";
-              fileops.copyDirectory(old_path, new_path);
+              boolean result = fileops.copyDirectory(old_path, new_path);
+              if (!result) {fileops.printError(); return;}
             }
             else {
               path_type = "File ";
-              Files.copy(source, target);
+              boolean result = fileops.copyFile(old_path, new_path);
+              if (!result) {fileops.printError(); return;}
             }
           }
           userinput.pressToContinue(path_type + name_temp + " has been " + operation_type);
-        }
-        catch (IOException e) {
-          String message =
-            "An error occurred while attempting to paste the file\n"
-            + "Make sure you have read and write permissions for your source file and the current directory.";
-          userinput.pressToContinue(message);
-        }
-        break;
+        return;
       case "dirs":
         String dirs_txt = browsertui.formString(parent, paths[0], false, 2);
         base.clear();
         userinput.pressToContinue("Displaying directories:\n\n" + dirs_txt);
-        break;
+        return;
       case "files":
         String files_txt = browsertui.formString(parent, paths[1], true, 2+paths[0].length);
         base.clear();
         userinput.pressToContinue("Displaying files:\n\n" + files_txt);
-        break;
+        return;
       case "tab":
         browserdata.addTab(parent);
-        break;
+        return;
       case "tabs":
         String txt = browserdata.getTabList();
         userinput.pressToContinue(txt);
-        break;
+        return;
       case "tab clear":
         browserdata.clearTabs();
-        break;
+        return;
       case "tab set":
         changeTab(parent);
-        break;
+        return;
       case "tab remove":
         removeTabs();
-        break;
+        return;
       case "devices":
         String[] devices = platform.getSystemDisks();
         if (devices.length == 0) {break;}
         String d = userinput.chooseOption_string(devices, "Choose a device to go to", "Cancel");
         if (!d.equals("")) {browser.BROWSER_DIRECTORY = d; return;}
-        break;
+        return;
       case "bookmarks":
         String[] bookmarks = config.getBookmarks();
         if (bookmarks.length == 0) {
@@ -130,121 +124,106 @@ public class commands {
             + " and add directory paths, one per line"
             + "\n\nExample:\n/home/user\n/path/to/games\n/home/user/music"
           );
-          break;
+          return;
         }
         String b = userinput.chooseOption_string(bookmarks, "Choose a place to go to", "Cancel");
         if (!b.equals("")) {browser.BROWSER_DIRECTORY = b; return;}
-        break;
+        return;
       case "add-bookmark":
         config.addBookmark(browser.BROWSER_DIRECTORY);
         userinput.pressToContinue(
           "The current directory has been added to the bookmarks list at\n" + confio.CONFIG_PATH + "/bookmarks.parasol"
           );
-        break;
+        return;
       case "shell":
         shell.runShell();
-        break;
+        return;
       case "hidden":
         global.SHOW_HIDDEN_FILES = !global.SHOW_HIDDEN_FILES;
-        break;
+        return;
       case "config":
         browser.openConfig();
+        return;
+    }
+        
+    String[] args = misc.groupStrings(cmd_str);
+    int buffer_i = 0; //Cases share scope, so this variable is used by multiple commands
+    if (args.length < 2) {return;}
+    switch(args[0]) {
+      case "size":
+        if (!numops.isUint(args[1])) {return;}
+        buffer_i = browser.answerToIndex(args[1]);
+        if (browser.indexLeadsToFile(buffer_i, paths)) {
+          printSize_file(parent + "/" + browser.returnFile(buffer_i, paths));
+        }
+        else if (browser.indexLeadsToDir(buffer_i, paths)) {
+          printSize_dir(parent + "/" + browser.returnDir(buffer_i, paths));
+        }
         break;
-      default:
-        if (misc.startsWith(cmd_str, "size ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2 || !numops.isUint(args[1])) {return;}
+      case "find":
+        findPaths(args, paths, false);
+        break;
+      case "find-strict":
+        findPaths(args, paths, true);
+        break;
+      case "mkdir":
+        String mkdir_path = parent + "/" + args[1];
+        new File(mkdir_path).mkdir();
+        userinput.pressToContinue("Created directory at " + mkdir_path);
+        break;
+      case "move":
+        moveCommand(cmd_str, parent, paths);
+        break;
+      case "copy":
+        copyToClipboard(args, paths, parent, false);
+        break;
+      case "cut":
+        copyToClipboard(args, paths, parent, true);
+        break;
+      case "rename":
+        if (args.length < 3) {return;} //incomplete
+        buffer_i = browser.answerToIndex(args[1]);
+        String new_name = parent + "/" + args[2];
+        String old_name = "";
+        if (browser.indexLeadsToDir(buffer_i, paths)) {old_name = browser.returnDir(buffer_i, paths);}
+        else if (browser.indexLeadsToFile(buffer_i, paths)) {old_name = browser.returnFile(buffer_i, paths);}
 
-          int i = browser.answerToIndex(args[1]);
-          if (browser.indexLeadsToFile(i, paths)) {
-            printSize_file(parent + "/" + browser.returnFile(i, paths));
-          }
-          else if (browser.indexLeadsToDir(i, paths)) {
-            printSize_dir(parent + "/" + browser.returnDir(i, paths));
-          }
+        if (old_name.equals("")) {return;}
+        String full_path = parent + "/" + old_name;
+        if (full_path.equals(new_name)) {return;}
+        new File(full_path).renameTo(new File(new_name));
+        userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
+        break;
+      case "exec":
+        buffer_i = browser.answerToIndex(args[1]);
+        String file_path =
+          (browser.indexLeadsToFile(buffer_i, paths)) ? parent + "/" + browser.returnFile(buffer_i, paths) : "";
+        if (file_path != "" && new File(file_path).canExecute()) {
+          runner.execute(new String[]{file_path});
         }
-        else if (misc.startsWith(cmd_str, "find ")) {
-          findPaths(cmd_str, paths, false);
+        else {userinput.pressToContinue("The file does not exist or is not executable!");}
+        break;
+      case "goto":
+        File f = new File(args[1]);
+        if (f.isDirectory()) {browser.BROWSER_DIRECTORY = f.getAbsolutePath();}
+        break;
+      case "delete":
+        deleteCommand(args, parent, paths);
+        break;
+      case "mkfile":
+        String filename = misc.generateFileName(parent, args[1]);
+        try {
+          Files.createFile(Path.of(filename));
+          userinput.pressToContinue("File " + filename + " has been created!");
         }
-        else if (misc.startsWith(cmd_str, "find-strict ")) {
-          findPaths(cmd_str, paths, true);
-        }
-        else if (misc.startsWith(cmd_str, "mkdir ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-
-          String mkdir_path = parent + "/" + args[1];
-          new File(mkdir_path).mkdir();
-          userinput.pressToContinue("Created directory at " + mkdir_path);
-        }
-        else if (misc.startsWith(cmd_str, "move ")) {
-          moveCommand(cmd_str, parent, paths);
-        }
-        else if (misc.startsWith(cmd_str, "copy ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          copyToClipboard(args, paths, parent, false);
-        }
-        else if (misc.startsWith(cmd_str, "cut ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          copyToClipboard(args, paths, parent, true);    
-        }
-        else if (misc.startsWith(cmd_str, "rename ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 3) {return;} //incomplete
-          int i = browser.answerToIndex(args[1]);
-          String new_name = parent + "/" + args[2];
-          String old_name = "";
-          if (browser.indexLeadsToDir(i, paths)) {old_name = browser.returnDir(i, paths);}
-          else if (browser.indexLeadsToFile(i, paths)) {old_name = browser.returnFile(i, paths);}
-
-          if (old_name.equals("")) {return;}
-          String full_path = parent + "/" + old_name;
-          if (full_path.equals(new_name)) {return;}
-          new File(full_path).renameTo(new File(new_name));
-          userinput.pressToContinue("Renamed path " + old_name + " (of number " + args[1] + ") to " + args[2]);
-        }
-        else if (misc.startsWith(cmd_str, "exec ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          int i = browser.answerToIndex(args[1]);
-          String file_path =
-            (browser.indexLeadsToFile(i, paths)) ? parent + "/" + browser.returnFile(i, paths) : "";
-          if (file_path != "" && new File(file_path).canExecute()) {
-            runner.execute(new String[]{file_path});
-          }
-          else {userinput.pressToContinue("The file does not exist or is not executable!");}
-        }
-        else if (misc.startsWith(cmd_str, "goto ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length >= 2 && new File(args[1]).isDirectory()) {
-            browser.BROWSER_DIRECTORY = new File(args[1]).getAbsolutePath();
-            return;
-          }
-        }
-        else if (misc.startsWith(cmd_str, "delete ")) {
-          deleteCommand(cmd_str, parent, paths);
-        }
-        else if (misc.startsWith(cmd_str, "mkfile ")){
-          String args[] = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          String filename = misc.generateFileName(parent, args[1]);
-          try {
-            Files.createFile(Path.of(filename));
-            userinput.pressToContinue("File " + filename + " has been created!");
-          }
-          catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
-        }
-        else if (misc.startsWith(cmd_str, "tab ")) {
-          String[] args = misc.groupStrings(cmd_str);
-          if (args.length < 2) {return;}
-          int i = userinput.answerToNumber(args[1]);
-          if (i < 0 || i >= browserdata.tabSize()) {return;}
-          String tab_path = browserdata.getTab(i);
-          browser.BROWSER_DIRECTORY = tab_path;
-          return;
-        }
+        catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
+        break;
+      case "tab":
+        buffer_i = userinput.answerToNumber(args[1]);
+        if (buffer_i < 0 || buffer_i >= browserdata.tabSize()) {return;}
+        String tab_path = browserdata.getTab(buffer_i);
+        browser.BROWSER_DIRECTORY = tab_path;
+        break;
     }
   }
 
@@ -354,8 +333,7 @@ public class commands {
     return s;
   }
   
-  private static void deleteCommand(String cmd_str, String parent, String[][] paths) {
-    String[] args = misc.groupStrings(cmd_str);
+  private static void deleteCommand(String[] args, String parent, String[][] paths) {
     if (args.length < 2) { //some prior skipping is happening?
       userinput.pressToContinue("Not enough arguments!");
       return;
@@ -587,10 +565,7 @@ public class commands {
     browserdata.clipboard_cut = cut;
   }
 
-  private static void findPaths(String cmd_str, String[][] paths, boolean strict) {
-    String[] args = misc.groupStrings(cmd_str);
-    if (args.length < 2) {return;}
-
+  private static void findPaths(String[] args, String[][] paths, boolean strict) {
     String[][] filtered_paths = filterByMatch(args[1], paths, strict);
     String dir_txt = formString_findCommand(filtered_paths[0], false, 2);
     String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
