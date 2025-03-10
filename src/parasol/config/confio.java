@@ -50,6 +50,9 @@ public class confio {
             + "\n"
             + "\n# Displays paths vertically, all separated by lines"
             + "\n#display-paths-vertically=false"
+            + "\n"
+            + "\n# If foreign characters are detected in a path's name, display paths vertically regardless of configuration"
+            + "\n#check-foreign-characters=false"
           ;
           fo.write(default_config.getBytes());
           fo.close();

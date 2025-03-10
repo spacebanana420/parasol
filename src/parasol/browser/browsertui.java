@@ -9,16 +9,16 @@ public class browsertui {
   private static String color_default = base.foreground("default");
   private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
   
-  public static String buildScreen(String parent, String dirs[], String files[]) {
-    String dir_txt = formString(parent, dirs, false, 2);
-    String file_txt = formString(parent, files, true, 2+dirs.length);
+  public static String buildScreen(String parent, String dirs[], String files[], boolean forceVertical) {
+    String dir_txt = formString(parent, dirs, false, 2, forceVertical);
+    String file_txt = formString(parent, files, true, 2+dirs.length, forceVertical);
     return
       base.boldMode(true) + parent + base.resetMode() + "\n\n"
       + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n"
       + dir_txt + file_txt;
   }
   
-  public static String formString(String parent, String[] paths, boolean checkFiles, int baseI) {
+  public static String formString(String parent, String[] paths, boolean checkFiles, int baseI, boolean forceVertical) {
     String bold = base.boldMode(true);
     String no_bold = base.resetMode();
     String final_screen =
@@ -34,7 +34,7 @@ public class browsertui {
       String file_number = addNumberStr(i+baseI);
       String path_element = shortenName(file_number + paths[i]);
       String separator;
-      if (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY) {
+      if (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY || forceVertical) {
         lines_amt++;
         column_size = 0;
         if (lines_amt >= 10) {separator = "\n\n"; lines_amt=0;} else {separator="\n";}
@@ -43,7 +43,7 @@ public class browsertui {
       
       final_screen += path_element + separator;
     }
-    if (!global.DISPLAY_VERTICALLY_ONLY && column_size != 0) {return final_screen + "\n\n";}
+    if (!global.DISPLAY_VERTICALLY_ONLY && !forceVertical && column_size != 0) {return final_screen + "\n\n";}
     else {return final_screen + "\n";}
   }
 

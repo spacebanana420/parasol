@@ -17,7 +17,9 @@ public class browser {
     while (true) {
       String parent = BROWSER_DIRECTORY;
       String[][] subpaths = getPaths(parent);
-      String screen = browsertui.buildScreen(parent, subpaths[0], subpaths[1]);
+      boolean forceVertical = global.DETECT_FOREIGN_CHARACTERS && (hasForeignCharacters(subpaths[0]) || hasForeignCharacters(subpaths[1]));
+      
+      String screen = browsertui.buildScreen(parent, subpaths[0], subpaths[1], forceVertical);
       String answer = userinput.spawnAndRead(screen).strip();
 
       if (answer.length() == 0) {continue;}
@@ -79,6 +81,17 @@ public class browser {
   }
   
   public static void openConfig() {platform.openFile("", confio.getConfigFile());}
+  
+  private static boolean hasForeignCharacters(String[] paths) {
+    for (String p : paths)
+    {
+      for (int i = 0; i < p.length(); i++) {
+        char c = p.charAt(i);
+        if ((int)c != (byte)c) {return true;}
+      }
+    }
+    return false;
+  }
 }
 
 class browserdata {

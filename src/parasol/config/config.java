@@ -29,6 +29,10 @@ public class config {
     return confio.findOptionBool(conf, "display-paths-vertically");
   }
   
+  public static boolean checkForeignChars(ArrayList<String> conf) {
+    return confio.findOptionBool(conf, "check-foreign-characters");
+  }
+  
   public static String[] getBookmarks() {
     ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();

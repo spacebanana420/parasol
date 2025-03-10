@@ -28,6 +28,8 @@ public class cli {
   public static boolean silentShell(String[] args) {return checkForArgument(args, "--silent-shell");}
   
   public static boolean checkOpenConfig(String[] args) {return checkForArgument(args, "-c", "--config");}
+  
+  public static boolean checkForeignChars(String[] args) {return checkForArgument(args, "--check-foreign-characters");}
 
   public static String getPath(String[] args) {
     String absoluteParent = new File("").getAbsolutePath();

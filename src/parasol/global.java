@@ -1,6 +1,7 @@
 package parasol;
 
 import bananatui.base;
+import bananatui.userinput;
 import parasol.config.config;
 import parasol.config.FileRunner;
 
@@ -11,6 +12,7 @@ public class global {
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
   public static String PARASOL_VERSION = base.foreground("green")+"1.1"+base.foreground("default"); 
   public static boolean SHELL_SILENT = false;
+  public static boolean DETECT_FOREIGN_CHARACTERS = false;
   
   public static FileRunner[] FILE_RUNNERS;
   public static boolean PROCESS_INHERIT_IO = false;
@@ -27,14 +29,22 @@ public class global {
     
     var t2 = new Thread(() ->
     {
+      boolean temp = false;
       SHELL_SILENT = config.silentShell(conf);
-      SHELL_SILENT = cli.silentShell(args);
+      temp = cli.silentShell(args);
+      if (temp != false) {SHELL_SILENT = temp;}
       
       SHOW_HIDDEN_FILES = config.showHiddenPaths(conf);
-      SHOW_HIDDEN_FILES = cli.showHiddenFiles(args);
+      temp = cli.showHiddenFiles(args);
+      if (temp != false) {SHOW_HIDDEN_FILES = temp;}
       
       DISPLAY_VERTICALLY_ONLY = config.displayPathsVertically(conf);
-      DISPLAY_VERTICALLY_ONLY = cli.displayVertically(args);
+      temp = cli.displayVertically(args);
+      if (temp != false) {DISPLAY_VERTICALLY_ONLY = temp;}
+      
+      DETECT_FOREIGN_CHARACTERS = config.checkForeignChars(conf);
+      temp = cli.checkForeignChars(args);
+      if (temp != false) {DETECT_FOREIGN_CHARACTERS = temp;}
     });
     
     t1.start(); t2.start();

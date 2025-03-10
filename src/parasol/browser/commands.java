@@ -83,12 +83,12 @@ public class commands {
           userinput.pressToContinue(path_type + name_temp + " has been " + operation_type);
         return;
       case "dirs":
-        String dirs_txt = browsertui.formString(parent, paths[0], false, 2);
+        String dirs_txt = browsertui.formString(parent, paths[0], false, 2, false);
         base.clear();
         userinput.pressToContinue("Displaying directories:\n\n" + dirs_txt);
         return;
       case "files":
-        String files_txt = browsertui.formString(parent, paths[1], true, 2+paths[0].length);
+        String files_txt = browsertui.formString(parent, paths[1], true, 2+paths[0].length, false);
         base.clear();
         userinput.pressToContinue("Displaying files:\n\n" + files_txt);
         return;
