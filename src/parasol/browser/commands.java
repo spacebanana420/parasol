@@ -199,7 +199,7 @@ public class commands {
         String file_path =
           (browser.indexLeadsToFile(buffer_i, paths)) ? parent + "/" + browser.returnFile(buffer_i, paths) : "";
         if (file_path != "" && new File(file_path).canExecute()) {
-          runner.execute(new String[]{file_path});
+          platform.execute(new String[]{file_path});
         }
         else {userinput.pressToContinue("The file does not exist or is not executable!");}
         break;
@@ -521,7 +521,7 @@ public class commands {
     return s + "\n";
   }
 
-  private static void removeTabs() {
+  private static void removeTabs() { //must be improved, can't cancel operation
     String txt = browserdata.getTabList();
     if (browserdata.tabSize() == 0) {
       userinput.pressToContinue(txt);

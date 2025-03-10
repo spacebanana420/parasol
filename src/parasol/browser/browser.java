@@ -6,9 +6,8 @@ import parasol.misc.misc;
 import parasol.misc.numops;
 import parasol.config.*;
 
-import java.io.IOException;
 import java.io.File;
-import java.lang.ProcessBuilder.Redirect;
+import java.io.IOException;
 import java.util.ArrayList;
 
 public class browser {
@@ -21,6 +20,7 @@ public class browser {
       String screen = browsertui.buildScreen(parent, subpaths[0], subpaths[1]);
       String answer = userinput.spawnAndRead(screen).strip();
 
+      if (answer.length() == 0) {continue;}
       if (answer.equals("0")) {return;}
       if (answer.equals("1"))
       {
@@ -32,7 +32,7 @@ public class browser {
       
       int answer_i = answerToIndex(answer);
       if (indexLeadsToFile(answer_i, subpaths)) {
-        runner.openFile(parent, returnFile(answer_i, subpaths));
+        platform.openFile(parent, returnFile(answer_i, subpaths));
       }
       else if (indexLeadsToDir(answer_i, subpaths)){
         BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
@@ -78,54 +78,7 @@ public class browser {
     return new String[][]{dirs.toArray(new String[0]), files.toArray(new String[0])};
   }
   
-  public static void openConfig() {runner.openFile("", confio.getConfigFile());}
-}
-
-class runner {
-  static void openFile(String parent, String file) {
-    String full_path = parent + "/" + file;
-    for (FileRunner fr : global.FILE_RUNNERS) 
-    {
-      if (fr.hasValidExtension(file))
-      {
-        String[] cmd = fr.buildCommand(full_path);
-        execute(cmd);
-        return;
-      }
-    }
-    String[] cmd = getRunnerCMD(full_path);
-    execute(cmd);
-  }
-
-  static void execute(String[] command) {
-    try
-    {
-      ProcessBuilder pbuilder = new ProcessBuilder(command);
-      if (global.PROCESS_INHERIT_IO) {pbuilder.inheritIO();}
-      else {
-        pbuilder.redirectOutput(Redirect.DISCARD); //java 9 and later support
-        pbuilder.redirectError(Redirect.DISCARD);
-      }
-      if (global.PROCESS_WAIT_FOR_COMPLETION) {
-        try{pbuilder.start().waitFor();}
-        catch (InterruptedException e) {return;}
-      }
-      else {pbuilder.start();}
-    }
-    catch(IOException e) {
-      e.printStackTrace();
-      String txt = "===Command arguments===\n";
-      for (String arg : command) {txt += arg + " ";}
-      userinput.pressToContinue(txt+"\n============\n\nFailed to open file!");
-    }
-  }
-  
-  private static String[] getRunnerCMD(String path) {
-    String os = System.getProperty("os.name");
-    if (os.contains("Windows")) {return new String[]{"explorer.exe", path};}
-    else if (os.contains("Mac") || os.equals("Haiku")) {return new String[]{"open", path};}
-    else {return new String[]{"xdg-open", path};}
-  }
+  public static void openConfig() {platform.openFile("", confio.getConfigFile());}
 }
 
 class browserdata {
