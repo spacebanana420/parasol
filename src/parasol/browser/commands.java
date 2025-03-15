@@ -10,6 +10,7 @@ import parasol.config.config;
 import parasol.config.confio;
 import parasol.global;
 import parasol.misc.*;
+import parasol.cli.help;
 
 import bananatui.*;
 
@@ -252,12 +253,15 @@ public class commands {
   }
 
   private static String roundSize(long size) {
-    float roundedsize = size;
-    String unit = "bytes";
-    if (size > 1000000000) {roundedsize = size / 1000000000f; unit = "GB";}
-    else if (size > 1000000) {roundedsize = size / 1000000f; unit = "MB";}
-    else if (size > 1000) {roundedsize = size / 1000f; unit = "KB";}
-    return roundedsize + " " + unit;
+    double scaledsize = size;
+    String unit = " bytes";
+    boolean roundNumber = false;
+    if (size > 1000000000) {scaledsize = size / 1000000000f; unit = " GB"; roundNumber = true;}
+    else if (size > 1000000) {scaledsize = size / 1000000f; unit = " MB"; roundNumber = true;}
+    else if (size > 1000) {scaledsize = size / 1000f; unit = " KB"; roundNumber = true;}
+    
+    if (roundNumber){scaledsize = Math.floor(scaledsize * 1000)/1000f;}
+    return scaledsize + unit;
   }
 
   private static long getFileSize(String path) {return new File(path).length();}
@@ -275,8 +279,7 @@ public class commands {
 
   private static void displayhelp() {
     base.clear();
-    String help = global.getHelpMessage();
-    userinput.pressToContinue(help);
+    userinput.pressToContinue(help.getHelpMessage());
   }
 
   private static void sortFilesBySize(String parent, String[] files) {

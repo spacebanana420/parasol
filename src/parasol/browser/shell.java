@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.File;
 
 import parasol.global;
+import parasol.cli.help;
 import parasol.misc.misc;
 
 import bananatui.base;
@@ -33,8 +34,8 @@ public class shell {
         }
         continue;
       }
-      if (prompt.equals("help")) {base.println(global.getHelpMessage()); continue;}
-      if (prompt.equals(":h")) {base.println(global.getShellHelp()); continue;}
+      if (prompt.equals("help")) {base.println(help.getHelpMessage()); continue;}
+      if (prompt.equals(":h")) {base.println(help.getShellHelp()); continue;}
 
       String[] cmd = misc.groupStrings(prompt);
       replaceHomeAbbreviation(cmd);

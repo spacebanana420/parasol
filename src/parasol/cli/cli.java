@@ -1,4 +1,4 @@
-package parasol;
+package parasol.cli;
 
 import parasol.browser.commands;
 import java.io.File;

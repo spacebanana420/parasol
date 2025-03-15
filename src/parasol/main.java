@@ -2,6 +2,9 @@ package parasol;
 
 import parasol.browser.*;
 import parasol.config.confio;
+import parasol.cli.cli;
+import parasol.cli.help;
+
 import java.io.File;
 
 import bananatui.base;
@@ -23,8 +26,7 @@ public class main {
   
   static boolean displayedInfo(String[] args) {
     if (cli.checkForHelp(args)) {
-      String help = global.getHelpMessage();
-      base.println(help);
+      base.println(help.getHelpMessage());
       return true;
     }
     if (cli.checkForVersion(args)) {
@@ -32,8 +34,7 @@ public class main {
       return true;
     }
     if (cli.checkForSize(args)) {
-      String help = global.getHelpMessage();
-      base.println(help);
+      base.println(help.getHelpMessage());
       return true;
     }
     return cli.checkForSize(args);
