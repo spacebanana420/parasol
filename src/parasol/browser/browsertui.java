@@ -7,6 +7,8 @@ import java.io.File;
 public class browsertui {
   public static final String COLOR_GREEN = base.foreground("green");
   public static final String COLOR_DEFAULT = base.foreground("default");
+  public static final String BOLD_ENABLE = base.boldMode(true);
+  public static final String BOLD_DISABLE = base.resetMode();
   
   private static String addNumberStr(int n) {return COLOR_GREEN + n + ": " + COLOR_DEFAULT;}
   
@@ -14,18 +16,16 @@ public class browsertui {
     String dir_txt = formString(parent, dirs, false, 2, forceVertical);
     String file_txt = formString(parent, files, true, 2+dirs.length, forceVertical);
     return
-      base.boldMode(true) + parent + base.resetMode() + "\n\n"
+      BOLD_ENABLE + parent + BOLD_DISABLE + "\n\n"
       + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n"
       + dir_txt + file_txt;
   }
   
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI, boolean forceVertical) {
-    String bold = base.boldMode(true);
-    String no_bold = base.resetMode();
     String final_screen =
       (checkFiles)
-      ? bold + "[Files]\n" + no_bold
-      : bold + "[Directories]\n" + no_bold
+      ? BOLD_ENABLE + "[Files]\n" + BOLD_DISABLE
+      : BOLD_ENABLE + "[Directories]\n" + BOLD_DISABLE
     ;
     int column_size = 0;
     int lines_amt = 0;

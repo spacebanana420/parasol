@@ -5,10 +5,7 @@ import bananatui.base;
 
 public class help {
   public static String getHelpMessage() {
-    String bold_on = base.boldMode(true);
-    String bold_off = base.boldMode(false);
-
-    return browsertui.COLOR_GREEN + bold_on + "====Parasol Help Menu====" + bold_off + browsertui.COLOR_DEFAULT
+    return browsertui.COLOR_GREEN + browsertui.BOLD_ENABLE + "====Parasol Help Menu====" + browsertui.BOLD_DISABLE + browsertui.COLOR_DEFAULT
     + "\n\nWhile browsing:\n   Press 0 to close the program\n"
     + "   Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\n"
     + "General usage: parasol [directory-path] [options]\n\n"
@@ -65,7 +62,7 @@ public class help {
    }
 
    public static String getShellHelp() {
-    return browsertui.COLOR_GREEN + base.boldMode(true) + "====Parasol Shell====\n\n" + base.boldMode(false) + browsertui.COLOR_DEFAULT
+    return browsertui.COLOR_GREEN + browsertui.BOLD_ENABLE + "====Parasol Shell====\n\n" + browsertui.BOLD_DISABLE + browsertui.COLOR_DEFAULT
     + "Command list:\n"
     + "   :h - opens this menu\n"
     + "   help - opens Parasol's main help menu\n"
