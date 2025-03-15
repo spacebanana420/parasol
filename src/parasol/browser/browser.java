@@ -15,29 +15,28 @@ public class browser {
   
   public static void runBrowser() {
     while (true) {
-      String parent = BROWSER_DIRECTORY;
-      String[][] subpaths = getPaths(parent);
+      String[][] subpaths = getPaths(BROWSER_DIRECTORY);
       boolean forceVertical = global.DETECT_FOREIGN_CHARACTERS && (hasForeignCharacters(subpaths[0]) || hasForeignCharacters(subpaths[1]));
       
-      String screen = browsertui.buildScreen(parent, subpaths[0], subpaths[1], forceVertical);
+      String screen = browsertui.buildScreen(BROWSER_DIRECTORY, subpaths[0], subpaths[1], forceVertical);
       String answer = userinput.spawnAndRead(screen).strip();
 
       if (answer.length() == 0) {continue;}
       if (answer.equals("0")) {return;}
       if (answer.equals("1"))
       {
-        String newparent = new File(parent).getParent();
+        String newparent = new File(BROWSER_DIRECTORY).getParent();
         if (newparent != null) {BROWSER_DIRECTORY = newparent;}
         continue;
       }
-      if (!numops.isUint(answer)) {commands.runCommand(answer, parent, subpaths); continue;}
+      if (!numops.isUint(answer)) {commands.runCommand(answer, BROWSER_DIRECTORY, subpaths); continue;}
       
       int answer_i = answerToIndex(answer);
       if (indexLeadsToFile(answer_i, subpaths)) {
-        platform.openFile(parent, returnFile(answer_i, subpaths));
+        platform.openFile(BROWSER_DIRECTORY, returnFile(answer_i, subpaths));
       }
       else if (indexLeadsToDir(answer_i, subpaths)){
-        BROWSER_DIRECTORY = parent + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
+        BROWSER_DIRECTORY = BROWSER_DIRECTORY + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
       }
     }
   }
