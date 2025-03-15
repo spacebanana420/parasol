@@ -237,7 +237,7 @@ public class commands {
     String roundedsize = roundSize(getFileSize(path));
     userinput.pressToContinue(
       "Size of " + path 
-      + ":\n" + base.foreground("green") + roundedsize + base.foreground("default"));
+      + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT);
   }
 
   public static void printSize_dir(String path) {
@@ -249,7 +249,7 @@ public class commands {
     String roundedsize = roundSize(getDirSize(path));
     userinput.pressToContinue(
       "Size of " + path 
-      + ":\n" + base.foreground("green") + roundedsize + base.foreground("default"));
+      + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT);
   }
 
   private static String roundSize(long size) {
@@ -291,9 +291,9 @@ public class commands {
       fileSizes[i] = getFileSize(parent + "/" + files[i]);
       files_with_size[i] =
         files[i] + "  "
-        + base.foreground("green")
+        + browsertui.COLOR_GREEN
         + roundSize(fileSizes[i])
-        + base.foreground("default");
+        + browsertui.COLOR_DEFAULT;
     }
     sortSizes(files_with_size, fileSizes);
     String screen =
@@ -330,7 +330,7 @@ public class commands {
   public static String formSizeTreeString(String parent, String[] paths) {
     String s = "===Files===\n";
     for (int i = 0; i < paths.length; i++) {
-      String num = base.foreground("green") + (i+1) + ": " + base.foreground("default");
+      String num = browsertui.COLOR_GREEN + (i+1) + ": " + browsertui.COLOR_DEFAULT;
       s = s + num + paths[i] + "\n";
     }
     return s;
@@ -500,7 +500,7 @@ public class commands {
     String keyword_match = (strict) ? keyword : keyword.toLowerCase();
 
     for (String d : paths[0]) {
-      String num = base.foreground("green") + i + ": " + base.foreground("default");
+      String num = browsertui.COLOR_GREEN + i + ": " + browsertui.COLOR_DEFAULT;
       if (
         (d.contains(keyword_match) && strict)
         || (d.toLowerCase().contains(keyword_match) && !strict)
@@ -508,7 +508,7 @@ public class commands {
       i+=1;
     }
     for (String f : paths[1]) {
-      String num = base.foreground("green") + i + ": " + base.foreground("default");
+      String num = browsertui.COLOR_GREEN + i + ": " + browsertui.COLOR_DEFAULT;
       if (
         (f.contains(keyword_match) && strict)
         || (f.toLowerCase().contains(keyword_match) && !strict)
@@ -574,7 +574,7 @@ public class commands {
     String file_txt = formString_findCommand(filtered_paths[1], true, 2+filtered_paths[0].length);
     
     String screen =
-      "Keyword: " + base.foreground("green") + args[1] + base.foreground("default")
+      "Keyword: " + browsertui.COLOR_GREEN + args[1] + browsertui.COLOR_DEFAULT
       + "\nThe following paths have been found:\n\n"
       + dir_txt + file_txt;
     base.clear();

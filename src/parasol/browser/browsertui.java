@@ -5,9 +5,10 @@ import bananatui.base;
 import java.io.File;
 
 public class browsertui {
-  private static String color_green = base.foreground("green");
-  private static String color_default = base.foreground("default");
-  private static String addNumberStr(int n) {return color_green + n + ": " + color_default;}
+  public static final String COLOR_GREEN = base.foreground("green");
+  public static final String COLOR_DEFAULT = base.foreground("default");
+  
+  private static String addNumberStr(int n) {return COLOR_GREEN + n + ": " + COLOR_DEFAULT;}
   
   public static String buildScreen(String parent, String dirs[], String files[], boolean forceVertical) {
     String dir_txt = formString(parent, dirs, false, 2, forceVertical);

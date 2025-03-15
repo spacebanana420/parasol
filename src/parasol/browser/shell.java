@@ -18,9 +18,9 @@ public class shell {
     while (true) {
       String lineStart =
         base.boldMode(true)
-        + base.foreground("green")
+        + browsertui.COLOR_GREEN
         + "[" + System.getProperty("user.name") + ":" + shortenPath(browser.BROWSER_DIRECTORY)
-        + "]$ " + base.foreground("default")
+        + "]$ " + browsertui.COLOR_DEFAULT
         + base.boldMode(false);
 
       base.print(lineStart);
@@ -58,7 +58,7 @@ public class shell {
   
   private static String getStartMessage() {
     return
-      base.foreground("green")+"[Parasol Shell]\n"+base.foreground("default")
+      browsertui.COLOR_GREEN+"[Parasol Shell]\n"+browsertui.COLOR_DEFAULT
       +"Type :h for help and :q or :quit to leave\n";
   }
 

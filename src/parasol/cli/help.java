@@ -1,18 +1,18 @@
 package parasol.cli;
+
+import parasol.browser.browsertui;
 import bananatui.base;
 
 public class help {
   public static String getHelpMessage() {
-    String default_color = base.foreground("default");
-    String green = base.foreground("green");
     String bold_on = base.boldMode(true);
     String bold_off = base.boldMode(false);
 
-    return green + bold_on + "====Parasol Help Menu====" + bold_off + default_color
+    return browsertui.COLOR_GREEN + bold_on + "====Parasol Help Menu====" + bold_off + browsertui.COLOR_DEFAULT
     + "\n\nWhile browsing:\n   Press 0 to close the program\n"
     + "   Press 1 to go backwards in your directories\n\nNavigate through directories and open files by typing the number they are assigned to.\n\n"
     + "General usage: parasol [directory-path] [options]\n\n"
-    + green+"CLI arguments:\n"+default_color
+    + browsertui.COLOR_GREEN+"CLI arguments:\n"+browsertui.COLOR_DEFAULT
     + "   -h (--help) - opens this menu\n"
     + "   -H (--hidden) - shows hidden paths\n"
     + "   -home (--home) - opens Parasol on the user's home directory\n"
@@ -23,7 +23,7 @@ public class help {
     + "   --silent-shell - does not print the start message when running the shell\n"
     + "   -c (--config) - open Parasol's main config with a text editor\n"
     + "\n"
-    + green+"List of commands:\n"+default_color
+    + browsertui.COLOR_GREEN+"List of commands:\n"+browsertui.COLOR_DEFAULT
     + "   * help - opens this menu\n"
     + "   * version - displays Parasol's version\n"
     + "   * size [number] - gets the size of the file/directory which is assigned to [number]\n"
@@ -65,10 +65,7 @@ public class help {
    }
 
    public static String getShellHelp() {
-    String default_color = base.foreground("default");
-    String green = base.foreground("green");
-
-    return green + base.boldMode(true) + "====Parasol Shell====\n\n" + base.boldMode(false) + default_color
+    return browsertui.COLOR_GREEN + base.boldMode(true) + "====Parasol Shell====\n\n" + base.boldMode(false) + browsertui.COLOR_DEFAULT
     + "Command list:\n"
     + "   :h - opens this menu\n"
     + "   help - opens Parasol's main help menu\n"
