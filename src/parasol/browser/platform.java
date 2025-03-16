@@ -78,7 +78,7 @@ public class platform {
       enableProcess.waitFor();
 
       if (enableProcess.exitValue() == 0) {
-        System.out.println("Windows ANSI support was enabled, please restart your console and launch Parasol again.");
+        System.out.println("Windows ANSI support has been enabled, please restart your console and launch Parasol again.");
         System.exit(0);
       }
     }
