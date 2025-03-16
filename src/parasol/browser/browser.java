@@ -36,7 +36,7 @@ public class browser {
         platform.openFile(BROWSER_DIRECTORY, returnFile(answer_i, subpaths));
       }
       else if (indexLeadsToDir(answer_i, subpaths)){
-        BROWSER_DIRECTORY = BROWSER_DIRECTORY + System.getProperty("file.separator") + returnDir(answer_i, subpaths);
+        BROWSER_DIRECTORY = BROWSER_DIRECTORY + global.FILE_SEPARATOR + returnDir(answer_i, subpaths);
       }
     }
   }

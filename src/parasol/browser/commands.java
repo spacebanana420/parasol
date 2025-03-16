@@ -121,7 +121,7 @@ public class commands {
           base.clear();
           userinput.pressToContinue(
             "You didn't add any bookmarks to parasol!"
-            + "\nTo add bookmarks, create a file at " + confio.CONFIG_PATH + System.getProperty("file.separator") + "bookmarks.parasol"
+            + "\nTo add bookmarks, create a file at " + confio.CONFIG_PATH + global.FILE_SEPARATOR + "bookmarks.parasol"
             + " and add directory paths, one per line"
             + "\n\nExample:\n/home/user\n/path/to/games\n/home/user/music"
           );
