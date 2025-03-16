@@ -94,8 +94,15 @@ public class browser {
 }
 
 class browserdata {
-  static String[] file_clipboard = new String[]{"", ""}; //path, name
+  private static String[] file_clipboard = new String[]{null, null}; //parent path and filename
   static boolean clipboard_cut = false;
+  
+  static void setClipboard(String path, String name) {file_clipboard[0] = path; file_clipboard[1] = name;}
+  static String clipboardPath() {return file_clipboard[0];}
+  static String clipboardName() {return file_clipboard[1];}
+  static boolean clipboardIsEmpty() {return file_clipboard[0] == null || file_clipboard[1] == null;}
+  static void clearClipboard() {file_clipboard[0] = null; file_clipboard[1] = null;}
+  
 
   static ArrayList<String> browser_tabs = new ArrayList<String>();
 

@@ -35,22 +35,22 @@ public class commands {
         browser.BROWSER_DIRECTORY = System.getProperty("user.home");
         return;
       case "clear-clipboard":
-        browserdata.file_clipboard = new String[]{"", ""};
+        browserdata.clearClipboard();
         return;
       case "clipboard":
-        String name = browserdata.file_clipboard[1];
-        String path = browserdata.file_clipboard[0];
-        if (name.equals("") || path.equals("")) {userinput.pressToContinue("The clipboard is empty!");}
-        else {userinput.pressToContinue("Clipboard file: " + name + "\nPath: " + path);}
+        if (browserdata.clipboardIsEmpty()) {userinput.pressToContinue("The clipboard is empty!"); return;}
+        String name = browserdata.clipboardName();
+        String path = browserdata.clipboardPath();
+        userinput.pressToContinue("Clipboard file: " + name + "\nPath: " + path);
         return;
       case "paste":
-        if (browserdata.file_clipboard[0].equals("")) {
+        if (browserdata.clipboardIsEmpty()) {
           userinput.pressToContinue("The clipboard is empty!");
           return;
         }
-        String name_temp = browserdata.file_clipboard[1];
-        String old_path = browserdata.file_clipboard[0] + "/" + browserdata.file_clipboard[1];
-        String new_path = misc.generateFileName(parent, browserdata.file_clipboard[1]);
+        String name_temp = browserdata.clipboardName();
+        String old_path = browserdata.clipboardPath() + "/" + name_temp;
+        String new_path = misc.generateFileName(parent, name_temp);
         if (old_path.equals(new_path)) {return;}
         
         String path_type = ""; String operation_type = ""; 
@@ -66,7 +66,7 @@ public class commands {
               boolean result = fileops.moveFile(old_path, new_path);
               if (!result) {fileops.printError(); return;}
             }
-            browserdata.file_clipboard = new String[]{"", ""};
+            browserdata.clearClipboard();
           }
           else {
             operation_type = "pasted!";
@@ -564,7 +564,7 @@ public class commands {
     if (!path_valid) {return;}
      
     String file_path = parent;
-    browserdata.file_clipboard = new String[]{file_path, file_name};
+    browserdata.setClipboard(file_path, file_name);
     browserdata.clipboard_cut = cut;
   }
 
