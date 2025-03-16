@@ -109,12 +109,11 @@ class browserdata {
   static String getTabList() {
     if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
     String txt = "Currently saved tabs:\n\n";
-    String green = base.foreground("green"); String default_color = base.foreground("default");
     
     for (int i = 0; i < browser_tabs.size(); i++)
     {
       String tab = browser_tabs.get(i);
-      String num = green + i + ": " + default_color;
+      String num = browsertui.COLOR_GREEN + i + ": " + browsertui.COLOR_DEFAULT;
       txt += num + tab + "\n";
     }
     return txt;
