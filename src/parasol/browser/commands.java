@@ -168,9 +168,10 @@ public class commands {
         findPaths(args, paths, true);
         break;
       case "mkdir":
-        String mkdir_path = parent + "/" + args[1];
-        new File(mkdir_path).mkdir();
-        userinput.pressToContinue("Created directory at " + mkdir_path);
+        mkDirs(parent, args);
+        break;
+      case "mkfile":
+        mkFiles(parent, args);
         break;
       case "move":
         moveCommand(cmd_str, parent, paths);
@@ -210,14 +211,6 @@ public class commands {
         break;
       case "delete":
         deleteCommand(args, parent, paths);
-        break;
-      case "mkfile":
-        String filename = misc.generateFileName(parent, args[1]);
-        try {
-          Files.createFile(Path.of(filename));
-          userinput.pressToContinue("File " + filename + " has been created!");
-        }
-        catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
         break;
       case "tab":
         buffer_i = userinput.answerToNumber(args[1]);
@@ -579,5 +572,43 @@ public class commands {
       + dir_txt + file_txt;
     base.clear();
     userinput.pressToContinue(screen);
+  }
+  
+  private static void mkDirs(String parent, String[] args) {
+    if (!new File(parent).canWrite()) {
+      userinput.pressToContinue("Current directory lacks write permissions, cannot create directories!");
+      return;
+    }
+    var used_names = new ArrayList<String>();
+    String error_txt = "";
+    for (int i = 1; i < args.length; i++) {
+      if (used_names.contains(args[i])) {continue;}
+      if (args[i].contains("/") || args[i].contains("\\")) {
+        error_txt += "Directory name " + args[i] + " cannot contain forward slashes or back slashes! Skipping";
+        continue;
+      }
+      new File(parent + "/" + args[i]).mkdir();
+      used_names.add(args[i]);
+    }
+    if (error_txt.length() > 0){userinput.pressToContinue(error_txt);}
+  }
+  private static void mkFiles(String parent, String[] args) {
+    if (!new File(parent).canWrite()) {
+      userinput.pressToContinue("Current directory lacks write permissions, cannot create files!");
+      return;
+    }
+    String error_txt = "";
+    for (int i = 1; i < args.length; i++) {
+      String filename = misc.generateFileName(parent, args[i]);
+      if (args[i].contains("/") || args[i].contains("\\")) {
+        error_txt += "Directory name " + args[i] + " cannot contain forward slashes or back slashes! Skipping";
+        continue;
+      }
+      try {
+        Files.createFile(Path.of(filename));
+      }
+      catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
+    }
+    if (error_txt.length() > 0){userinput.pressToContinue(error_txt);}
   }
 }
