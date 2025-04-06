@@ -51,6 +51,12 @@ public class fileops {
       +"Make sure you have read and write permissions for your source file and the current directory."
     );
   }
+  
+  public static int countLines(String file_path) {
+    var p = Path.of(file_path);
+    try {return Files.readAllLines(p).size();}
+    catch (IOException e) {return 0;}
+  }
 
   private static boolean copy_move(String path, String target, boolean copy) {
     String[] path_list = new File(path).list();

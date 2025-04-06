@@ -161,6 +161,13 @@ public class commands {
           printSize_dir(parent + "/" + browser.returnDir(buffer_i, paths));
         }
         break;
+      case "count-lines":
+        if (!numops.isUint(args[1])) {return;}
+        buffer_i = browser.answerToIndex(args[1]);
+        if (!browser.indexLeadsToFile(buffer_i, paths)) {return;}
+          int lines_amount = fileops.countLines(browser.returnFile(buffer_i, paths));
+          userinput.pressToContinue("File line count: " + lines_amount);
+        break;
       case "find":
         findPaths(args, paths, false);
         break;

@@ -8,7 +8,7 @@ import parasol.cli.cli;
 import java.util.ArrayList;
 
 public class global {
-  public static final String PARASOL_VERSION = browsertui.COLOR_GREEN+"1.1.2"+browsertui.COLOR_DEFAULT;
+  public static final String PARASOL_VERSION = browsertui.COLOR_GREEN+"1.1.3"+browsertui.COLOR_DEFAULT;
   public static final char FILE_SEPARATOR = System.getProperty("file.separator").charAt(0);
   
   public static boolean SHOW_HIDDEN_FILES = false;

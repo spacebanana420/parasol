@@ -30,6 +30,7 @@ public class help {
     + "   * find-strict [keyword] - shows all files and directories that contain [keyword] in the name (case-sensitive)\n"
     + "   * dirs - Displays available directories\n"
     + "   * files - Displays available files\n"
+    + "   * count-lines [number] - Counts the lines of a text file"
     + "   * config - open Parasol's main config with a text editor\n"
     + "\n"
     + "   * mkdir [dir name 1] [dir name 2] ... - creates one or multiple directories\n"
