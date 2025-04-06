@@ -36,7 +36,7 @@ public class confio {
             + "\n"
             + "\n# When set to true, the applications Parasol opens will inherit its standard input and output"
             + "\n# Enable this setting to view the output of CLI and TUI applications and interact with them"
-            + "\n#process-inherit-io=true"
+            + "\n#process-inherit-io=false"
             + "\n"
             + "\n# When set to true, Parasol will wait for the files it opens to be closed"
             + "\n# You can also use this setting to interact with CLI and TUI programs"
