@@ -145,6 +145,12 @@ public class commands {
       case "config":
         browser.openConfig();
         return;
+      case "inherit-io":
+        global.PROCESS_INHERIT_IO = !global.PROCESS_INHERIT_IO;
+        return;
+      case "wait-completion":
+        global.PROCESS_WAIT_FOR_COMPLETION = !global.PROCESS_WAIT_FOR_COMPLETION;
+        return;
     }
         
     String[] args = misc.groupStrings(cmd_str);
