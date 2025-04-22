@@ -50,7 +50,6 @@ public class config {
     confio.writeFile(confio.CONFIG_PATH + "/bookmarks.parasol", bookmark + "\n", true);
   }
   
-  //Uses outdated parsing!
   public static FileRunner[] getFileRunners(ConfLine[] settings) {
     var runners = new ArrayList<FileRunner>();
     for (ConfLine setting : settings)
