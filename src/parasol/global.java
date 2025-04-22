@@ -3,6 +3,7 @@ package parasol;
 import parasol.browser.browsertui;
 import parasol.config.config;
 import parasol.config.FileRunner;
+import parasol.config.ConfLine;
 import parasol.cli.cli;
 
 import java.util.ArrayList;
@@ -21,7 +22,7 @@ public class global {
   public static boolean PROCESS_WAIT_FOR_COMPLETION = false;
   
   public static void assignValues(String[] args) {
-    ArrayList<String> conf = config.readBaseConfig();
+    ConfLine[] conf = config.readBaseConfig();
     var t1 = new Thread(() ->
     {
       FILE_RUNNERS = config.getFileRunners(conf);

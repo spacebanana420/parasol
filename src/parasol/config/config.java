@@ -5,32 +5,33 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class config {
-  public static ArrayList<String> readBaseConfig() {
-    return confio.readLines(confio.CONFIG_PATH + "/config.parasol");
+  public static ConfLine[] readBaseConfig() {
+    var lines = confio.readLines(confio.CONFIG_PATH + "/config.parasol");
+    return confio.getSettings(lines);
   }
   
-  public static boolean processInheritIO(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "process-inherit-io");
+  public static boolean processInheritIO(ConfLine[] conf) {
+    return confio.getValue_bool("process-inherit-io", conf);
   }
   
-  public static boolean processWaitForCompletion(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "process-wait-for-completion");
+  public static boolean processWaitForCompletion(ConfLine[] conf) {
+    return confio.getValue_bool("process-wait-for-completion", conf);
   }
   
-  public static boolean silentShell(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "silent-shell");
+  public static boolean silentShell(ConfLine[] conf) {
+    return confio.getValue_bool("silent-shell", conf);
   }
   
-  public static boolean showHiddenPaths(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "show-hidden-paths");
+  public static boolean showHiddenPaths(ConfLine[] conf) {
+    return confio.getValue_bool("show-hidden-paths", conf);
   }
   
-  public static boolean displayPathsVertically(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "display-paths-vertically");
+  public static boolean displayPathsVertically(ConfLine[] conf) {
+    return confio.getValue_bool("display-paths-vertically", conf);
   }
   
-  public static boolean checkForeignChars(ArrayList<String> conf) {
-    return confio.findOptionBool(conf, "check-foreign-characters");
+  public static boolean checkForeignChars(ConfLine[] conf) {
+    return confio.getValue_bool("check-foreign-characters", conf);
   }
   
   public static String[] getBookmarks() {
@@ -49,17 +50,18 @@ public class config {
     confio.writeFile(confio.CONFIG_PATH + "/bookmarks.parasol", bookmark + "\n", true);
   }
   
-  public static FileRunner[] getFileRunners(ArrayList<String> lines) {
+  //Uses outdated parsing!
+  public static FileRunner[] getFileRunners(ConfLine[] settings) {
     var runners = new ArrayList<FileRunner>();
-    for (String line : lines)
+    for (ConfLine setting : settings)
     {
-      String value = confio.getOptionValue(line, "runner");
-      if (value == null) {continue;}
+      if (!setting.key.equals("runner")) {continue;}
       
+      String value = setting.value;
       int process_i_start = -1;
       var frunner = new FileRunner();
       String buffer = "";
-      for (int i = 0; i < value.length(); i++) //add extensions
+      for (int i = 0; i < value.length(); i++) //add the file extensions
       {
         char c = value.charAt(i);
         if (c == ':') {

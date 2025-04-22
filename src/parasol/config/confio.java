@@ -89,6 +89,16 @@ public class confio {
     }
     return lines;
   }
+  
+  static ConfLine[] getSettings(ArrayList<String> lines) {
+    var settings = new ArrayList<ConfLine>();
+    for (String line : lines) {
+      var setting = new ConfLine(line);
+      if (setting.key == null || setting.value == null) {continue;}
+      settings.add(setting);
+    }
+    return settings.toArray(new ConfLine[0]);
+  }
 
   static boolean writeFile(String path, String contents, boolean append) {
     try {
@@ -100,32 +110,23 @@ public class confio {
     catch (IOException e) {return false;}
   }
   
-  static boolean findOptionBool(ArrayList<String> lines, String setting) {
-    String result = findOptionValue(lines, setting);
-    return result != null && result.toLowerCase().equals("true");
+  static String getValue(String key, ConfLine[] settings) {
+    int i = findValue(key, settings);
+    if (i == -1) {return null;}
+    return settings[i].value;
   }
   
-  static String findOptionValue(ArrayList<String> lines, String setting) {
-    for (String line : lines) {
-      String result = getOptionValue(line, setting);
-      if (result != null) {return result;}
+  static boolean getValue_bool(String key, ConfLine[] settings) {
+    int i = findValue(key, settings);
+    if (i == -1) {return false;}
+    return settings[i].value.toLowerCase().equals("true");
+  }
+  
+  private static int findValue(String key, ConfLine[] settings) {
+    for (int i = 0; i < settings.length; i++) {
+      if (settings[i].key.equals(key)) {return i;}
     }
-    return null;
-  }
-  
-  static String getOptionValue(String line, String setting) {
-    String full_setting = setting + "=";
-    if (!lineStartsWith(line, full_setting)) {return null;}
-    String value = "";
-    for (int i = full_setting.length(); i < line.length(); i++) {value += line.charAt(i);}
-    return value.trim();
-  }
-  
-  static boolean lineStartsWith(String line, String setting) {
-    if (line.length() <= setting.length()) {return false;}
-    String setting_verify = "";
-    for (int i = 0; i < setting.length(); i++) {setting_verify += line.charAt(i);}
-    return setting_verify.equals(setting);
+    return -1;
   }
   
   private static String getConfigPath() {
