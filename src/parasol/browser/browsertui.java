@@ -29,13 +29,14 @@ public class browsertui {
     ;
     int column_size = 0;
     int lines_amt = 0;
+    boolean vertical = global.DISPLAY_VERTICALLY_ONLY || forceVertical;
     
     for (int i = 0; i < paths.length; i++)
     {
       String file_number = addNumberStr(i+baseI);
-      String path_element = shortenName(file_number + paths[i]);
+      String path_element = shortenName(file_number + paths[i], vertical);
       String separator;
-      if (column_size >= 1 || global.DISPLAY_VERTICALLY_ONLY || forceVertical) {
+      if (column_size >= 1 || vertical) {
         lines_amt++;
         column_size = 0;
         if (lines_amt >= 10) {separator = "\n\n"; lines_amt=0;} else {separator="\n";}
@@ -54,8 +55,8 @@ public class browsertui {
     return empty_space;
   }
 
-  private static String shortenName(String name) {
-    int max_length = (global.DISPLAY_VERTICALLY_ONLY) ? 90 : 55;
+  private static String shortenName(String name, boolean vertical) {
+    int max_length = (vertical) ? 100 : 55;
     if (name.length() < max_length) {return name;}
     
     String buf = "";
