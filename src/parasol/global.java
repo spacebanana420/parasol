@@ -16,6 +16,7 @@ public class global {
   public static boolean DISPLAY_VERTICALLY_ONLY = false;
   public static boolean SHELL_SILENT = false;
   public static boolean DETECT_FOREIGN_CHARACTERS = false;
+  public static boolean VERTICAL_DISPLAY_FULL_PATHS = false;
   
   public static FileRunner[] FILE_RUNNERS;
   public static boolean PROCESS_INHERIT_IO = false;
@@ -30,23 +31,12 @@ public class global {
       PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
     });
     t1.start();
-    
-    boolean temp = false;
-    SHELL_SILENT = config.silentShell(conf);
-    temp = cli.silentShell(args);
-    if (temp != false) {SHELL_SILENT = temp;}
-    
-    SHOW_HIDDEN_FILES = config.showHiddenPaths(conf);
-    temp = cli.showHiddenFiles(args);
-    if (temp != false) {SHOW_HIDDEN_FILES = temp;}
-    
-    DISPLAY_VERTICALLY_ONLY = config.displayPathsVertically(conf);
-    temp = cli.displayVertically(args);
-    if (temp != false) {DISPLAY_VERTICALLY_ONLY = temp;}
-    
-    DETECT_FOREIGN_CHARACTERS = config.checkForeignChars(conf);
-    temp = cli.checkForeignChars(args);
-    if (temp != false) {DETECT_FOREIGN_CHARACTERS = temp;}
+
+    SHELL_SILENT = config.silentShell(conf) || cli.silentShell(args);
+    SHOW_HIDDEN_FILES = config.showHiddenPaths(conf) || cli.showHiddenFiles(args);
+    DISPLAY_VERTICALLY_ONLY = config.displayPathsVertically(conf) || cli.displayVertically(args);
+    DETECT_FOREIGN_CHARACTERS = config.checkForeignChars(conf) || cli.checkForeignChars(args);
+    VERTICAL_DISPLAY_FULL_PATHS = config.displayFullNames(conf) || cli.displayFullPaths(args);
     
     try {t1.join();}
     catch (InterruptedException e) {e.printStackTrace();}

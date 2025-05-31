@@ -4,8 +4,6 @@ import parasol.browser.commands;
 import java.io.File;
 
 public class cli {
-  public static boolean displayVertically(String[] args) {return checkForArgument(args, "-V", "--vertical");}
-  
   public static boolean checkForSize(String[] args) {
     for (int i = 0; i < args.length; i++) {
       if ((args[i].equals("-s") || args[i].equals("--size")) && i < args.length-1) {
@@ -20,16 +18,13 @@ public class cli {
   }
 
   public static boolean checkForVersion(String[] args) {return checkForArgument(args, "-v", "--version");}
-
   public static boolean checkForHelp(String[] args) {return checkForArgument(args, "-h", "--help");}
-
   public static boolean checkShell(String[] args) {return checkForArgument(args, "-S", "--shell");}
-  
   public static boolean silentShell(String[] args) {return checkForArgument(args, "--silent-shell");}
-  
   public static boolean checkOpenConfig(String[] args) {return checkForArgument(args, "-c", "--config");}
-  
+  public static boolean displayVertically(String[] args) {return checkForArgument(args, "-V", "--vertical");}
   public static boolean checkForeignChars(String[] args) {return checkForArgument(args, "--check-foreign-characters");}
+  public static boolean displayFullPaths(String[] args) {return checkForArgument(args, "-Vf", "--full-names");}
 
   public static String getPath(String[] args) {
     String absoluteParent = new File("").getAbsolutePath();

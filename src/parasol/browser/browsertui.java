@@ -57,7 +57,7 @@ public class browsertui {
 
   private static String shortenName(String name, boolean vertical) {
     int max_length = (vertical) ? 100 : 55;
-    if (name.length() < max_length) {return name;}
+    if (name.length() < max_length || (vertical && global.VERTICAL_DISPLAY_FULL_PATHS)) {return name;}
     
     String buf = "";
     for (int i = 0; i < max_length-1; i++) {buf += name.charAt(i);}

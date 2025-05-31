@@ -15,6 +15,7 @@ public class help {
     + "   -home (--home) - opens Parasol on the user's home directory\n"
     + "   -v (--version) - shows Parasol's version\n"
     + "   -V (--vertical) - displays all paths vertically\n"
+    + "   -Vf (--full-names) - when displaying paths vertically, do not shorten their names\n"
     + "   -s (--size) [path to file] - displays the size of a file\n"
     + "   -S (--shell) - opens Parasol's shell instead\n"
     + "   --silent-shell - does not print the start message when running the shell\n"

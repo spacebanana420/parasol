@@ -30,6 +30,10 @@ public class config {
     return confio.getValue_bool("display-paths-vertically", conf);
   }
   
+  public static boolean displayFullNames(ConfLine[] conf) {
+    return confio.getValue_bool("display-full-names", conf);
+  }
+  
   public static boolean checkForeignChars(ConfLine[] conf) {
     return confio.getValue_bool("check-foreign-characters", conf);
   }
