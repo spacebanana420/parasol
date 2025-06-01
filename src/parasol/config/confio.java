@@ -56,6 +56,10 @@ public class confio {
             + "\n"
             + "\n# If foreign characters are detected in a path's name, display paths vertically regardless of configuration"
             + "\n#check-foreign-characters=false"
+            + "\n"
+            + "\n# Excludes and hides files from the explorer based on their extension"
+            +"\n#excluded-extensions=extension1,extension2,extension3"
+            +"\n#Example: excluded-extensions=srt,jpg,exe,pdf"
           ;
           fo.write(default_config.getBytes());
           fo.close();
@@ -123,6 +127,18 @@ public class confio {
     int i = findValue(key, settings);
     if (i == -1) {return false;}
     return settings[i].value.toLowerCase().equals("true");
+  }
+  
+  static boolean hasExtension(String filepath, String extension) {
+    if (filepath.length() <= extension.length()) {return false;}
+    String full_extension = "." + extension;
+    int offset = filepath.length()-full_extension.length();
+    for (int i = 0; i < full_extension.length(); i++) {
+      char c1 = filepath.charAt(i+offset);
+      char c2 = full_extension.charAt(i);
+      if (c1 != c2) {return false;}
+    }
+    return true;
   }
   
   private static int findValue(String key, ConfLine[] settings) {

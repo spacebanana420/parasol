@@ -4,6 +4,7 @@ import parasol.browser.browsertui;
 import parasol.config.config;
 import parasol.config.FileRunner;
 import parasol.config.ConfLine;
+import parasol.config.ExcludedFiles;
 import parasol.cli.cli;
 
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public class global {
   public static boolean VERTICAL_DISPLAY_FULL_PATHS = false;
   
   public static FileRunner[] FILE_RUNNERS;
+  public static ExcludedFiles EXCLUDED_EXTENSIONS;
   public static boolean PROCESS_INHERIT_IO = false;
   public static boolean PROCESS_WAIT_FOR_COMPLETION = false;
   
@@ -27,6 +29,7 @@ public class global {
     var t1 = new Thread(() ->
     {
       FILE_RUNNERS = config.getFileRunners(conf);
+      EXCLUDED_EXTENSIONS = config.getExcludedExtensions(conf);
       PROCESS_INHERIT_IO = config.processInheritIO(conf);
       PROCESS_WAIT_FOR_COMPLETION = config.processWaitForCompletion(conf);
     });

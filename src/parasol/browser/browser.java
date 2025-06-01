@@ -72,7 +72,7 @@ public class browser {
       File f = new File(parent + "/" + paths[i]);
       if (global.SHOW_HIDDEN_FILES || !f.isHidden())
       {
-        if (f.isFile()) {files.add(paths[i]);}
+        if (f.isFile() && !global.EXCLUDED_EXTENSIONS.isExcluded(paths[i])) {files.add(paths[i]);}
         else if (f.isDirectory()) {dirs.add(paths[i]);}
       }
     }

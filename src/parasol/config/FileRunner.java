@@ -40,20 +40,8 @@ public class FileRunner {
   public boolean hasValidExtension(String filepath) {
     for (int i = 0; i < file_extensions.size(); i++) {
       String e = file_extensions.get(i);
-      if (hasExtension(filepath, e)) {return true;}
+      if (confio.hasExtension(filepath, e)) {return true;}
     }
     return false;
-  }
-  
-  private boolean hasExtension(String filepath, String extension) {
-    if (filepath.length() <= extension.length()) {return false;}
-    String full_extension = "." + extension;
-    int offset = filepath.length()-full_extension.length();
-    for (int i = 0; i < full_extension.length(); i++) {
-      char c1 = filepath.charAt(i+offset);
-      char c2 = full_extension.charAt(i);
-      if (c1 != c2) {return false;}
-    }
-    return true;
   }
 }

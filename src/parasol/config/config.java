@@ -38,6 +38,11 @@ public class config {
     return confio.getValue_bool("check-foreign-characters", conf);
   }
   
+  public static ExcludedFiles getExcludedExtensions(ConfLine[] conf) {
+    String value = confio.getValue("excluded-extensions", conf);
+    return new ExcludedFiles(value);
+  }
+  
   public static String[] getBookmarks() {
     ArrayList<String> lines = confio.readLines(confio.CONFIG_PATH + "/bookmarks.parasol");
     ArrayList<String> bookmarks = new ArrayList<>();
