@@ -15,10 +15,12 @@ public class browsertui {
   public static String buildScreen(String parent, String dirs[], String files[], boolean forceVertical) {
     String dir_txt = formString(parent, dirs, false, 2, forceVertical);
     String file_txt = formString(parent, files, true, 2+dirs.length, forceVertical);
-    return
-      BOLD_ENABLE + parent + BOLD_DISABLE + "\n\n"
-      + addNumberStr(0) + "Exit\t\t" + addNumberStr(1) + "Go back\n\n"
-      + dir_txt + file_txt;
+    var full_tui = new StringBuilder()
+      .append(BOLD_ENABLE).append(parent).append(BOLD_DISABLE).append("\n\n") //Parent directory display
+      .append(addNumberStr(0)).append("Exit\t\t").append(addNumberStr(1)).append("Go back\n\n") //Option 0 and option 1
+      .append(dir_txt).append("\n\n") //Directories
+      .append(file_txt).append("\n"); //Files
+    return full_tui.toString();
   }
   
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI, boolean forceVertical) {
@@ -30,25 +32,26 @@ public class browsertui {
 
     int column_size = 0;
     int lines_amt = 0;
+    int last_path = paths.length-1;
     boolean vertical = global.DISPLAY_VERTICALLY_ONLY || forceVertical;
     
     for (int i = 0; i < paths.length; i++)
     {
       String file_number = addNumberStr(i+baseI);
       String path_element = shortenName(file_number + paths[i], vertical);
-      String separator;
+      final_screen.append(path_element);
+      if (i == last_path) {continue;} //Do not add newlines or empty spaces for the last element
+      
       if (column_size >= 1 || vertical) {
         lines_amt++;
         column_size = 0;
-        if (lines_amt >= 10) {separator = "\n\n"; lines_amt=0;} else {separator="\n";}
+        if (lines_amt == 10) {final_screen.append("\n\n"); lines_amt=0;} else {final_screen.append("\n");}
       }
-      else {separator = mkEmptySpace(path_element.length()); column_size++;}
-      
-      final_screen.append(path_element).append(separator);
+      else {
+        final_screen.append(mkEmptySpace(path_element.length()));
+        column_size++;
+      }
     }
-    if (!global.DISPLAY_VERTICALLY_ONLY && !forceVertical && column_size != 0) {final_screen.append("\n\n");}
-    else {final_screen.append("\n");}
-    
     return final_screen.toString();
   }
 
