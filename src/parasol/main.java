@@ -33,10 +33,6 @@ public class main {
       base.println("Parasol version " + global.PARASOL_VERSION);
       return true;
     }
-    if (cli.checkForSize(args)) {
-      base.println(help.getHelpMessage());
-      return true;
-    }
     return cli.checkForSize(args);
   }
 }
