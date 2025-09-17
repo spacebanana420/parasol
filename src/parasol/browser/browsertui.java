@@ -22,11 +22,12 @@ public class browsertui {
   }
   
   public static String formString(String parent, String[] paths, boolean checkFiles, int baseI, boolean forceVertical) {
-    String final_screen =
-      (checkFiles)
-      ? BOLD_ENABLE + "[Files]\n" + BOLD_DISABLE
-      : BOLD_ENABLE + "[Directories]\n" + BOLD_DISABLE
-    ;
+    var final_screen = new StringBuilder();
+    final_screen.append(BOLD_ENABLE);
+    if (checkFiles) {final_screen.append("[Files]\n");}
+    else {final_screen.append("[Directories]\n");}
+    final_screen.append(BOLD_DISABLE);
+
     int column_size = 0;
     int lines_amt = 0;
     boolean vertical = global.DISPLAY_VERTICALLY_ONLY || forceVertical;
@@ -43,16 +44,18 @@ public class browsertui {
       }
       else {separator = mkEmptySpace(path_element.length()); column_size++;}
       
-      final_screen += path_element + separator;
+      final_screen.append(path_element).append(separator);
     }
-    if (!global.DISPLAY_VERTICALLY_ONLY && !forceVertical && column_size != 0) {return final_screen + "\n\n";}
-    else {return final_screen + "\n";}
+    if (!global.DISPLAY_VERTICALLY_ONLY && !forceVertical && column_size != 0) {final_screen.append("\n\n");}
+    else {final_screen.append("\n");}
+    
+    return final_screen.toString();
   }
 
   private static String mkEmptySpace(int len) {
-    String empty_space = "";
-    for (int i = 0; i < 65-len; i++) {empty_space += " ";}
-    return empty_space;
+    var empty_space = new StringBuilder();
+    for (int i = 0; i < 65-len; i++) {empty_space.append(' ');}
+    return empty_space.toString();
   }
 
   private static String shortenName(String name, boolean vertical) {
