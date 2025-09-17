@@ -68,35 +68,37 @@ public class config {
       String value = setting.value;
       int process_i_start = -1;
       var frunner = new FileRunner();
-      String buffer = "";
+      var buffer = new StringBuilder(); //store settings, values, etc throughout the line as it's processed
       for (int i = 0; i < value.length(); i++) //add the file extensions
       {
         char c = value.charAt(i);
         if (c == ':') {
-          if (buffer.length() > 0) {frunner.addExtension(buffer); buffer = "";}
+          if (buffer.length() > 0) {frunner.addExtension(buffer.toString()); buffer = new StringBuilder();}
           process_i_start = i+1;
           break;
         }
         if (c == ',') {
-          if (buffer.length() > 0) {frunner.addExtension(buffer); buffer = "";}
+          if (buffer.length() > 0) {
+            frunner.addExtension(buffer.toString()); buffer = new StringBuilder();
+          }
           continue;
         }
-        buffer += c;
+        buffer.append(c);
       }
       if (process_i_start == -1 || !frunner.hasExtensions()) {continue;}
       
       var command = new ArrayList<String>();
-      buffer = "";
+      buffer = new StringBuilder();
       for (int i = process_i_start; i < value.length(); i++) //finally, get the process
       {
         char c = value.charAt(i);
         if (c == ' ' || c == '\t') {
-          if (buffer.length() > 0) {command.add(buffer); buffer = "";}
+          if (buffer.length() > 0) {command.add(buffer.toString()); buffer = new StringBuilder();}
           continue;
         }
-        buffer += c;
+        buffer.append(c);
       }
-      if (buffer.length() > 0) {command.add(buffer); buffer = "";}
+      if (buffer.length() > 0) {command.add(buffer.toString()); buffer = new StringBuilder();}
       if (command.size() == 0) {continue;}
       frunner.setProcess(command);
       runners.add(frunner);

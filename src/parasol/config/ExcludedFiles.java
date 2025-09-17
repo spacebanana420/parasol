@@ -7,18 +7,18 @@ public class ExcludedFiles {
   
   public ExcludedFiles(String value) {
     if (value == null) {return;}
-    String buffer = "";
+    var buffer = new StringBuilder();
     var extensions = new ArrayList<String>();
     for (int i = 0; i < value.length(); i++) {
       char c = value.charAt(i);
       if (c == ',') {
         if (buffer.length() == 0) {continue;}
-        extensions.add(buffer.trim());
-        buffer = "";
+        extensions.add(buffer.toString().trim());
+        buffer = new StringBuilder();
       }
-      else {buffer += c;}
+      else {buffer.append(c);}
     }
-    if (buffer.length() > 0) {extensions.add(buffer.trim());}
+    if (buffer.length() > 0) {extensions.add(buffer.toString().trim());}
     if (extensions.size() > 0) {file_extensions = extensions.toArray(new String[0]);}
   }
   public boolean isExcluded(String filename) {

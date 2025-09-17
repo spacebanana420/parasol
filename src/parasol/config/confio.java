@@ -84,15 +84,15 @@ public class confio {
   static ArrayList<String> readLines(String path) {
     String confstr = readFile(path);
     var lines = new ArrayList<String>();
-    String line = "";
+    var line = new StringBuilder();
     for (int i = 0; i < confstr.length(); i++) {
       char c = confstr.charAt(i);
       if (c == '\n') {
-        line = line.trim();
-        if (line.length() > 0 && line.charAt(0) != '#') {lines.add(line);}
-        line = "";
+        String line_str = line.toString().trim();
+        if (line_str.length() > 0 && line_str.charAt(0) != '#') {lines.add(line_str);}
+        line = new StringBuilder();
       }
-      else {line += c;}
+      else {line.append(c);}
     }
     return lines;
   }

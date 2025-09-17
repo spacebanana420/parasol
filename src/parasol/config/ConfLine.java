@@ -5,21 +5,21 @@ public class ConfLine {
   public String value = null;
   
   public ConfLine(String line) {
-    String parsed_key = "";
-    String parsed_value = "";
+    var parsed_key = new StringBuilder();
+    var parsed_value = new StringBuilder();
     int value_start = -1;
     
     for (int i = 0; i < line.length(); i++) {
       char c = line.charAt(i);
       if (c == '=') {value_start = i+1; break;}
-      parsed_key += c;
+      parsed_key.append(c);
     }
     if (value_start == -1 || parsed_key.length() == 0) {return;}
     
-    for (int i = value_start; i < line.length(); i++) {parsed_value += line.charAt(i);}
+    for (int i = value_start; i < line.length(); i++) {parsed_value.append(line.charAt(i));}
     if (parsed_value.length() == 0) {return;}
     
-    key = parsed_key.trim();
-    value = parsed_value.trim();
+    key = parsed_key.toString().trim();
+    value = parsed_value.toString().trim();
   }
 }
