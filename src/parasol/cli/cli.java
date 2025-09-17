@@ -9,8 +9,8 @@ public class cli {
       if ((args[i].equals("-s") || args[i].equals("--size")) && i < args.length-1) {
         var f = new File(args[i+1]);
         if (!f.exists() || !f.canRead()) {continue;}
-        if (f.isFile()) {commands.printSize_file(args[i+1]);}
-        else {commands.printSize_dir(args[i+1]);}
+        if (f.isFile()) {commands.printSize_file(args[i+1], true);}
+        else {commands.printSize_dir(args[i+1], true);}
         return true;
       }
     }

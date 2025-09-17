@@ -161,10 +161,10 @@ public class commands {
         if (!numops.isUint(args[1])) {return;}
         buffer_i = browser.answerToIndex(args[1]);
         if (browser.indexLeadsToFile(buffer_i, paths)) {
-          printSize_file(parent + "/" + browser.returnFile(buffer_i, paths));
+          printSize_file(parent + "/" + browser.returnFile(buffer_i, paths), false);
         }
         else if (browser.indexLeadsToDir(buffer_i, paths)) {
-          printSize_dir(parent + "/" + browser.returnDir(buffer_i, paths));
+          printSize_dir(parent + "/" + browser.returnDir(buffer_i, paths), false);
         }
         break;
       case "count-lines":
@@ -234,28 +234,28 @@ public class commands {
     }
   }
 
-  public static void printSize_file(String path) {
+  public static void printSize_file(String path, boolean cli_mode) {
     File pathfile = new File(path);
     if (!pathfile.isFile() || !pathfile.canRead()) {
       userinput.pressToContinue("The file " + path + " does not exist, isn't real or cannot be read!");
       return;
     }
     String roundedsize = roundSize(getFileSize(path));
-    userinput.pressToContinue(
-      "Size of " + path 
-      + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT);
+    String message = "Size of " + path + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT;
+    if (cli_mode) {base.println(message);}
+    else {userinput.pressToContinue(message);}
   }
 
-  public static void printSize_dir(String path) {
+  public static void printSize_dir(String path, boolean cli_mode) {
     File pathfile = new File(path);
     if (!pathfile.isDirectory() || !pathfile.canRead()) {
       userinput.pressToContinue("The directory " + path + " does not exist, isn't real or cannot be read!");
       return;
     }
     String roundedsize = roundSize(getDirSize(path));
-    userinput.pressToContinue(
-      "Size of " + path 
-      + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT);
+    String message = "Size of " + path + ":\n" + browsertui.COLOR_GREEN + roundedsize + browsertui.COLOR_DEFAULT;
+    if (cli_mode) {base.println(message);}
+    else {userinput.pressToContinue(message);}
   }
 
   private static String roundSize(long size) {
