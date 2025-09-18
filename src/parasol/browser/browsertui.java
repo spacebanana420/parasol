@@ -19,7 +19,7 @@ public class browsertui {
       .append(BOLD_ENABLE).append(parent).append(BOLD_DISABLE).append("\n\n") //Parent directory display
       .append(addNumberStr(0)).append("Exit\t\t").append(addNumberStr(1)).append("Go back\n\n") //Option 0 and option 1
       .append(dir_txt).append("\n\n") //Directories
-      .append(file_txt).append("\n"); //Files
+      .append(file_txt).append('\n'); //Files
     return full_tui.toString();
   }
   

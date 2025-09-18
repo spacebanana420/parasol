@@ -515,9 +515,10 @@ public class commands {
   }
 
   private static String formString_findCommand(String[] paths, boolean checkFiles, int baseI) {
-    String s = (checkFiles) ? "===Files===\n" : "===Directories===\n";
-    for (String p : paths) {s = s + p + "\n";}
-    return s + "\n";
+    var screen = new StringBuilder();
+    if (checkFiles) {screen.append("===Files===\n");} else {screen.append("===Directories===\n");}
+    for (String p : paths) {s.append(p).append('\n');}
+    return s.append('\n').toString();
   }
 
   private static void removeTabs() { //must be improved, can't cancel operation
