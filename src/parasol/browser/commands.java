@@ -302,14 +302,19 @@ public class commands {
         + browsertui.COLOR_DEFAULT;
     }
     sortSizes(files_with_size, fileSizes);
-    String screen =
-      "Sorting files by size:\n\n" + formSizeTreeString(parent, files_with_size);
+    
+    var screen = new StringBuilder();
+    screen.append("Sorting files by size:\n\n");
+    for (int i = 0; i < files_with_size.length; i++) {
+      screen.append(browsertui.COLOR_GREEN).append(i+1).append(": ").append(browsertui.COLOR_DEFAULT);
+      screen.append(files_with_size[i]).append("\n");
+    }
     
     base.clear();
-    userinput.pressToContinue(screen);
+    userinput.pressToContinue(screen.toString());
   }
 
-  public static void sortSizes(String[] files, long[] sizes) {
+  private static void sortSizes(String[] files, long[] sizes) {
     String temp = "";
     long templ = 0;
     for (int i = 0; i < files.length; i++) {
@@ -325,21 +330,13 @@ public class commands {
       }
     }
   }
+  
   private static int findBiggestFile(long[] sizes, int i) {
     int biggest_i = i;
     for (int c = i; c < sizes.length; c++) {
       if (sizes[c] > sizes[biggest_i]) {biggest_i = c;}
     }
     return biggest_i;
-  }
-
-  public static String formSizeTreeString(String parent, String[] paths) {
-    String s = "===Files===\n";
-    for (int i = 0; i < paths.length; i++) {
-      String num = browsertui.COLOR_GREEN + (i+1) + ": " + browsertui.COLOR_DEFAULT;
-      s = s + num + paths[i] + "\n";
-    }
-    return s;
   }
   
   private static void deleteCommand(String[] args, String parent, String[][] paths) {
