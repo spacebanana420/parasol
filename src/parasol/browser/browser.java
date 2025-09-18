@@ -86,7 +86,7 @@ public class browser {
     {
       for (int i = 0; i < p.length(); i++) {
         char c = p.charAt(i);
-        if ((int)c != (byte)c) {return true;}
+        if ((short)c != (byte)c) {return true;}
       }
     }
     return false;
