@@ -342,12 +342,13 @@ public class commands {
   private static void deleteCommand(String[] args, String parent, String[][] paths) {
     var deletePaths = new ArrayList<String>();
     var usedArgs = new ArrayList<String>(); //args used for deletion are added here so duplicates are ignored
-    var txt_confirm = new StringBuilder("The following paths will be delted:\n");
-    var txt_skipped = new StringBuilder("Skipped the following arguments for not leading to a file or directory:\n");
+    var txt_confirm = new StringBuilder("The following paths will be delted:");
+    var txt_skipped = new StringBuilder("Skipped the following arguments for not leading to a file or directory:");
     var txt_deleted = new StringBuilder();
     boolean added_any_paths = false;
     boolean skipped_any_args = false;
 
+    //Get the paths to delete, build the confirmation text, etc
     for (int i = 1; i < args.length; i++) {
       //prevent duplicates
       if (added_any_paths && repeatedArgument(usedArgs, args[i])) {continue;}
@@ -379,7 +380,8 @@ public class commands {
     String confirm_message = skipped_any_args ? txt_skipped.append("\n\n").append(txt_confirm).toString() : txt_confirm.toString(); 
     boolean answer = userinput.askPrompt(confirm_message, false);
     if (!answer) {return;}
-    
+
+    //Delete the chosen paths
     for (String path : deletePaths) {
       txt_deleted.append("Deleting path at ").append(path);
       File f = new File(path);
