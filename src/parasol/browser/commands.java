@@ -435,24 +435,24 @@ public class commands {
     int[] indexes = new int[args.length]; //stores previously-used indexes so duplicates are ignored
     for (int i = 0; i < indexes.length; i++) {indexes[i] = -1;} //negative values are unused
     
-    String txt = "";
+    var txt = new StringBuilder();
     for (int i = 1; i < target; i++) //first value is the command
     {
       int source_i = browser.answerToIndex(args[i]);
       if (invalidIndex(source_i, i, indexes)) {
-        txt += "Skipping argument " + args[i] + ": already-used path or not a path number\n";
+        txt.append("Skipping argument ").append(args[i]).append(": already-used path or not a path number\n");
         continue;
       }
       indexes[i] = source_i;
       if (browser.indexLeadsToFile(source_i, paths)) {
-        txt += moveFile(browser.returnFile(source_i, paths), target_dir, parent, targetIsParent) + "\n";
+        txt.append(moveFile(browser.returnFile(source_i, paths), target_dir, parent, targetIsParent)).append("\n");
       }
       else if (browser.indexLeadsToDir(source_i, paths)) {
-        txt += moveDirectory(browser.returnDir(source_i, paths), target_dir, parent, targetIsParent) + "\n";
+        txt.append(moveDirectory(browser.returnDir(source_i, paths), target_dir, parent, targetIsParent)).append("\n");
       }
     }
-    txt += "\nFinished moving all paths";
-    userinput.pressToContinue(txt);
+    txt.append("\nFinished moving all paths");
+    userinput.pressToContinue(txt.toString());
   }
   
   private static boolean invalidIndex(int index, int current_i, int[] indexes) {
