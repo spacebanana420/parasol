@@ -338,75 +338,71 @@ public class commands {
     }
     return biggest_i;
   }
-  
+
   private static void deleteCommand(String[] args, String parent, String[][] paths) {
-    int[] indexes = new int[args.length];
-    boolean[] isFile = new boolean[args.length];
-    boolean[] isDir = new boolean[args.length];
-    String[] obtainedPaths = new String[args.length]; //processing everything beforehand to ask for user confirmation
-    boolean addedAnyPaths = false;
-    
-    for (int i = 1; i < args.length; i++) {indexes[i] = -1;}
+    var deletePaths = new ArrayList<String>();
+    var usedArgs = new ArrayList<String>(); //args used for deletion are added here so duplicates are ignored
+    var txt_confirm = new StringBuilder("The following paths will be delted:\n");
+    var txt_skipped = new StringBuilder("Skipped the following arguments for not leading to a file or directory:\n");
+    var txt_deleted = new StringBuilder();
+    boolean added_any_paths = false;
+    boolean skipped_any_args = false;
+
     for (int i = 1; i < args.length; i++) {
+      //prevent duplicates
+      if (added_any_paths && repeatedArgument(usedArgs, args[i])) {continue;}
+
+      usedArgs.add(args[i]);
       int index = browser.answerToIndex(args[i]);
-      if (invalidIndex(index, i, indexes)) {continue;}
-      indexes[i] = index;
-      isFile[i] = browser.indexLeadsToFile(indexes[i], paths);
-      if (isFile[i]) {
-       obtainedPaths[i] = browser.returnFile(indexes[i], paths);
-       addedAnyPaths = true;
+      if (browser.indexLeadsToFile(index, paths)) {
+        String file_name = browser.returnFile(index, paths);
+        txt_confirm.append("\n  * ").append(file_name);
+        deletePaths.add(parent + "/" + file_name);
+        added_any_paths = true;
+      }
+      else if (browser.indexLeadsToDir(index, paths)) {
+        String dir_name = browser.returnDir(index, paths);
+        txt_confirm.append("\n  * ").append(dir_name);
+        deletePaths.add(parent + "/" + dir_name);        
+        added_any_paths = true;
       }
       else {
-        isDir[i] = browser.indexLeadsToDir(indexes[i], paths);
-        if (!isDir[i]) {continue;}
-        obtainedPaths[i] = browser.returnDir(indexes[i], paths);
-        addedAnyPaths = true;
+        txt_skipped.append("\n  * ").append(args[i]);
+        skipped_any_args = true;
       }
     }
-    
-    var txt = new StringBuilder("The following files/directories will be deleted:\n");
-    var skipped = new StringBuilder();
-    for (int i = 1; i < args.length; i++) {
-      if (!isFile[i] && !isDir[i]){
-        skipped.append("Skipping invalid or duplicated argument: ").append(args[i]).append("\n");
-        continue;
-      }
-      txt.append("  * ").append(obtainedPaths[i]).append("\n");
-    }
-    txt.append("\nDeleting them is irreversible, proceed?");
-    if (!addedAnyPaths && skipped.length() > 0) {
-      skipped.append("\nYou haven't provided any valid argument, make sure you add the number of the files/directories you want to delete");
-      userinput.pressToContinue(skipped.toString());
+    if (!added_any_paths) {
+      userinput.pressToContinue("You did not add any numbers pointing to files or directory, nothing will be deleted!");
       return;
     }
-    else if (skipped.length() > 0) {txt = skipped.append("\n").append(txt);} 
-    if (!userinput.askPrompt(txt.toString(), false)) {return;} //Ask the user whether to delete the paths or not
+    txt_confirm.append("\n\nDeleting this paths is irreversible, proceed?");
+    String confirm_message = skipped_any_args ? txt_skipped.append("\n\n").append(txt_confirm).toString() : txt_confirm.toString(); 
+    boolean answer = userinput.askPrompt(confirm_message, false);
+    if (!answer) {return;}
     
-    txt = new StringBuilder();
-    for (int i = 1; i < args.length; i++)
-    {
-      int file_index = indexes[i];
-      if (isFile[i]) {
-        String file_name = obtainedPaths[i];
-        String full_path = parent + "/" + file_name;
-        if (!new File(full_path).canWrite()) {
-          txt.append("The file ").append(file_name).append(" cannot be deleted, it lacks write permissions!\n");
-          continue;
-        }
-        try {
-          Files.delete(Path.of(full_path));
-          txt.append("The file ").append(file_name).append(" has been deleted\n");
-        }
-        catch(IOException e) {e.printStackTrace();}
+    for (String path : deletePaths) {
+      txt_deleted.append("Deleting path at ").append(path);
+      File f = new File(path);
+      if (!f.exists()) {txt_deleted.append("\nFailed to delete path, it does not exist!");}
+      else if (!f.canWrite()) {txt_deleted.append("\nFailed to delete path, you lack write permission!");}
+      else if (f.isFile()) {
+        boolean result = fileops.deleteFile(path);
+        if (result) {txt_deleted.append("\nSuccessfully deleted the file at path ").append(path);}
+        else {txt_deleted.append("\nFailed to delete the file at path ").append(path);}
       }
-      else if (isDir[i]) {
-        String dir_name = obtainedPaths[i];
-        boolean result = fileops.deleteDirectory(parent + "/" + dir_name);
-        if (result) {txt.append("The directory ").append(dir_name).append(" has been deleted\n");}
-        else {txt.append("Failed to delete the directory ").append(dir_name).append(", maybe it lacks write permissions!\n");}
+      else {
+        boolean result = fileops.deleteDirectory(path);
+        if (result) {txt_deleted.append("\nSuccessfully deleted the directory at path ").append(path);}
+        else {txt_deleted.append("\nFailed to delete the directory at path ").append(path);}        
       }
+      txt_deleted.append("\n\n");
     }
-    userinput.pressToContinue(txt.toString());
+    userinput.pressToContinue(txt_deleted.toString());
+  }
+
+  private static boolean repeatedArgument(ArrayList<String> used_args, String arg) {
+    for (String used : used_args) {if (used.equals(arg)) {return true;}}
+    return false;
   }
 
   private static void moveCommand(String cmd_str, String parent, String[][] paths) {

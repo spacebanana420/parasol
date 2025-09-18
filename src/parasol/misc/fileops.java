@@ -11,14 +11,19 @@ public class fileops {
   public static boolean moveFile(String source, String target) {
     Path sp = Path.of(source);
     Path tp = Path.of(target);
-    try{Files.move(sp, tp); return true;}
+    try {Files.move(sp, tp); return true;}
     catch (IOException e) {return false;}
   }
   
   public static boolean copyFile(String source, String target) {
     Path sp = Path.of(source);
     Path tp = Path.of(target);
-    try{Files.copy(sp, tp); return true;}
+    try {Files.copy(sp, tp); return true;}
+    catch (IOException e) {return false;}
+  }
+
+  public static boolean deleteFile(String path) {
+    try {Files.delete(Path.of(path)); return true;}
     catch (IOException e) {return false;}
   }
   
