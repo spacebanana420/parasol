@@ -42,9 +42,9 @@ public class platform {
     }
     catch(IOException e) {
       e.printStackTrace();
-      String txt = "===Command arguments===\n";
-      for (String arg : command) {txt += arg + " ";}
-      userinput.pressToContinue(txt+"\n============\n\nFailed to open file!");
+      var txt = new StringBuilder("===Command arguments===\n");
+      for (String arg : command) {txt.append(arg).append(' ');}
+      userinput.pressToContinue(txt.append("\n============\n\nFailed to open file!").toString());
     }
   }
   
