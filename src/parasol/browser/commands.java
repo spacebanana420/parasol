@@ -557,20 +557,16 @@ public class commands {
 
   private static void copyToClipboard(String[] args, String[][] paths, String parent, boolean cut) {
     int i = browser.answerToIndex(args[1]);
-    String file_name = "";
-    boolean path_valid = false;
+    String file_name = null;
     if (browser.indexLeadsToFile(i, paths)) {
-      path_valid = true;
       file_name = browser.returnFile(i, paths);
     }
     else if (browser.indexLeadsToDir(i, paths)) {
-      path_valid = true;
       file_name = browser.returnDir(i, paths);
     }
-    if (!path_valid) {return;}
+    if (file_name == null) {return;}
      
-    String file_path = parent;
-    browserdata.setClipboard(file_path, file_name);
+    browserdata.setClipboard(parent, file_name);
     browserdata.clipboard_cut = cut;
   }
 
