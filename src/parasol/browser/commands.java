@@ -200,7 +200,7 @@ public class commands {
           userinput.pressToContinue("To rename a file or directory, you must choose it (specify its number) and then prompt the new name!");
           return;
         }
-        if (args[2].contains('/') || args[2].contains('\\')) {
+        if (args[2].contains("/") || args[2].contains("\\")) {
           userinput.pressToContinue("Failed to rename path, the new name must not contain slashes!");
           return;
         }
