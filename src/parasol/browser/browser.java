@@ -118,8 +118,6 @@ class browserdata {
     
     for (int i = 0; i < browser_tabs.size(); i++)
     {
-      String tab = browser_tabs.get(i);
-      String num = browsertui.COLOR_GREEN + i + ": " + browsertui.COLOR_DEFAULT;
       txt
         .append('\n')
         .append(browsertui.COLOR_GREEN).append(i).append(": ").append(browsertui.COLOR_DEFAULT)
