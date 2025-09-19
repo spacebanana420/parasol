@@ -196,14 +196,23 @@ public class commands {
         copyToClipboard(args, paths, parent, true);
         break;
       case "rename":
-        if (args.length < 3) {return;} //incomplete
+        if (args.length < 3) {
+          userinput.pressToContinue("To rename a file or directory, you must choose it (specify its number) and then prompt the new name!");
+          return;
+        }
+        if (args[2].contains('/') || args[2].contains('\\')) {
+          userinput.pressToContinue("Failed to rename path, the new name must not contain slashes!");
+          return;
+        }
         buffer_i = browser.answerToIndex(args[1]);
         String new_name = parent + "/" + args[2];
-        String old_name = "";
+        String old_name = null;
         if (browser.indexLeadsToDir(buffer_i, paths)) {old_name = browser.returnDir(buffer_i, paths);}
         else if (browser.indexLeadsToFile(buffer_i, paths)) {old_name = browser.returnFile(buffer_i, paths);}
-
-        if (old_name.equals("")) {return;}
+        else {
+          userinput.pressToContinue("You must specify an existing file or path to rename by propmting its number!");
+          return;          
+        }
         String full_path = parent + "/" + old_name;
         if (full_path.equals(new_name)) {return;}
         new File(full_path).renameTo(new File(new_name));
