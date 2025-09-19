@@ -584,28 +584,28 @@ public class commands {
       return;
     }
     var used_names = new ArrayList<String>();
-    String error_txt = "";
+    StringBuilder error_txt = new StringBuilder();
     for (int i = 1; i < args.length; i++) {
       if (used_names.contains(args[i])) {continue;}
       if (args[i].contains("/") || args[i].contains("\\")) {
-        error_txt += "Directory name " + args[i] + " cannot contain forward slashes or back slashes! Skipping";
+        error_txt.append("Directory name ").append(args[i]).append(" cannot contain forward slashes or back slashes! Skipping");
         continue;
       }
       new File(parent + "/" + args[i]).mkdir();
       used_names.add(args[i]);
     }
-    if (error_txt.length() > 0){userinput.pressToContinue(error_txt);}
+    if (error_txt.length() > 0){userinput.pressToContinue(error_txt.toString());}
   }
   private static void mkFiles(String parent, String[] args) {
     if (!new File(parent).canWrite()) {
       userinput.pressToContinue("Current directory lacks write permissions, cannot create files!");
       return;
     }
-    String error_txt = "";
+    StringBuilder error_txt = new StringBuilder();
     for (int i = 1; i < args.length; i++) {
       String filename = misc.generateFileName(parent, args[i]);
       if (args[i].contains("/") || args[i].contains("\\")) {
-        error_txt += "Directory name " + args[i] + " cannot contain forward slashes or back slashes! Skipping";
+        error_txt.append("Directory name ").append(args[i]).append(" cannot contain forward slashes or back slashes! Skipping");
         continue;
       }
       try {
@@ -613,6 +613,6 @@ public class commands {
       }
       catch(IOException e) {e.printStackTrace(); userinput.pressToContinue("");}
     }
-    if (error_txt.length() > 0){userinput.pressToContinue(error_txt);}
+    if (error_txt.length() > 0) {userinput.pressToContinue(error_txt.toString());}
   }
 }
