@@ -51,7 +51,6 @@ public class browser {
     return result;
   }
 
-  //ill also use this in command functions
   public static boolean indexLeadsToFile(int i, String[][] paths) {
     return i >= paths[0].length && i - paths[0].length < paths[1].length;
   }
