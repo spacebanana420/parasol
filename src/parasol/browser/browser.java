@@ -114,14 +114,17 @@ class browserdata {
 
   static String getTabList() {
     if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
-    String txt = "Currently saved tabs:\n\n";
+    StringBuilder txt = new StringBuilder("Currently saved tabs:\n");
     
     for (int i = 0; i < browser_tabs.size(); i++)
     {
       String tab = browser_tabs.get(i);
       String num = browsertui.COLOR_GREEN + i + ": " + browsertui.COLOR_DEFAULT;
-      txt += num + tab + "\n";
+      txt
+        .append('\n')
+        .append(browsertui.COLOR_GREEN).append(i).append(": ").append(browsertui.COLOR_DEFAULT)
+        .append(browser_tabs.get(i));
     }
-    return txt;
+    return txt.toString();
   }
 }
