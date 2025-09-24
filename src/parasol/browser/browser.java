@@ -5,6 +5,7 @@ import parasol.global;
 import parasol.misc.misc;
 import parasol.misc.numops;
 import parasol.config.*;
+import parasol.commands.commands;
 
 import java.io.File;
 import java.io.IOException;
@@ -89,40 +90,5 @@ public class browser {
       }
     }
     return false;
-  }
-}
-
-class browserdata {
-  private static String[] file_clipboard = new String[]{null, null}; //parent path and filename
-  static boolean clipboard_cut = false;
-  
-  static void setClipboard(String path, String name) {file_clipboard[0] = path; file_clipboard[1] = name;}
-  static String clipboardPath() {return file_clipboard[0];}
-  static String clipboardName() {return file_clipboard[1];}
-  static boolean clipboardIsEmpty() {return file_clipboard[0] == null || file_clipboard[1] == null;}
-  static void clearClipboard() {file_clipboard[0] = null; file_clipboard[1] = null;}
-  
-
-  static ArrayList<String> browser_tabs = new ArrayList<String>();
-
-  static void addTab(String path) {browser_tabs.add(path);}
-  static String getTab(int i) {return browser_tabs.get(i);}
-  static void setTab(String path, int i) {browser_tabs.set(i, path);}
-  static void removeTab(int i) {browser_tabs.remove(i);}
-  static void clearTabs() {browser_tabs.clear();}
-  static int tabSize() {return browser_tabs.size();}
-
-  static String getTabList() {
-    if (browser_tabs.isEmpty()) {return "There are currently no saved tabs!";}
-    StringBuilder txt = new StringBuilder("Currently saved tabs:\n");
-    
-    for (int i = 0; i < browser_tabs.size(); i++)
-    {
-      txt
-        .append('\n')
-        .append(browsertui.COLOR_GREEN).append(i).append(": ").append(browsertui.COLOR_DEFAULT)
-        .append(browser_tabs.get(i));
-    }
-    return txt.toString();
   }
 }

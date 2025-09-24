@@ -1,6 +1,6 @@
 package parasol.cli;
 
-import parasol.browser.commands;
+import parasol.commands.cmd_filesize;
 import java.io.File;
 
 public class cli {
@@ -9,8 +9,8 @@ public class cli {
       if ((args[i].equals("-s") || args[i].equals("--size")) && i < args.length-1) {
         var f = new File(args[i+1]);
         if (!f.exists() || !f.canRead()) {continue;}
-        if (f.isFile()) {commands.printSize_file(args[i+1], true);}
-        else {commands.printSize_dir(args[i+1], true);}
+        if (f.isFile()) {cmd_filesize.printSize_file(args[i+1], true);}
+        else {cmd_filesize.printSize_dir(args[i+1], true);}
         return true;
       }
     }
