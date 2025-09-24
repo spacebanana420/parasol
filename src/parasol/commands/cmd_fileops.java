@@ -14,7 +14,7 @@ class cmd_fileops {
   static void deleteCommand(String[] args, String parent, String[][] paths) {
     var deletePaths = new ArrayList<String>();
     var usedArgs = new ArrayList<String>(); //args used for deletion are added here so duplicates are ignored
-    var txt_confirm = new StringBuilder("The following paths will be delted:");
+    var txt_confirm = new StringBuilder("The following paths will be deleted:");
     var txt_skipped = new StringBuilder("Skipped the following arguments for not leading to a file or directory:");
     var txt_deleted = new StringBuilder();
     boolean added_any_paths = false;
