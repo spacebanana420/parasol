@@ -12,6 +12,8 @@ import parasol.cli.help;
 
 import bananatui.*;
 
+
+//The main file for commands that you can launch from within parasol
 public class commands {
   public static void runCommand(String cmd_str, String parent, String[][] paths) {
     switch (cmd_str) {
